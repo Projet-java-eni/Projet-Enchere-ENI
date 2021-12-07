@@ -1,8 +1,14 @@
 package fr.eni.encheres.dal;
 
-import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Retrait;
+
+/**
+ * 
+ * @author Sego
+ *
+ */
 
 public interface RetraitsDAO {
-		
-	public static final ArticleVendu sqlSelectCoordonnees throws DALException;
+
+	public Retrait lieuRetrait(int noArticle) throws DALException;
 }

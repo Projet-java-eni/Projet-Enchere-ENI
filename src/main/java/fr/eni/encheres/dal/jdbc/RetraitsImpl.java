@@ -3,20 +3,27 @@ package fr.eni.encheres.dal.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.RetraitsDAO;
+
+/**
+ * 
+ * @author Sego
+ *
+ */
 
 public class RetraitsImpl implements RetraitsDAO {
 
 	// Requête SQL pour récupérer les coordonnées du vendeur
-	private static final String sqlSelectCoordonnees = "SELECT lieuRetrait FROM ArticleVendu WHERE noArticle=?";
+	private static final String sqlSelectCoordonnees = "SELECT rue, code_postal, ville FROM Retraits WHERE noArticle=?";
 
-	public ArticleVendu lieuRetrait(int noArticle) throws DALException {
+	public Retrait lieuRetrait(int noArticle) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
-		ArticleVendu artv = null;
+		Retrait adresseRetrait = null;
 		ResultSet rs = null;
 		try {
 			con = GetConnection.getConnexion();
@@ -25,14 +32,14 @@ public class RetraitsImpl implements RetraitsDAO {
 			rs = stmt.executeQuery();
 
 			// on exploite le résultat du Statement
-			if (rs.next())
-				stmt.setString(2, artv.getLieuRetrait());
+			while (rs.next())
+				stmt.setString(2, adresseRetrait.getRue());
+			stmt.setString(3, adresseRetrait.getCodePostal());
+			stmt.setString(4, adresseRetrait.getVille());
 
 		}
 
-		catch (
-
-		DALException ex) {
+		catch (SQLException ex) {
 			throw new DALException("selectCoordonnees failed - artv = " + noArticle, ex);
 		}
 
@@ -42,6 +49,6 @@ public class RetraitsImpl implements RetraitsDAO {
 //			GetConnection.close(con);
 //		}
 
-		return artv;
+		return adresseRetrait;
 	}
 }
