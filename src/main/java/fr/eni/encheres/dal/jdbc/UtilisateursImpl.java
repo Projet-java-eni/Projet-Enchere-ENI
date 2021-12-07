@@ -79,7 +79,7 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
-	public void addUtilisateur(Utilisateur utilisateur) throws DALException{
+	public void addUtilisateur(Utilisateur utilisateur) throws DALException {
         try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
                 "INSERT INTO dbo.utilisateurs " +
                 "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur) " +
