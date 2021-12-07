@@ -3,48 +3,45 @@ package fr.eni.encheres.dal.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.RetraitsDAO;
-import fr.eni.javaee.module4.dal.ConnectionProvider;
 
 public class RetraitsImpl implements RetraitsDAO {
 
 	// Requête SQL pour récupérer les coordonnées du vendeur
-	private static final String sqlSelectCoordonnees = "SELECT rue, codePostal, ville FROM Utilisateur WHERE noUtilisateur=?";
+	private static final String sqlSelectCoordonnees = "SELECT lieuRetrait FROM ArticleVendu WHERE noArticle=?";
 
-	public Utilisateur lieuRetrait(int noUtilisateur) throws DALException {
+	public ArticleVendu lieuRetrait(int noArticle) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
-		Utilisateur user = null;
+		ArticleVendu artv = null;
 		ResultSet rs = null;
 		try {
-			con = ConnectionProvider.getConnection();
+			con = GetConnection.getConnexion();
 			stmt = con.prepareStatement(sqlSelectCoordonnees);
-			stmt.setInt(1, noUtilisateur);
+			stmt.setInt(1, noArticle);
 			rs = stmt.executeQuery();
 
 			// on exploite le résultat du Statement
-			while(rs.next())
-			stmt.setString(2, user.getRue());
-			stmt.setString(3, user.getCodePostal());
-			stmt.setString(4, user.getVille());
-							
-			}
+			if (rs.next())
+				stmt.setString(2, artv.getLieuRetrait());
 
-		}catch(
+		}
 
-	DALException ex)
-	{
-		throw new DALException("selectCoordonnees failed - user = " + noUtilisateur, ex);
-	}
+		catch (
+
+		DALException ex) {
+			throw new DALException("selectCoordonnees failed - artv = " + noArticle, ex);
+		}
 
 //		finally {
-//			ConnectionProvider.close(rs);
-//			ConnectionProvider.close(stmt);
-//			ConnectionProvider.close(con);
+//			GetConnection.close(rs);
+//			GetConnection.close(stmt);
+//			GetConnection.close(con);
 //		}
 
-	return user;
+		return artv;
+	}
 }

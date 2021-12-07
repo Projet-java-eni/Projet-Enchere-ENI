@@ -1,9 +1,9 @@
 package fr.eni.encheres.dal;
 
-import fr.eni.encheres.dal.jdbc.String;
+import fr.eni.encheres.bo.ArticleVendu;
 
 public interface RetraitsDAO {
 	
 	
-	private static final String sqlSelectCoordonnees throws DALException;
+	public static final ArticleVendu sqlSelectCoordonnees throws DALException;
 }
