@@ -6,7 +6,7 @@ use bdd_encheres;
 
 CREATE TABLE CATEGORIES (
     no_categorie   INTEGER IDENTITY(1,1) NOT NULL,
-    libelle        VARCHAR(30) NOT NULL
+    libelle        VARCHAR(50) NOT NULL
 )
 
 ALTER TABLE CATEGORIES ADD constraint categorie_pk PRIMARY KEY (no_categorie)
@@ -23,9 +23,9 @@ ALTER TABLE ENCHERES ADD constraint enchere_pk PRIMARY KEY (no_utilisateur, no_a
 
 CREATE TABLE RETRAITS (
 	no_article         INTEGER NOT NULL,
-    rue              VARCHAR(30) NOT NULL,
+    rue              VARCHAR(100) NOT NULL,
     code_postal      VARCHAR(15) NOT NULL,
-    ville            VARCHAR(30) NOT NULL
+    ville            VARCHAR(50) NOT NULL
 )
 
 ALTER TABLE RETRAITS ADD constraint retrait_pk PRIMARY KEY  (no_article)
@@ -33,13 +33,13 @@ ALTER TABLE RETRAITS ADD constraint retrait_pk PRIMARY KEY  (no_article)
 CREATE TABLE UTILISATEURS (
     no_utilisateur   INTEGER IDENTITY(1,1) NOT NULL,
     pseudo           VARCHAR(30) NOT NULL,
-    nom              VARCHAR(30) NOT NULL,
-    prenom           VARCHAR(30) NOT NULL,
-    email            VARCHAR(20) NOT NULL,
+    nom              VARCHAR(50) NOT NULL,
+    prenom           VARCHAR(50) NOT NULL,
+    email            VARCHAR(50) NOT NULL,
     telephone        VARCHAR(15),
-    rue              VARCHAR(30) NOT NULL,
+    rue              VARCHAR(100) NOT NULL,
     code_postal      VARCHAR(10) NOT NULL,
-    ville            VARCHAR(30) NOT NULL,
+    ville            VARCHAR(50) NOT NULL,
     mot_de_passe     VARCHAR(30) NOT NULL,
     credit           INTEGER NOT NULL,
     administrateur   bit NOT NULL
@@ -50,7 +50,7 @@ ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisate
 
 CREATE TABLE ARTICLES_VENDUS (
     no_article                    INTEGER IDENTITY(1,1) NOT NULL,
-    nom_article                   VARCHAR(30) NOT NULL,
+    nom_article                   VARCHAR(200) NOT NULL,
     description                   VARCHAR(300) NOT NULL,
 	date_debut_encheres           DATE NOT NULL,
     date_fin_encheres             DATE NOT NULL,

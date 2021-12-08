@@ -8,7 +8,6 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateursDAO;
-import fr.eni.encheres.dal.jdbc.UtilisateursImpl;
 
 public class UtilisateursManager {
 	private final UtilisateursDAO utilisateursDAO;
@@ -95,6 +94,58 @@ public class UtilisateursManager {
 		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit_int, is_admin, erreurs);
 	}
 
+	public void modifUtilisateurDepuisLeWeb(Utilisateur utilisateur, String pseudo, String nom, String prenom, 
+			String email, String telephone, String rue,
+			String codePostal, String ville, String credit, String administrateur, List<String> erreurs) {
+		if(pseudo == null) erreurs.add("Le pseudo doit être renseigné");
+		if(nom == null) erreurs.add("Le nom doit être renseigné");
+		if(prenom == null) erreurs.add("Le prenom doit être renseigné");
+		if(email == null) erreurs.add("L'email doit être renseigné");
+		if(telephone == null) erreurs.add("Le telephone doit être renseigné");
+		if(rue == null) erreurs.add("La rue doit être renseignée");
+		if(codePostal == null) erreurs.add("Le code postal doit être renseigné");
+		if(ville == null) erreurs.add("La ville doit être renseignée");
+		if(credit == null) erreurs.add("Le credit doit être renseigné");
+		boolean is_admin = false;
+		if(administrateur == null) {
+			is_admin = false;
+		} else {
+			if(administrateur.equalsIgnoreCase("on")) {
+				is_admin = true;
+			} else if (administrateur.equalsIgnoreCase("off")) {
+				is_admin = false;
+			} else {
+				erreurs.add("Statut administrateur indefini");
+			}
+		}
+		Integer credit_int = 0;
+		try{
+			credit_int = Integer.parseInt(credit);
+		} catch(NumberFormatException e) {
+			erreurs.add("Impossible de convertir le crédit en nombre entier");
+		}
+		
+		if (!erreurs.isEmpty()) return;
+		
+		utilisateur.setPseudo(pseudo);
+		utilisateur.setNom(nom);
+		utilisateur.setPrenom(prenom);
+		utilisateur.setEmail(email);
+		utilisateur.setTelephone(telephone);
+		utilisateur.setRue(rue);
+		utilisateur.setCodePostal(codePostal);
+		utilisateur.setVille(ville);
+		utilisateur.setCredit(credit_int);
+		utilisateur.setAdministrateur(is_admin);
+		
+		try {
+			sauvegarderUtilisateur(utilisateur, erreurs);
+		} catch (BLLException e) {
+			erreurs.add(e.getLocalizedMessage());
+		}
+	}
+
+	
 	public void supprimerUtilisateur(Utilisateur utilisateur) throws BLLException {
 		try {
 			utilisateursDAO.removeUtilisateur(utilisateur);
@@ -105,7 +156,7 @@ public class UtilisateursManager {
 	}
 
 	public Utilisateur getUtilisateurById(int utilisateurId) throws BLLException {
-		Utilisateur utilisateur;
+		Utilisateur utilisateur = null;
 		if (utilisateursMap.containsKey(utilisateurId)) {
 			utilisateur = utilisateursMap.get(utilisateurId);
 		} else {
