@@ -57,7 +57,7 @@ public class CRUDUtilisateurs extends HttpServlet {
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
-		String motDePasse = request.getParameter("ville");
+		String motDePasse = request.getParameter("mot_de_passe");
 		String credit = request.getParameter("credit");
 		String administrateur = request.getParameter("administrateur");
 
