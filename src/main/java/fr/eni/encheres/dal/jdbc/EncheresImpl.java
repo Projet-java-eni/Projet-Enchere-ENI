@@ -17,9 +17,9 @@ import fr.eni.encheres.dal.EncheresDAO;
 public class EncheresImpl implements EncheresDAO {
 
 	String sqlInsertEnchere = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, montant_enchere)  VALUES (? , ? , ? , ?)";
-	String sqlSelectEnchereByNoUtilisateur = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? ";
-	String sqlSelectEnchereByNoArticle = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_article = ? ";
-	String sqlSelectEnchereByNoUtilisateurEtNoArticle = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
+	String sqlSelectEncheresByNoUtilisateur = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? ";
+	String sqlSelectEncheresByNoArticle = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_article = ? ";
+	String sqlSelectEncheresByNoUtilisateurEtNoArticle = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
 	String sqlSelectAllEncheres = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres";
 	String sqlUpdateEnchere = "UPDATE encheres SET no_utilisateur = ?, no_article = ?, date_enchere = ?, montant_enchere = ? FROM encheres WHERE no_utilisateur = ? AND no_article = ?";
 	String sqlDeleteEnchereByNoUtilisateurEtNoArticle = "DELETE FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
@@ -43,63 +43,69 @@ public class EncheresImpl implements EncheresDAO {
 	}
 	
 	@Override
-	public Enchere selectEnchereByNoUtilisateur(int noUtilisateur) throws DALException {
+	public List<Enchere> selectEncheresByNoUtilisateur(int noUtilisateur) throws DALException {
 		
 		try(	
 				Connection con = GetConnection.getConnexion();
-				PreparedStatement pstmt = con.prepareStatement(sqlSelectEnchereByNoUtilisateur);
+				PreparedStatement pstmt = con.prepareStatement(sqlSelectEncheresByNoUtilisateur);
 			){
 				pstmt.setInt(1, noUtilisateur);
 				try(ResultSet rs =  pstmt.executeQuery();){
-						Enchere enchereAAfficher = null;
-						if(rs.next()) {
-						enchereAAfficher = new Enchere(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getInt(4));
-						}
-						return enchereAAfficher;	
+					List<Enchere> encheres = new ArrayList<Enchere>();			
+					Enchere e = null;
+					if(rs.next()) {
+						e = new Enchere(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getInt(4));
+						encheres.add(e);
+					}
+					return encheres;	
 				}
 		} catch (SQLException ex) {
-						throw new DALException(sqlSelectEnchereByNoUtilisateur, ex);
+						throw new DALException(sqlSelectEncheresByNoUtilisateur, ex);
 		}
 			
 	}
 	
 	@Override
-	public Enchere selectEnchereByNoArticle(int noArticle) throws DALException {
+	public List<Enchere> selectEncheresByNoArticle(int noArticle) throws DALException {
 		try(	
 				Connection con = GetConnection.getConnexion();
-				PreparedStatement pstmt = con.prepareStatement(sqlSelectEnchereByNoArticle);
+				PreparedStatement pstmt = con.prepareStatement(sqlSelectEncheresByNoArticle);
 			){
 				pstmt.setInt(1, noArticle);
 				try(ResultSet rs = pstmt.executeQuery();){
-						Enchere enchereAAfficher = null;
-						if(rs.next()) {
-						enchereAAfficher = new Enchere(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getInt(4));
-						}
-						return enchereAAfficher;	
+					List<Enchere> encheres = new ArrayList<Enchere>();			
+					Enchere e = null;
+					if(rs.next()) {
+						e = new Enchere(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getInt(4));
+						encheres.add(e);
+					}
+					return encheres;	
 				}	
 		}catch (SQLException ex) {
-						throw new DALException(sqlSelectEnchereByNoArticle, ex);
+						throw new DALException(sqlSelectEncheresByNoArticle, ex);
 		}
 	}
 
 	@Override
-	public Enchere selectEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException {
+	public List<Enchere> selectEncheresByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException {
 		try(	
 				Connection con = GetConnection.getConnexion();
-				PreparedStatement pstmt = con.prepareStatement(sqlSelectEnchereByNoUtilisateurEtNoArticle);
+				PreparedStatement pstmt = con.prepareStatement(sqlSelectEncheresByNoUtilisateurEtNoArticle);
 			){
 				pstmt.setInt(1, noUtilisateur);
 				pstmt.setInt(2, noArticle);
 				try(ResultSet rs =  pstmt.executeQuery();){
-					Enchere enchereAAfficher = null;
+					List<Enchere> encheres = new ArrayList<Enchere>();			
+					Enchere e = null;
 					if(rs.next()) {
-						enchereAAfficher = new Enchere(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getInt(4));
+						e = new Enchere(rs.getInt(1), rs.getInt(2), rs.getDate(3), rs.getInt(4));
+						encheres.add(e);
 					}
-					return enchereAAfficher;	
+					return encheres;	
 				}
 		}	
 		catch (SQLException ex) {
-						throw new DALException(sqlSelectEnchereByNoUtilisateurEtNoArticle, ex);
+						throw new DALException(sqlSelectEncheresByNoUtilisateurEtNoArticle, ex);
 		}
 	}
 	

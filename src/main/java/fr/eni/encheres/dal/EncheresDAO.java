@@ -9,11 +9,11 @@ public interface EncheresDAO {
 	
 	public void insertEnchere(Enchere e)throws DALException;
 	
-	public Enchere selectEnchereByNoUtilisateur(int noUtilisateur)throws DALException;
+	public List<Enchere> selectEncheresByNoUtilisateur(int noUtilisateur)throws DALException;
 	
-	public Enchere selectEnchereByNoArticle(int noArticle)throws DALException;
+	public List<Enchere> selectEncheresByNoArticle(int noArticle)throws DALException;
 	
-	public Enchere selectEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException;
+	public List<Enchere> selectEncheresByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException;
 	
 	public List<Enchere> selectAllEncheres()throws DALException;
 	
