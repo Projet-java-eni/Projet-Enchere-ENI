@@ -22,15 +22,24 @@
 </style>
 <h1>CRUD Pour les utilisateurs</h1>
 
-<h2>Ajouter un utilisateur</h2>
+
 <% if(request.getAttribute("nouvel_utilisateur") != null) { %>
 	<div class="succes">
-		L'utilissateur <%= ((Utilisateur)request.getAttribute("nouvel_utilisateur")).getPseudo() %> a été ajouté!
+		L'utilissateur <%= ((Utilisateur)request.getAttribute("nouvel_utilisateur")).getPseudo() %> 
+		d'id <%= ((Utilisateur)request.getAttribute("nouvel_utilisateur")).getNoUtilisateur() %> a été ajouté!
 	</div>
 
 <% } %>
 
-<% if(request.getAttribute("erreurs") != null && ((List<String>)request.getAttribute("erreurs")).size() > 0) { %>
+<% if(request.getAttribute("modif_utilisateur") != null) { %>
+	<div class="succes">
+		L'utilissateur <%= ((Utilisateur)request.getAttribute("modif_utilisateur")).getPseudo() %> 
+		d'id <%= ((Utilisateur)request.getAttribute("modif_utilisateur")).getNoUtilisateur() %> a été modifié!
+	</div>
+
+<% } %>
+
+<% if(request.getAttribute("erreurs") != null && ((List)request.getAttribute("erreurs")).size() > 0) { %>
 	<div class="erreur">
 		Des ereurs sont survenues !
 		<ol>
@@ -42,22 +51,67 @@
 
 <% } %>
 
+<%
+	boolean passwordReadOnly = false;
+	String titre = "Ajouter un utilisateur";
 
+	String pseudo = "";
+	String nom = "";
+	String prenom = "";
+	String email = "";
+	String telephone = "";
+	String rue = "";
+	String codePostal = "";
+	String ville = "";
+	Integer credit = -1;
+	Boolean administrateur = false;
+	Integer id_utilisateur = -1;
+	if(request.getAttribute("modif_utilisateur") != null) {
+
+		passwordReadOnly = true;
+		
+
+		Utilisateur utilisateur = (Utilisateur)request.getAttribute("modif_utilisateur");
+		
+		titre = "Modifier l'utilisateur numero " + utilisateur.getNoUtilisateur();
+		
+		id_utilisateur = utilisateur.getNoUtilisateur();
+		pseudo = utilisateur.getPseudo();
+		nom = utilisateur.getNom();
+		prenom = utilisateur.getPrenom();
+		email = utilisateur.getEmail();
+		telephone = utilisateur.getTelephone();
+		rue = utilisateur.getRue();
+		codePostal = utilisateur.getCodePostal();
+		ville = utilisateur.getVille();
+		credit = utilisateur.getCredit();
+		administrateur = utilisateur.isAdministrateur();
+	}
+
+%>
+<h2><%= titre %> </h2>
 
 <form method="post" class="form">
-	<label>Pseudo : <input type="text" name="pseudo" /></label>
-	<label>Mot de passe : <input type="text" name="mot_de_passe" /></label>
-	<label>Nom : <input type="text" name="nom" /></label>
-	<label>Prenom : <input type="text" name="prenom" /></label>
-	<label>Email : <input type="text" name="email" /></label>
-	<label>Telephone : <input type="text" name="telephone" /></label>
-	<label>Rue : <input type="text" name="rue" /></label>
-	<label>Code postal : <input type="text" name="codePostal" /></label>
-	<label>Ville : <input type="text" name="ville" /></label>
-	<label>Credit : <input type="text" step="1" name="credit"/></label>
-	<label>Est administrateur ? <input type="checkbox" name="administrateur" /></label>
+<%
+if(request.getAttribute("modif_utilisateur") != null) {
+%>
+	<input type="hidden" name="id_utilisateur" value="<%= id_utilisateur %>" />
+<%
+}
+%>
+	<label>Pseudo : <input type="text" name="pseudo" value="<%= pseudo  %>"/></label>
+	<label>Mot de passe : <input type="text" name="mot_de_passe" <%= passwordReadOnly ? "disabled" : ""  %>/></label>
+	<label>Nom : <input type="text" name="nom" value="<%= nom  %>" /></label>
+	<label>Prenom : <input type="text" name="prenom" value="<%= prenom  %>" /></label>
+	<label>Email : <input type="text" name="email" value="<%= email  %>" /></label>
+	<label>Telephone : <input type="text" name="telephone" value="<%= telephone  %>" /></label>
+	<label>Rue : <input type="text" name="rue" value="<%= rue  %>" /></label>
+	<label>Code postal : <input type="text" name="codePostal" value="<%= codePostal  %>" /></label>
+	<label>Ville : <input type="text" name="ville" value="<%= ville  %>" /></label>
+	<label>Credit : <input type="text" step="1" name="credit" value="<%= credit  %>"/></label>
+	<label>Est administrateur ? <input type="checkbox" name="administrateur" <%= administrateur ? "checked" : ""  %> /></label>
 
-	<input type="submit" />
+	<input type="submit" name="ajouter" />
 
 </form>
 
@@ -87,6 +141,13 @@
 		<td><%= user.getVille() %></td>
 		<td><%= user.getCredit() %></td>
 		<td><%= user.isAdministrateur() %></td>
+		<td>
+		<form method="get" >
+			<input type="hidden" name="id_utilisateur" value="<%= user.getNoUtilisateur() %>" />
+			<input type="submit" name="modifier" value="Modifier" />
+			<input type="submit" name="supprimer" value="Supprimer" />
+		</form>
+		</td>
 	</tr>
 	<% } %>
 	
