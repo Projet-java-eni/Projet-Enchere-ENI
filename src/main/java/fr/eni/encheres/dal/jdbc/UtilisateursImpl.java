@@ -56,11 +56,11 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
-	public void addUtilisateur(Utilisateur utilisateur) throws DALException {
+	public void addUtilisateurSecurise(Utilisateur utilisateur, String motDePasse) throws DALException {
 		try (PreparedStatement statement = GetConnection.getConnexion()
 				.prepareStatement("INSERT INTO dbo.utilisateurs "
-						+ "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur) "
-						+ "VALUES (?,?,?,?,?,?,?,?,?,?)", new String[] { "id_panier" })) {
+						+ "(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
+						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?)", new String[] { "no_utilisateur" })) {
 
 			int i = 1;
 			statement.setString(i++, utilisateur.getPseudo());
@@ -71,6 +71,7 @@ public class UtilisateursImpl implements UtilisateursDAO {
 			statement.setString(i++, utilisateur.getRue());
 			statement.setString(i++, utilisateur.getCodePostal());
 			statement.setString(i++, utilisateur.getVille());
+			statement.setString(i++, motDePasse);
 			statement.setInt(i++, utilisateur.getCredit());
 			statement.setBoolean(i++, utilisateur.isAdministrateur());
 
@@ -122,6 +123,11 @@ public class UtilisateursImpl implements UtilisateursDAO {
 			throw new DALException(e.getMessage(), e);
 		}
 
+	}
+
+	@Override
+	public void addUtilisateur(Utilisateur utilisateur) throws DALException {
+		addUtilisateurSecurise(utilisateur, "");		
 	}
 
 }

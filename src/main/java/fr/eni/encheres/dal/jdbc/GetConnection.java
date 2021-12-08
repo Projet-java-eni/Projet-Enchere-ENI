@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 import fr.eni.encheres.dal.DALException;
 
-public class GetConnection {
+class GetConnection {
     public static Connection getConnexion() throws DALException {
     	Context context;
     	DataSource dataSource;

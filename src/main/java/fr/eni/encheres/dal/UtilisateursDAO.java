@@ -11,4 +11,6 @@ public interface UtilisateursDAO {
 	public void addUtilisateur(Utilisateur utilisateur) throws DALException;
 	public void updateUtilisateur(Utilisateur utilisateur) throws DALException;
 	public void removeUtilisateur(Utilisateur utilisateur) throws DALException;
+	
+	public void addUtilisateurSecurise(Utilisateur utilisateur, String motDePasse) throws DALException;
 }

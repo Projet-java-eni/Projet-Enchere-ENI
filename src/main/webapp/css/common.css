@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+:root {
+	--danger : #F93154;
+	--succes : #00B74A; 
+	--warning : #FFA900;
+	--info : #39C0ED;
+}
