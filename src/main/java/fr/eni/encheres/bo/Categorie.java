@@ -3,7 +3,7 @@ package fr.eni.encheres.bo;
 import java.io.Serializable;
 
 
-public class Categorie implements Serializable {
+public class Categorie implements Serializable { 
 
 	@Override
 	public String toString() {
