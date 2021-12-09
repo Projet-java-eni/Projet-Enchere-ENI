@@ -1,5 +1,6 @@
 package fr.eni.encheres.dal;
 
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.jdbc.ArticlesVendusImpl;
 import fr.eni.encheres.dal.jdbc.CategoriesImpl;
 import fr.eni.encheres.dal.jdbc.EncheresImpl;
@@ -8,7 +9,7 @@ import fr.eni.encheres.dal.jdbc.UtilisateursImpl;
 
 public class DAOFactory {
 	private static ArticlesVendusDAO articlesVendusDAO = null;
-	private static CategoriesDAO categoriesDAO = null;
+	private static DAO<Categorie> categoriesDAO = null;
 	private static EncheresDAO encheresDAO = null;
 	private static RetraitsDAO retraitsDAO = null;
 	private static UtilisateursDAO utilisateursDAO = null;
@@ -22,7 +23,7 @@ public class DAOFactory {
         return articlesVendusDAO;
     }
     
-    public static CategoriesDAO getCategoriesDAO() throws DALException {
+    public static DAO<Categorie> getCategoriesDAO() throws DALException {
     	if(categoriesDAO == null) {
     		categoriesDAO = new CategoriesImpl();
     	}

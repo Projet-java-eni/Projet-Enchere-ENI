@@ -10,23 +10,32 @@ import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateursDAO;
 
 public class UtilisateursManager {
+	
 	private final UtilisateursDAO utilisateursDAO;
+	
 	private static UtilisateursManager instance = null;
+	
 	private Map<Integer, Utilisateur> utilisateursMap = null;
 
 	private UtilisateursManager() throws BLLException {
+
 		try {
+		
 			this.utilisateursDAO = DAOFactory.getUtilisateursDAO();
 		} catch (DALException e) {
+			
 			throw new BLLException(e.getLocalizedMessage(), e);
 		}
+		
 		this.utilisateursMap = new HashMap<>();
 	}
 
 	public static UtilisateursManager GetInstance() throws BLLException {
+
 		if (instance == null) {
 			instance = new UtilisateursManager();
 		}
+		
 		return instance;
 	}
 
@@ -34,6 +43,7 @@ public class UtilisateursManager {
 			String codePostal, String ville, String motDePasse, int credit, boolean administrateur, List<String> erreurs) {
 		
 		validerMotDePasse(motDePasse, erreurs);
+		
 		if(erreurs.size() > 0) {
 			return null;
 		}
@@ -43,23 +53,28 @@ public class UtilisateursManager {
 		);
 		
 		validerUtilisateur(utilisateur, erreurs);
+
 		if(erreurs.size() > 0) {
 			return null;
 		}
 
 		
 		try {
+			
 			utilisateursDAO.addUtilisateurSecurise(utilisateur, motDePasse);
 		} catch (DALException e) {
+			
 			erreurs.add(e.getLocalizedMessage());
 			utilisateur = null;
 		}
+	
 		return utilisateur;
 	}
 	
 	public Utilisateur createUtilisateurDepuisLeWeb(String pseudo, String nom, String prenom, 
 			String email, String telephone, String rue,
 			String codePostal, String ville, String motDePasse, String credit, String administrateur, List<String> erreurs) {
+		
 		if(pseudo == null) erreurs.add("Le pseudo doit être renseigné");
 		if(nom == null) erreurs.add("Le nom doit être renseigné");
 		if(prenom == null) erreurs.add("Le prenom doit être renseigné");
@@ -70,7 +85,9 @@ public class UtilisateursManager {
 		if(ville == null) erreurs.add("La ville doit être renseignée");
 		if(motDePasse == null) erreurs.add("Le mot de passe doit être renseigné");
 		if(credit == null) erreurs.add("Le credit doit être renseigné");
+		
 		boolean is_admin = false;
+		
 		if(administrateur == null) {
 			is_admin = false;
 		} else {
@@ -82,7 +99,9 @@ public class UtilisateursManager {
 				erreurs.add("Statut administrateur indefini");
 			}
 		}
+		
 		Integer credit_int = 0;
+		
 		try{
 			credit_int = Integer.parseInt(credit);
 		} catch(NumberFormatException e) {
@@ -97,6 +116,7 @@ public class UtilisateursManager {
 	public void modifUtilisateurDepuisLeWeb(Utilisateur utilisateur, String pseudo, String nom, String prenom, 
 			String email, String telephone, String rue,
 			String codePostal, String ville, String credit, String administrateur, List<String> erreurs) {
+		
 		if(pseudo == null) erreurs.add("Le pseudo doit être renseigné");
 		if(nom == null) erreurs.add("Le nom doit être renseigné");
 		if(prenom == null) erreurs.add("Le prenom doit être renseigné");
@@ -106,6 +126,7 @@ public class UtilisateursManager {
 		if(codePostal == null) erreurs.add("Le code postal doit être renseigné");
 		if(ville == null) erreurs.add("La ville doit être renseignée");
 		if(credit == null) erreurs.add("Le credit doit être renseigné");
+		
 		boolean is_admin = false;
 		if(administrateur == null) {
 			is_admin = false;
@@ -118,6 +139,7 @@ public class UtilisateursManager {
 				erreurs.add("Statut administrateur indefini");
 			}
 		}
+		
 		Integer credit_int = 0;
 		try{
 			credit_int = Integer.parseInt(credit);
@@ -147,6 +169,7 @@ public class UtilisateursManager {
 
 	
 	public void supprimerUtilisateur(Utilisateur utilisateur) throws BLLException {
+		
 		try {
 			utilisateursDAO.removeUtilisateur(utilisateur);
 			utilisateursMap.remove(utilisateur.getNoUtilisateur());
@@ -156,10 +179,13 @@ public class UtilisateursManager {
 	}
 
 	public Utilisateur getUtilisateurById(int utilisateurId) throws BLLException {
+		
 		Utilisateur utilisateur = null;
+		
 		if (utilisateursMap.containsKey(utilisateurId)) {
 			utilisateur = utilisateursMap.get(utilisateurId);
 		} else {
+			
 			try {
 				utilisateur = utilisateursDAO.getUtilisateurById(utilisateurId);
 				utilisateursMap.put(utilisateurId, utilisateur);
@@ -172,6 +198,7 @@ public class UtilisateursManager {
 	}
 
 	public List<Utilisateur> getAllUtilisateur() throws BLLException {
+		
 		try {
 			return utilisateursDAO.getAllUtilisateurs();
 		} catch (DALException e) {
@@ -180,7 +207,9 @@ public class UtilisateursManager {
 	}
 
 	public void sauvegarderUtilisateur(Utilisateur utilisateur, List<String> erreurs) throws BLLException {
+		
 		validerUtilisateur(utilisateur, erreurs);
+		
 		try {
 			this.utilisateursDAO.updateUtilisateur(utilisateur);
 			this.utilisateursMap.put(utilisateur.getNoUtilisateur(), utilisateur);
@@ -190,12 +219,14 @@ public class UtilisateursManager {
 	}
 
 	private void validerUtilisateur(Utilisateur utilisateur, List<String> erreurs) {
+		
 		if (utilisateur.getNom() == null) {
 			erreurs.add("Le nom d'utilisateur ne peut pas être vide");
 		}
 	}
 	
 	private void validerMotDePasse(String motDePasse, List<String> erreurs) {
+		
 		if (motDePasse.length() < 6) {
 			erreurs.add("Le mot de passe doit faire 6 caractères au moins !");
 		}
