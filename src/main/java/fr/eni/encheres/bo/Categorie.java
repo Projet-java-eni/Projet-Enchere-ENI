@@ -5,6 +5,12 @@ import java.io.Serializable;
 
 public class Categorie implements Serializable {
 
+	@Override
+	public String toString() {
+		return String.format(
+				"Utilisateur : id %d, libelle : %s", noCategorie, libelle
+		);
+	}
 
 	/**
 	 * 

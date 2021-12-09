@@ -4,6 +4,14 @@ import java.io.Serializable;
 
 public class Utilisateur implements Serializable {
 
+	@Override
+	public String toString() {
+		return String.format(
+				"Utilisateur : id %d, pseudo : %d, nom : %s, prenom : %s, email : %s, telephone : %s, rue : %s, code postal : %s, ville : %s, credit : %d, admin %d", 
+				noUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur
+		);
+	}
+
 	/**
 	 * 
 	 */
