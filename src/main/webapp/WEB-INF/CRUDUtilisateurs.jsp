@@ -71,9 +71,9 @@
 	String rue = "";
 	String codePostal = "";
 	String ville = "";
-	Integer credit = -1;
+	String credit = "";
 	Boolean administrateur = false;
-	Integer id_utilisateur = -1;
+	String id_utilisateur = "";
 	if(request.getAttribute("modif_utilisateur") != null) {
 
 		passwordReadOnly = true;
@@ -84,7 +84,7 @@
 		titre = "Modifier l'utilisateur numero " + utilisateur.getNoUtilisateur();
 		titre += " - <a href='" + request.getContextPath() + "/CRUDUtilisateurs'>Revenir à l'ajout</a>";
 		
-		id_utilisateur = utilisateur.getNoUtilisateur();
+		id_utilisateur = utilisateur.getNoUtilisateur().toString();
 		pseudo = utilisateur.getPseudo();
 		nom = utilisateur.getNom();
 		prenom = utilisateur.getPrenom();
@@ -93,7 +93,7 @@
 		rue = utilisateur.getRue();
 		codePostal = utilisateur.getCodePostal();
 		ville = utilisateur.getVille();
-		credit = utilisateur.getCredit();
+		credit = utilisateur.getCredit().toString();
 		administrateur = utilisateur.isAdministrateur();
 	}
 

@@ -42,7 +42,7 @@ public class Utilisateur implements Serializable {
 		this(-1, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur);
 	}
 
-	public int getNoUtilisateur() {
+	public Integer getNoUtilisateur() {
 		return noUtilisateur;
 	}
 
@@ -114,7 +114,7 @@ public class Utilisateur implements Serializable {
 		this.ville = ville;
 	}
 
-	public int getCredit() {
+	public Integer getCredit() {
 		return credit;
 	}
 
