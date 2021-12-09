@@ -18,7 +18,7 @@ public interface RetraitsDAO {
 
 	public void insertNouvelleAdresse(Retrait adresse) throws DALException;
 
-	public void deleteAdresseRetrait(Retrait adresse) throws DALException;
+	public void deleteAdresseRetrait(int idRetrait) throws DALException;
 
 	void updateAdresseRetrait(Retrait adresse) throws DALException;
 

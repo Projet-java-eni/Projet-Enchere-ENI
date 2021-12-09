@@ -132,7 +132,7 @@ public class RetraitsImpl implements RetraitsDAO {
 	}
 
 	@Override
-	public void deleteAdresseRetrait(Retrait adresse) throws DALException {
+	public void deleteAdresseRetrait(int idRetrait) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -140,11 +140,11 @@ public class RetraitsImpl implements RetraitsDAO {
 			con = GetConnection.getConnexion();
 			stmt = con.prepareStatement(sqlDeleteAdresseRetrait);
 
-			stmt.setInt(1, adresse.getIdRetrait());
+			stmt.setInt(1, idRetrait);
 			stmt.executeUpdate();
 
 		} catch (SQLException ex) {
-			throw new DALException("close failed ", ex);
+			throw new DALException("Erreur dans la suppression de l'article ", ex);
 
 		} finally {
 			GetConnection.close(rs);
