@@ -23,12 +23,13 @@ ALTER TABLE ENCHERES ADD constraint enchere_pk PRIMARY KEY (no_utilisateur, no_a
 
 CREATE TABLE RETRAITS (
 	no_article         INTEGER NOT NULL,
-    rue              VARCHAR(100) NOT NULL,
+	id_retrait       INTEGER IDENTITY(1,1) NOT NULL,
+    rue              VARCHAR(250) NOT NULL,
     code_postal      VARCHAR(15) NOT NULL,
     ville            VARCHAR(50) NOT NULL
 )
 
-ALTER TABLE RETRAITS ADD constraint retrait_pk PRIMARY KEY  (no_article)
+ALTER TABLE RETRAITS ADD constraint retrait_pk PRIMARY KEY  (id_retrait)
 
 CREATE TABLE UTILISATEURS (
     no_utilisateur   INTEGER IDENTITY(1,1) NOT NULL,
@@ -37,7 +38,7 @@ CREATE TABLE UTILISATEURS (
     prenom           VARCHAR(50) NOT NULL,
     email            VARCHAR(50) NOT NULL,
     telephone        VARCHAR(15),
-    rue              VARCHAR(100) NOT NULL,
+    rue              VARCHAR(250) NOT NULL,
     code_postal      VARCHAR(10) NOT NULL,
     ville            VARCHAR(50) NOT NULL,
     mot_de_passe     VARCHAR(30) NOT NULL,
