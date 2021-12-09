@@ -14,6 +14,8 @@ public interface RetraitsDAO {
 
 	public Retrait lieuRetrait(int noArticle) throws DALException;
 
+	public Retrait pointDeRetrait(int IdRetrait) throws DALException;
+
 	public void insertNouvelleAdresse(Retrait adresse) throws DALException;
 
 	public void deleteAdresseRetrait(Retrait adresse) throws DALException;
@@ -21,4 +23,5 @@ public interface RetraitsDAO {
 	void updateAdresseRetrait(Retrait adresse) throws DALException;
 
 	public List<Retrait> selectAll() throws DALException;
+
 }
