@@ -41,6 +41,12 @@ public class CategoriesManager {
 		Categorie categorie = new Categorie(
 				libelle
 		);
+		
+		validerCategorie(categorie, erreurs);
+
+		if(erreurs.size() > 0) {
+			return null;
+		}
 
 		try {
 			
@@ -76,7 +82,7 @@ public class CategoriesManager {
 		return categorie;
 	}
 
-	public List<Categorie> getAllUtilisateur() throws BLLException {
+	public List<Categorie> getAllCategories() throws BLLException {
 		
 		try {
 			return categoriesDAO.getAll();
@@ -85,9 +91,9 @@ public class CategoriesManager {
 		}
 	}
 
-	public void sauvegarderUtilisateur(Categorie categorie, List<String> erreurs) throws BLLException {
+	public void sauvegarderCategorie(Categorie categorie, List<String> erreurs) throws BLLException {
 		
-		validerUtilisateur(categorie, erreurs);
+		validerCategorie(categorie, erreurs);
 		
 		try {
 			this.categoriesDAO.update(categorie);
@@ -96,7 +102,7 @@ public class CategoriesManager {
 		}
 	}
 
-	private void validerUtilisateur(Categorie categorie, List<String> erreurs) {
+	private void validerCategorie(Categorie categorie, List<String> erreurs) {
 		
 		if (categorie.getLibelle() == null) {
 			erreurs.add("Le libellé de categorie ne peut pas être vide");
