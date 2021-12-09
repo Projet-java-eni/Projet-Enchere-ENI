@@ -35,45 +35,6 @@ public class CRUDUtilisateurs extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		List<String> errors = new ArrayList<>();
-		if (request.getAttribute("erreurs") != null) {
-			errors.addAll((List<String>) request.getAttribute("erreurs"));
-		}
-
-		request.setAttribute("erreurs", errors);
-
-		List<Utilisateur> allUsers = null;
-
-		try {
-			allUsers = utilisateursManager.getAllUtilisateur();
-		} catch (BLLException e) {
-			errors.add(e.getLocalizedMessage());
-		}
-
-		request.setAttribute("all_users", allUsers);
-
-		Utilisateur modifUtilisateur = null;
-		if (request.getParameter("modifier") != null && request.getParameter("id_utilisateur") != null) {
-			int id_utilisateur = -1;
-			try {
-				id_utilisateur = Integer.parseInt((String) request.getParameter("id_utilisateur"));
-			} catch (NumberFormatException e) {
-				errors.add("Nombre ma formaté.");
-			}
-			try {
-				modifUtilisateur = utilisateursManager.getUtilisateurById(id_utilisateur);
-			} catch (BLLException e) {
-				errors.add(e.getLocalizedMessage());
-			}
-		}
-
-		request.setAttribute("modif_utilisateur", modifUtilisateur);
-
-		request.getRequestDispatcher("WEB-INF/CRUDUtilisateurs.jsp").forward(request, response);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
@@ -87,21 +48,37 @@ public class CRUDUtilisateurs extends HttpServlet {
 		String administrateur = request.getParameter("administrateur");
 		String idUtilisateur = request.getParameter("id_utilisateur");
 
-		List<String> erreurs = new ArrayList<>();
+		List<String> errors = new ArrayList<>();
 
 		Utilisateur nouvelUtilisateur = null;
 
-		if (idUtilisateur == null) {
+		if (idUtilisateur == null && request.getParameter("ajouter") != null) {
 			
 			nouvelUtilisateur = utilisateursManager.createUtilisateurDepuisLeWeb(pseudo, nom, prenom, email, telephone,
-					rue, codePostal, ville, motDePasse, credit, administrateur, erreurs);
+					rue, codePostal, ville, motDePasse, credit, administrateur, errors);
 		}
 
 		request.setAttribute("nouvel_utilisateur", nouvelUtilisateur);
 
+		
 		Utilisateur modifUtilisateur = null;
 
-		if (idUtilisateur != null) {
+		if (idUtilisateur != null && request.getParameter("modifier") != null) { // demande d'affichage d'utilisateur
+			try {
+				Integer intModifUtilisateur = Integer.parseInt(idUtilisateur);
+				
+				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur);
+				
+			} catch (NumberFormatException e) {
+				errors.add("Id utilisateur malformé !");
+			} catch (BLLException e) {
+				errors.add(e.getLocalizedMessage());
+			}
+			
+		}
+		
+		
+		if (idUtilisateur != null && request.getParameter("ajouter") != null) { // soumission formulaire editer
 			
 			try {
 				Integer intModifUtilisateur = Integer.parseInt(idUtilisateur);
@@ -109,18 +86,57 @@ public class CRUDUtilisateurs extends HttpServlet {
 				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur);
 				
 				utilisateursManager.modifUtilisateurDepuisLeWeb(modifUtilisateur, pseudo, nom, prenom, email, telephone,
-						rue, codePostal, ville, credit, administrateur, erreurs);
+						rue, codePostal, ville, credit, administrateur, errors);
 			} catch (NumberFormatException e) {
-				erreurs.add("Id utilisateur malformé !");
+				errors.add("Id utilisateur malformé !");
 			} catch (BLLException e) {
-				erreurs.add(e.getLocalizedMessage());
+				errors.add(e.getLocalizedMessage());
 			}
 			
 		}
 
 		request.setAttribute("modif_utilisateur", modifUtilisateur);
+		
+		
+		
+		
+		Utilisateur deleteUtilisateur = null;
+		
+		if(request.getParameter("supprimer") != null && request.getParameter("id_utilisateur") != null) {
+			int id_utilisateur = -1;
+			try {
+				id_utilisateur = Integer.parseInt((String) request.getParameter("id_utilisateur"));
+			} catch (NumberFormatException e) {
+				errors.add("Nombre ma formaté.");
+			}
+			try {
+				modifUtilisateur = utilisateursManager.getUtilisateurById(id_utilisateur);
+				utilisateursManager.supprimerUtilisateur(modifUtilisateur);
+			} catch (BLLException e) {
+				errors.add(e.getLocalizedMessage());
+			}
+		}
+		
+		request.setAttribute("delete_utilisateur", deleteUtilisateur);
+		
+		
+		List<Utilisateur> allUsers = null;
+		
+		try {
+			allUsers = utilisateursManager.getAllUtilisateur();
+		} catch (BLLException e) {
+			errors.add(e.getLocalizedMessage());
+		}
+		
+		request.setAttribute("all_users", allUsers);
 
-		request.setAttribute("erreurs", erreurs);
+		request.setAttribute("erreurs", errors);
+		
+		request.getRequestDispatcher("WEB-INF/CRUDUtilisateurs.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		doGet(request, response);
 	}

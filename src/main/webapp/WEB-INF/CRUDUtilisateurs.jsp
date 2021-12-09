@@ -26,15 +26,23 @@
 <% if(request.getAttribute("nouvel_utilisateur") != null) { %>
 	<div class="succes">
 		L'utilissateur <%= ((Utilisateur)request.getAttribute("nouvel_utilisateur")).getPseudo() %> 
-		d'id <%= ((Utilisateur)request.getAttribute("nouvel_utilisateur")).getNoUtilisateur() %> a été ajouté!
+		d'id <%= ((Utilisateur)request.getAttribute("nouvel_utilisateur")).getNoUtilisateur() %> a été ajouté !
 	</div>
 
 <% } %>
 
-<% if(request.getAttribute("modif_utilisateur") != null) { %>
+<% if(request.getAttribute("modif_utilisateur") != null && request.getParameter("ajouter") != null) { %>
 	<div class="succes">
 		L'utilissateur <%= ((Utilisateur)request.getAttribute("modif_utilisateur")).getPseudo() %> 
-		d'id <%= ((Utilisateur)request.getAttribute("modif_utilisateur")).getNoUtilisateur() %> a été modifié!
+		d'id <%= ((Utilisateur)request.getAttribute("modif_utilisateur")).getNoUtilisateur() %> a été modifié !
+	</div>
+
+<% } %>
+
+<% if(request.getAttribute("delete_utilisateur") != null) { %>
+	<div class="succes">
+		L'utilissateur <%= ((Utilisateur)request.getAttribute("delete_utilisateur")).getPseudo() %> 
+		d'id <%= ((Utilisateur)request.getAttribute("delete_utilisateur")).getNoUtilisateur() %> a été supprimé !
 	</div>
 
 <% } %>
@@ -74,6 +82,7 @@
 		Utilisateur utilisateur = (Utilisateur)request.getAttribute("modif_utilisateur");
 		
 		titre = "Modifier l'utilisateur numero " + utilisateur.getNoUtilisateur();
+		titre += " - <a href='" + request.getContextPath() + "/CRUDUtilisateurs'>Revenir à l'ajout</a>";
 		
 		id_utilisateur = utilisateur.getNoUtilisateur();
 		pseudo = utilisateur.getPseudo();
@@ -142,7 +151,7 @@ if(request.getAttribute("modif_utilisateur") != null) {
 		<td><%= user.getCredit() %></td>
 		<td><%= user.isAdministrateur() %></td>
 		<td>
-		<form method="get" >
+		<form method="post" >
 			<input type="hidden" name="id_utilisateur" value="<%= user.getNoUtilisateur() %>" />
 			<input type="submit" name="modifier" value="Modifier" />
 			<input type="submit" name="supprimer" value="Supprimer" />
