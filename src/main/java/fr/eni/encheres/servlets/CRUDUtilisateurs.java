@@ -132,7 +132,7 @@ public class CRUDUtilisateurs extends HttpServlet {
 
 		request.setAttribute("erreurs", errors);
 		
-		request.getRequestDispatcher("WEB-INF/CRUDUtilisateurs.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/jsps/cruds/CRUDUtilisateurs.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

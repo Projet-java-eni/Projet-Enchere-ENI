@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="entete.html" %>
+<%@include file="../Entete.html" %>
 <%@ page import="fr.eni.encheres.bo.Utilisateur"%>
 <%@ page import="java.util.List" %>
 <style>
@@ -163,4 +163,4 @@ if(request.getAttribute("modif_utilisateur") != null) {
 </table>
 
 
-<%@include file="pied.html" %>
+<%@include file="../Pied.html" %>
