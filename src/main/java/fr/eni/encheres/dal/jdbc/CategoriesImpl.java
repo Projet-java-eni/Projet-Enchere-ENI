@@ -7,16 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.CategoriesDAO;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAO;
 
 enum StoredStatements {
-	GET_BY_ID("select no_categorie, libelle from dbo.utilisateurs where no_utilisateur=?"),
-	SELECT_ALL("select no_categorie, libelle from dbo.utilisateurs"),
-	INSERT("INSERT INTO dbo.utilisateurs (libelle) VALUES (?)"),
-	UPDATE("UPDATE dbo.utilisateurs SET libelle=? WHERE no_categorie=?"),
-	DELETE("DELETE FROM dbo.utilisateurs WHERE no_categorie=?");
+	GET_BY_ID("select no_categorie, libelle from dbo.categories where no_utilisateur=?"),
+	SELECT_ALL("select no_categorie, libelle from dbo.categories"),
+	INSERT("INSERT INTO dbo.categories (libelle) VALUES (?)"),
+	UPDATE("UPDATE dbo.categories SET libelle=? WHERE no_categorie=?"),
+	DELETE("DELETE FROM dbo.categories WHERE no_categorie=?");
 	private String value; 
 	StoredStatements(String value) {
 		this.value = value;
@@ -27,7 +26,7 @@ enum StoredStatements {
 	}
 }
 
-public class CategoriesImpl implements DAO<Categorie> {
+public class CategoriesImpl implements CategoriesDAO {
 
 	@Override
 	public Categorie getById(int id) throws DALException {
