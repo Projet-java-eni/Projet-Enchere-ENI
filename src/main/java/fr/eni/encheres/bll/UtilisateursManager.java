@@ -171,7 +171,7 @@ public class UtilisateursManager {
 	public void supprimerUtilisateur(Utilisateur utilisateur) throws BLLException {
 		
 		try {
-			utilisateursDAO.removeUtilisateur(utilisateur);
+			utilisateursDAO.remove(utilisateur);
 			utilisateursMap.remove(utilisateur.getNoUtilisateur());
 		} catch (DALException e) {
 			throw new BLLException(e.getLocalizedMessage(), e);
@@ -187,7 +187,7 @@ public class UtilisateursManager {
 		} else {
 			
 			try {
-				utilisateur = utilisateursDAO.getUtilisateurById(utilisateurId);
+				utilisateur = utilisateursDAO.getById(utilisateurId);
 				utilisateursMap.put(utilisateurId, utilisateur);
 			} catch (DALException e) {
 				throw new BLLException(e.getLocalizedMessage(), e);
@@ -200,7 +200,7 @@ public class UtilisateursManager {
 	public List<Utilisateur> getAllUtilisateur() throws BLLException {
 		
 		try {
-			return utilisateursDAO.getAllUtilisateurs();
+			return utilisateursDAO.getAll();
 		} catch (DALException e) {
 			throw new BLLException(e.getLocalizedMessage(), e);
 		}
@@ -211,7 +211,7 @@ public class UtilisateursManager {
 		validerUtilisateur(utilisateur, erreurs);
 		
 		try {
-			this.utilisateursDAO.updateUtilisateur(utilisateur);
+			this.utilisateursDAO.update(utilisateur);
 			this.utilisateursMap.put(utilisateur.getNoUtilisateur(), utilisateur);
 		} catch (DALException e) {
 			throw new BLLException(e.getLocalizedMessage(), e);
@@ -230,5 +230,12 @@ public class UtilisateursManager {
 		if (motDePasse.length() < 6) {
 			erreurs.add("Le mot de passe doit faire 6 caractères au moins !");
 		}
+	}
+
+	public void traiteRequeteInscription(String pseudo, String nom, String prenom, String email, String telephone,
+			String rue, String codePostal, String ville, String motDePasse, String motDePasseRepete,
+			List<String> errors) {
+		// TODO Auto-generated method stub
+		
 	}
 }
