@@ -12,16 +12,14 @@ public class ArticleVendu {
 	private LocalDate dateDebutEnchere;
 	private LocalDate dateFinEnchere;
 	private int miseAPrix;
-	private int prixInitial;
 	private int prixVente;
-	private int noUtilisateur;
-	private int noCategorie;
+	private String etatVente;
 	
 	public ArticleVendu() {	
 	}
 	
 	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEnchere, 
-			LocalDate dateFinEnchere, int miseAPrix, int prixInitial, int prixVente, int noUtilisateur, int noCategorie) {
+			LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente)  {
 		
 		super();
 		this.noArticle = noArticle;
@@ -30,10 +28,10 @@ public class ArticleVendu {
 		this.dateDebutEnchere = dateDebutEnchere;
 		this.dateFinEnchere= dateFinEnchere;
 		this.miseAPrix= miseAPrix;
-		this.prixInitial= prixInitial;
+		this.miseAPrix= miseAPrix;
 		this.prixVente= prixVente;
-		this.noUtilisateur= noUtilisateur;
-		this.noCategorie= noCategorie;
+		this.etatVente= etatVente;
+		
 			
 	}
 
@@ -85,13 +83,14 @@ public class ArticleVendu {
 	public void setMiseAPRIx (int mise_a_prix) {
 		this.miseAPrix = mise_a_prix;
 	}
-	public int getPrixInitial() {
-		return prixInitial;
+	public int getMiseAPrix() {
+		return miseAPrix;
 	}
 
-	public void setPrixIntitial(int prix_initial) {
-		this.prixInitial = prix_initial;
+	public void setMiseAPRIx (int mise_a_prix) {
+		this.miseAPrix = mise_a_prix;
 	}
+
 	
 	public int getPrixVente() {
 		return prixVente;
@@ -100,20 +99,20 @@ public class ArticleVendu {
 	public void setPrixVente(int prix_vente) {
 		this.prixVente = prix_vente;
 	}
-	public int getNoUtilisateur() {
-		return noUtilisateur;
+
+	public int getPrixVente() {
+		return prixVente;
 	}
 
-	public void setNoUtilisateur (int no_utilisateur) {
-		this.noUtilisateur = no_utilisateur;
+	public void setPrixVente(int prix_vente) {
+		this.prixVente = prix_vente;
+		
 	}
-	
-	public int getNoCategorie() {
-			return noCategorie;
-		}
+	public String etatVente() {
+		return etatVente;
+	}
 
-	public void setNoCategorie(int no_categorie) {
-			this.noCategorie = no_categorie;
-	}	
-	
+	public void setEtatVente(String etat_vente) {
+		this.prixVente = etat_vente;
+	}
 }
