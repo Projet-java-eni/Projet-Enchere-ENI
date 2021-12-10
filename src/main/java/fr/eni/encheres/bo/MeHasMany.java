@@ -1,6 +1,6 @@
 package fr.eni.encheres.bo;
 
-public interface MeToMany<T> {
+public interface MeHasMany<T> {
 	void ajouter(T generique);
 	void supprimer(T generique);
 }

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utilisateur implements Serializable, MeToMany<ArticleVendu>  /* , MeToMany<Encheres>, MeToMany<ArticleAchete>  */ { 
+public class Utilisateur implements Serializable, MeHasMany<ArticleVendu>  /* , MeToMany<Encheres>, MeToMany<ArticleAchete>  */ { 
 	// Pas moyen d'écrire class Utilisateur implements Serializable, MeToMany<ArticleVendu>, MeToMany<ArticleAchete>, MeToMany<Encheres> { ?
 
 	@Override
