@@ -21,7 +21,7 @@ public class UtilisateursManager {
 
 		try {
 		
-			this.utilisateursDAO = DAOFactory.getUtilisateursDAO();
+			this.utilisateursDAO = (UtilisateursDAO)DAOFactory.getUtilisateursDAO();
 		} catch (DALException e) {
 			
 			throw new BLLException(e.getLocalizedMessage(), e);
@@ -42,20 +42,23 @@ public class UtilisateursManager {
 	public Utilisateur createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
 			String codePostal, String ville, String motDePasse, int credit, boolean administrateur, List<String> erreurs) {
 		
-		validerMotDePasse(motDePasse, erreurs);
-		
-		if(erreurs.size() > 0) {
-			return null;
-		}
-		
 		Utilisateur utilisateur = new Utilisateur(
 				pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur
 		);
+
+		
+		validerMotDePasse(motDePasse, erreurs);
+		
+		// On retourne un Utilisateur meme si on l'ajout pas à la DAO histoire
+		// de pouvoir préremplir le formulaire à l'essai suivant
+		if(erreurs.size() > 0) {
+			return utilisateur;
+		}
 		
 		validerUtilisateur(utilisateur, erreurs);
 
 		if(erreurs.size() > 0) {
-			return null;
+			return utilisateur;
 		}
 
 		
@@ -220,8 +223,36 @@ public class UtilisateursManager {
 
 	private void validerUtilisateur(Utilisateur utilisateur, List<String> erreurs) {
 		
-		if (utilisateur.getNom() == null) {
-			erreurs.add("Le nom d'utilisateur ne peut pas être vide");
+		if (utilisateur.getPseudo().length() < 1 || utilisateur.getPseudo().length() > 30) {
+			erreurs.add("Le pseudo a pas la bonne longueur.");
+		}
+		
+		if (utilisateur.getNom().length() < 1 || utilisateur.getNom().length() > 50) {
+			erreurs.add("Le nom a pas la bonne longueur.");
+		}
+		
+		if (utilisateur.getPrenom().length() < 1 || utilisateur.getPrenom().length() > 50) {
+			erreurs.add("Le prénom a pas la bonne longueur.");
+		}
+		
+		if (utilisateur.getEmail().length() < 1 || utilisateur.getEmail().length() > 50) {
+			erreurs.add("L'email a pas la bonne longueur.");
+		}
+		
+		if (utilisateur.getTelephone().length() < 1 || utilisateur.getTelephone().length() > 15) {
+			erreurs.add("Le téléphone a pas la bonne longueur.");
+		}
+		
+		if (utilisateur.getRue().length() < 1 || utilisateur.getRue().length() > 250) {
+			erreurs.add("Le prénom a pas la bonne longueur.");
+		}
+		
+		if (utilisateur.getCodePostal().length() != 5) {
+			erreurs.add("Le code postal a pas la bonne longueur.");
+		}
+		
+		if (utilisateur.getVille().length() < 1 || utilisateur.getVille().length() > 50) {
+			erreurs.add("Le prénom a pas la bonne longueur.");
 		}
 	}
 	
@@ -232,10 +263,44 @@ public class UtilisateursManager {
 		}
 	}
 
-	public void traiteRequeteInscription(String pseudo, String nom, String prenom, String email, String telephone,
+
+	private void validerMotDePasseRepete(String motDePasse, String motDePasseRepete, List<String> erreurs) {
+		
+		if (motDePasse.length() < 6) {
+			erreurs.add("Le mot de passe doit faire 6 caractères au moins !");
+		}
+		
+		if(!motDePasse.equals(motDePasseRepete)) {
+			erreurs.add("Le mot de passe répété doit être identique !");
+		}
+	}
+	
+	public Utilisateur traiteRequeteInscription(String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse, String motDePasseRepete,
 			List<String> errors) {
-		// TODO Auto-generated method stub
 		
+		if(pseudo == null) errors.add("Le pseudo doit être renseigné");
+		if(nom == null) errors.add("Le nom doit être renseigné");
+		if(prenom == null) errors.add("Le prenom doit être renseigné");
+		if(email == null) errors.add("L'email doit être renseigné");
+		if(telephone == null) errors.add("Le telephone doit être renseigné");
+		if(rue == null) errors.add("La rue doit être renseignée");
+		if(codePostal == null) errors.add("Le code postal doit être renseigné");
+		if(ville == null) errors.add("La ville doit être renseignée");
+		if(motDePasse == null) errors.add("Le mot de passe doit être renseigné");
+		if(motDePasseRepete == null) errors.add("Le mot de passe répété doit être renseigné");
+
+		if(errors.size() > 0) {
+			return null;
+		}
+
+		validerMotDePasseRepete(motDePasse, motDePasseRepete, errors);
+		
+		if(errors.size() > 0) {
+			return null;
+		}
+		
+		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, 100, false, errors);
+
 	}
 }

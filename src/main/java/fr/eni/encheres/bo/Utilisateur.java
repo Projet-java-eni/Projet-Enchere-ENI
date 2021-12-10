@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utilisateur implements Serializable, MeHasMany<ArticleVendu>  /* , MeToMany<Encheres>, MeToMany<ArticleAchete>  */ { 
+public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ { 
 	// Pas moyen d'écrire class Utilisateur implements Serializable, MeToMany<ArticleVendu>, MeToMany<ArticleAchete>, MeToMany<Encheres> { ?
 
 	@Override
@@ -154,6 +154,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu>  /* , 
 		this.administrateur = administrateur;
 	}
 
+	
 	@Override
 	public void ajouter(ArticleVendu vente) {
 		if(articlesVendus == null) {
@@ -183,7 +184,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu>  /* , 
 	
 
 	public void ajouter(Enchere enchere) {
-		if(enchere == null) {
+		if(encheres == null) {
 			encheres = new ArrayList<>();
 		}
 
