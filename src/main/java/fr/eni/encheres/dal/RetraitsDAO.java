@@ -10,18 +10,8 @@ import fr.eni.encheres.bo.Retrait;
  *
  */
 
-public interface RetraitsDAO {
+public interface RetraitsDAO extends DAO<Retrait> {
 
 	public Retrait lieuRetrait(int noArticle) throws DALException;
-
-	public Retrait pointDeRetrait(int IdRetrait) throws DALException;
-
-	public void insertNouvelleAdresse(Retrait adresse) throws DALException;
-
-	public void deleteAdresseRetrait(int idRetrait) throws DALException;
-
-	void updateAdresseRetrait(Retrait adresse) throws DALException;
-
-	public List<Retrait> selectAll() throws DALException;
 
 }
