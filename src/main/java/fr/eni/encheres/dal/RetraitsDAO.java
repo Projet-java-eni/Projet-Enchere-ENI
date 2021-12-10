@@ -10,7 +10,7 @@ import fr.eni.encheres.bo.Retrait;
  *
  */
 
-public interface RetraitsDAO {
+public interface RetraitsDAO extends DAO {
 
 	public Retrait lieuRetrait(int noArticle) throws DALException;
 
