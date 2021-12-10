@@ -67,7 +67,7 @@ public class RetraitsImpl implements RetraitsDAO {
 	}
 
 	@Override
-	public Retrait pointDeRetrait(int idRetrait) throws DALException {
+	public Retrait getById(int idRetrait) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		Retrait adresseRetrait = new Retrait();
@@ -99,7 +99,7 @@ public class RetraitsImpl implements RetraitsDAO {
 	}
 
 	@Override
-	public void insertNouvelleAdresse(Retrait adresse) throws DALException {
+	public void add(Retrait adresse) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		Retrait newAdresseRetrait = new Retrait();
@@ -132,7 +132,7 @@ public class RetraitsImpl implements RetraitsDAO {
 	}
 
 	@Override
-	public void deleteAdresseRetrait(int idRetrait) throws DALException {
+	public void remove(Retrait retrait) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -140,7 +140,7 @@ public class RetraitsImpl implements RetraitsDAO {
 			con = GetConnection.getConnexion();
 			stmt = con.prepareStatement(sqlDeleteAdresseRetrait);
 
-			stmt.setInt(1, idRetrait);
+			stmt.setInt(1, retrait.getIdRetrait());
 			stmt.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -155,7 +155,7 @@ public class RetraitsImpl implements RetraitsDAO {
 	}
 
 	@Override
-	public void updateAdresseRetrait(Retrait adresse) throws DALException {
+	public void update(Retrait adresse) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -178,7 +178,7 @@ public class RetraitsImpl implements RetraitsDAO {
 	}
 
 	@Override
-	public List<Retrait> selectAll() throws DALException {
+	public List<Retrait> getAll() throws DALException {
 		List<Retrait> listCoordonnees = new ArrayList<Retrait>();
 		Connection con = null;
 		Statement stmt = null;
