@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.dal.ArticlesVendusDAO;
 import fr.eni.encheres.dal.DALException;
 
@@ -24,12 +24,12 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 
 
 	@Override
-	public ArticleVendu getById(int noArticle) throws DALException {
+	public Article getById(int noArticle) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 //		Retrait adresseRetrait = new Retrait();
 		ResultSet rs = null;
-		ArticleVendu article = new ArticleVendu();
+		Article article = new Article();
 		try {
 			con = GetConnection.getConnexion();
 			stmt = con.prepareStatement(sqlSelectArticleVenduById);
@@ -61,8 +61,8 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> getAll() throws DALException {
-		List<ArticleVendu> listArticles = new ArrayList<>();
+	public List<Article> getAll() throws DALException {
+		List<Article> listArticles = new ArrayList<>();
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -71,7 +71,7 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 			con = GetConnection.getConnexion();
 			stmt = con.createStatement();
 //			rs = stmt.executeQuery(sqlSelectAllCoordonnees);
-			ArticleVendu coordonnees = null;
+			Article coordonnees = null;
 			while (rs.next()) {
 //				coordonnees = new ArticleVendu(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 //						rs.getString(5));
@@ -93,7 +93,7 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 
 
 	@Override
-	public void add(ArticleVendu categorie) throws DALException {
+	public void add(Article categorie) throws DALException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -101,7 +101,7 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 
 
 	@Override
-	public void update(ArticleVendu utilisateur) throws DALException {
+	public void update(Article utilisateur) throws DALException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -109,7 +109,7 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 
 
 	@Override
-	public void remove(ArticleVendu utilisateur) throws DALException {
+	public void remove(Article utilisateur) throws DALException {
 		// TODO Auto-generated method stub
 		
 	}

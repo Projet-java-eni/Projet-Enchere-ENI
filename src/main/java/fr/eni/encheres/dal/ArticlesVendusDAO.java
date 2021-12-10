@@ -1,11 +1,11 @@
 package fr.eni.encheres.dal;
 
-import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Article;
 
 //@Frederic
 
-public interface ArticlesVendusDAO extends DAO <ArticleVendu>  {
+public interface ArticlesVendusDAO extends DAO <Article>  {
 
-	public ArticleVendu getById(int noArticle) throws DALException;
+	public Article getById(int noArticle) throws DALException;
 	
 }

@@ -1,8 +1,11 @@
 package fr.eni.encheres.bo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Utilisateur implements Serializable {
+public class Utilisateur implements Serializable, MeToMany<ArticleVendu>  /* , MeToMany<Encheres>, MeToMany<ArticleAchete>  */ { 
+	// Pas moyen d'écrire class Utilisateur implements Serializable, MeToMany<ArticleVendu>, MeToMany<ArticleAchete>, MeToMany<Encheres> { ?
 
 	@Override
 	public String toString() {
@@ -17,6 +20,7 @@ public class Utilisateur implements Serializable {
 	 */
 	private static final long serialVersionUID = 4374948417968605957L;
 
+	// champs de la BDD
 	private int noUtilisateur;
 	private String pseudo;
 	private String nom;
@@ -28,6 +32,12 @@ public class Utilisateur implements Serializable {
 	private String ville;
 	private int credit;
 	private boolean administrateur;
+	
+	// champs supplémentaires
+	private List<Article> articlesVendus = null;
+	private List<Article> articlesAchetes = null;
+	private List<Enchere> encheres = null;
+	
 
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, int credit, boolean administrateur) {
@@ -144,4 +154,45 @@ public class Utilisateur implements Serializable {
 		this.administrateur = administrateur;
 	}
 
+	@Override
+	public void ajouter(ArticleVendu vente) {
+		if(articlesVendus == null) {
+			articlesVendus = new ArrayList<>();
+		}
+		
+		articlesVendus.add(vente);
+		
+	}
+
+	@Override
+	public void supprimer(ArticleVendu vente) {
+		articlesVendus.remove(vente);
+	}
+	
+	public void ajouter(ArticleAchete achat) {
+		if(articlesAchetes == null) {
+			articlesAchetes = new ArrayList<>();
+		}
+
+		articlesAchetes.add(achat);
+	}
+
+	public void supprimer(ArticleAchete achat) {
+		articlesAchetes.remove(achat);
+	}
+	
+
+	public void ajouter(Enchere enchere) {
+		if(enchere == null) {
+			encheres = new ArrayList<>();
+		}
+
+		encheres.add(enchere);
+	}
+	
+	public void supprimer(Enchere enchere) {
+		encheres.remove(enchere);
+	}
+
+	
 }
