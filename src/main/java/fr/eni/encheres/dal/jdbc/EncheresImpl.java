@@ -139,7 +139,7 @@ public class EncheresImpl implements DAO<Enchere> {
 	}
 	
 	@Override
-<<<<<<< HEAD
+
 	public void update(Enchere e) throws DALException {
 			try (
 					Connection con = GetConnection.getConnexion();
@@ -157,10 +157,7 @@ public class EncheresImpl implements DAO<Enchere> {
 	}
 	
 	//à utiliser à la place de remove
-	public void deleteEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException {
-=======
 	public void deleteEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle) throws DALException {
->>>>>>> branch 'master' of https://github.com/Projet-java-eni/Projet
 			try (	
 					Connection con = GetConnection.getConnexion();
 					PreparedStatement pstmt = con.prepareStatement(sqlDeleteEnchereByNoUtilisateurEtNoArticle);		
@@ -173,31 +170,6 @@ public class EncheresImpl implements DAO<Enchere> {
 						throw new DALException(sqlDeleteEnchereByNoUtilisateurEtNoArticle, ex);
 				}
 	}
-	
-
-
-	@Override
-<<<<<<< HEAD
-	public void remove(Enchere utilisateur) throws DALException {
-		// TODO Auto-generated method stub
-=======
-	public void update(Enchere e) throws DALException {
-			try (
-					Connection con = GetConnection.getConnexion();
-					PreparedStatement pstmt = con.prepareStatement(sqlUpdateEnchere);
-				){
-					pstmt.setInt(1, e.getNoUtilisateur());
-					pstmt.setInt(2, e.getNoArticle());
-					pstmt.setDate(3, (Date) e.getDateEnchere());
-					pstmt.setInt(4, e.getMontantEnchere());
-					
-					pstmt.execute();
-			}catch (SQLException ex) {
-					throw new DALException(sqlUpdateEnchere, ex);
-			}
->>>>>>> branch 'master' of https://github.com/Projet-java-eni/Projet
-	}
-
 
 	@Override
 	public void remove(Enchere utilisateur) throws DALException {
