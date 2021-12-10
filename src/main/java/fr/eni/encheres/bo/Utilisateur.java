@@ -44,7 +44,13 @@ public class Utilisateur implements Serializable {
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
-
+	
+	//@author Lucie MAJ ajout constructeur
+	public Utilisateur(int noUtilisateur) {
+        super();
+        this.noUtilisateur = noUtilisateur;
+    }
+	
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
 			String codePostal, String ville, int credit, boolean administrateur) {
 		this(-1, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur);
