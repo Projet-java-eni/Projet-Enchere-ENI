@@ -5,19 +5,15 @@ import java.util.List;
 
 import fr.eni.encheres.bo.Enchere;
 
-public interface EncheresDAO {
+public interface EncheresDAO extends DAO<Enchere> {
 	
-	public void insertEnchere(Enchere e)throws DALException;
-	
+
 	public List<Enchere> selectEncheresByNoUtilisateur(int noUtilisateur)throws DALException;
 	
 	public List<Enchere> selectEncheresByNoArticle(int noArticle)throws DALException;
 	
 	public List<Enchere> selectEncheresByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException;
-	
-	public List<Enchere> selectAllEncheres()throws DALException;
-	
-	public void updateEnchere(Enchere e)throws DALException;
-	
+			
 	public void deleteEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException;
+
 }

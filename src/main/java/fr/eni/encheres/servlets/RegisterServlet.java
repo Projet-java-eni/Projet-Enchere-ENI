@@ -10,10 +10,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.BLLException;
+import fr.eni.encheres.bll.UtilisateursManager;
+
 
 @WebServlet("/Register")
 public class RegisterServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+
+	
+	UtilisateursManager utilisateursManager = null;
+
+	public RegisterServlet() throws Exception {
+		super();
+		try {
+			utilisateursManager = UtilisateursManager.GetInstance();
+		} catch (BLLException e) {
+			e.printStackTrace();
+			throw new Exception("Impossible de se connecter à la DAL!!");
+		}
+	}
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,6 +47,7 @@ public class RegisterServlet extends HttpServlet {
 
 		List<String> errors = new ArrayList<>();
 
+		utilisateursManager.traiteRequeteInscription(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseRepete, errors);
 
 		request.getRequestDispatcher("WEB-INF/jsps/auth/Register.jsp").forward(request, response);
 	}

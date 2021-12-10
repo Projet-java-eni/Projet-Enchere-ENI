@@ -1,17 +1,11 @@
 package fr.eni.encheres.dal;
 
+import fr.eni.encheres.bo.ArticleVendu;
+
 //@Frederic
 
-public interface ArticleVenduDAO extends DAO <ArticleVendu>  {
+public interface ArticlesVendusDAO extends DAO <ArticleVendu>  {
 
-	public ArticleVendu getArticleVenduById(int id) throws DALException;
-	public List<ArticleVendu> getAllArticleVendu() throws DALException;
-	public void addArticleVendu(ArticleVendu articlevendu) throws DALException;
-	public void updateArticleVendu(ArticleVendu articlevendu) throws DALException;
-	
-    //inutile car légalement on veut garder en mémoire toutes les transactions
-	
-	public void removeArticleVendu(ArticleVendu articlevendu) throws DALException;
-	
+	public ArticleVendu getById(int noArticle) throws DALException;
 	
 }

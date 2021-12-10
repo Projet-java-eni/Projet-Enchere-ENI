@@ -4,12 +4,12 @@ package fr.eni.encheres.bll;
 import java.util.List;
 
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.dal.CategoriesDAO;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAO;
 import fr.eni.encheres.dal.DAOFactory;
 
 public class CategoriesManager {
-	private final DAO<Categorie> categoriesDAO;
+	private final CategoriesDAO categoriesDAO;
 	
 	private static CategoriesManager instance = null;
 	

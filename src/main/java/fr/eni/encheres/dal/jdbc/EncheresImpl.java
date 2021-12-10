@@ -26,7 +26,7 @@ public class EncheresImpl implements EncheresDAO {
 	
 	
 	@Override
-	public void insertEnchere(Enchere e) throws DALException {
+	public void add(Enchere e) throws DALException {
 			try (	
 					Connection con = GetConnection.getConnexion();
 					PreparedStatement pstmt = con.prepareStatement(sqlDeleteEnchereByNoUtilisateurEtNoArticle);		
@@ -110,7 +110,7 @@ public class EncheresImpl implements EncheresDAO {
 	}
 	
 	@Override
-	public List<Enchere> selectAllEncheres() throws DALException {
+	public List<Enchere> getAll() throws DALException {
 		try (
 				Connection con = GetConnection.getConnexion();
 				Statement stmt = con.createStatement();
@@ -130,7 +130,7 @@ public class EncheresImpl implements EncheresDAO {
 	}
 
 	@Override
-	public void deleteEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException {
+	public void deleteEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle) throws DALException {
 			try (	
 					Connection con = GetConnection.getConnexion();
 					PreparedStatement pstmt = con.prepareStatement(sqlDeleteEnchereByNoUtilisateurEtNoArticle);		
@@ -145,7 +145,7 @@ public class EncheresImpl implements EncheresDAO {
 	}
 	
 	@Override
-	public void updateEnchere(Enchere e) throws DALException {
+	public void update(Enchere e) throws DALException {
 			try (
 					Connection con = GetConnection.getConnexion();
 					PreparedStatement pstmt = con.prepareStatement(sqlUpdateEnchere);
@@ -160,4 +160,12 @@ public class EncheresImpl implements EncheresDAO {
 					throw new DALException(sqlUpdateEnchere, ex);
 			}
 	}
+
+
+	@Override
+	public void remove(Enchere utilisateur) throws DALException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

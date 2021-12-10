@@ -12,6 +12,7 @@ import fr.eni.encheres.bo.Retrait;
 
 public interface RetraitsDAO extends DAO<Retrait> {
 
+	public Retrait getById(int idRetrait) throws DALException;
 	public Retrait lieuRetrait(int noArticle) throws DALException;
 
 }
