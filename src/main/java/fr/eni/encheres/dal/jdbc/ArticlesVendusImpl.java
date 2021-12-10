@@ -1,5 +1,16 @@
 package fr.eni.encheres.dal.jdbc;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.dal.ArticlesVendusDAO;
+import fr.eni.encheres.dal.DALException;
 
 public class ArticlesVendusImpl implements ArticlesVendusDAO {
 
@@ -186,4 +197,5 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 		}
 		return listCoordonnees;
 	}
+
 }

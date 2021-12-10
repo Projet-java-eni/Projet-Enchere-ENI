@@ -1,5 +1,6 @@
 package fr.eni.encheres.dal;
 
+
 //@Frederic
 
 public interface ArticleVenduDAO extends DAO <ArticleVendu>  {
@@ -12,6 +13,6 @@ public interface ArticleVenduDAO extends DAO <ArticleVendu>  {
     //inutile car légalement on veut garder en mémoire toutes les transactions
 	
 	public void removeArticleVendu(ArticleVendu articlevendu) throws DALException;
-	
+
 	
 }

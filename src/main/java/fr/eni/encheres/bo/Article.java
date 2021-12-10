@@ -1,8 +1,10 @@
+//@author Frédéric
+
 package fr.eni.encheres.bo;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-public class ArticleVendu {
+public class Article {
 	
 	private int noArticle;
 	private String nomArticle;
@@ -13,10 +15,10 @@ public class ArticleVendu {
 	private int prixVente;
 	private String etatVente;
 	
-	public ArticleVendu() {	
+	public Article() {	
 	}
 	
-	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEnchere, 
+	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere, 
 			LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente)  {
 		
 		super();
@@ -58,19 +60,19 @@ public class ArticleVendu {
 		this.description = description;
 	}
 
-	public Date getDateDebutEnchere() {
+	public LocalDate getDateDebutEnchere() {
 		return dateDebutEnchere;
 	}
 
-	public void setDateDebutEnchere(Date date_debut_enchere) {
+	public void setDateDebutEnchere(LocalDate date_debut_enchere) {
 		this.dateDebutEnchere = date_debut_enchere;
 	}
 	
-	public Date getDateFinEnchere() {
+	public LocalDate getDateFinEnchere() {
 		return dateFinEnchere;
 	}
 
-	public void setDateFinEnchere(Date date_fin_enchere) {
+	public void setDateFinEnchere(LocalDate date_fin_enchere) {
 		this.dateFinEnchere = date_fin_enchere;
 	}
 	
@@ -81,23 +83,8 @@ public class ArticleVendu {
 	public void setMiseAPRIx (int mise_a_prix) {
 		this.miseAPrix = mise_a_prix;
 	}
-	public int getMiseAPrix() {
-		return miseAPrix;
-	}
-
-	public void setMiseAPRIx (int mise_a_prix) {
-		this.miseAPrix = mise_a_prix;
-	}
 
 	
-	public int getPrixVente() {
-		return prixVente;
-	}
-
-	public void setPrixVente(int prix_vente) {
-		this.prixVente = prix_vente;
-	}
-
 	public int getPrixVente() {
 		return prixVente;
 	}
@@ -110,8 +97,7 @@ public class ArticleVendu {
 		return etatVente;
 	}
 
-	public void setEtatVente(String etat_vente) {
+	public void setEtatVente(int etat_vente) {
 		this.prixVente = etat_vente;
 	}
-
 }
