@@ -19,7 +19,7 @@ public class EncheresManager {
 	public EncheresManager() throws BLLException {
 		//instancier le EncheresDAO
 			try {
-				daoEnchere = DAOFactory.getEncheresDAO();
+				daoEnchere = (EncheresDAO) DAOFactory.getEncheresDAO();
 			} catch (DALException ex) {
 				ex.printStackTrace();
 			}
@@ -93,8 +93,9 @@ public class EncheresManager {
 	 * @throws BLLException
 	 */
 		public List<Enchere> getAllEncheres() throws BLLException{
-		List<Enchere> encheres=null;
+			List<Enchere> encheres=null;
 		try {
+			
 			encheres = daoEnchere.getAll();
 		} catch (DALException e) {
 			e.printStackTrace();

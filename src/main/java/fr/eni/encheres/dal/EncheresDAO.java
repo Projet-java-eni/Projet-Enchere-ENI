@@ -6,7 +6,7 @@ import java.util.List;
 import fr.eni.encheres.bo.Enchere;
 
 
-public interface EncheresDAO {
+public interface EncheresDAO extends DAO<Enchere> {
 		
 	public List<Enchere> selectEncheresByNoUtilisateur(int noUtilisateur) throws DALException;
 
