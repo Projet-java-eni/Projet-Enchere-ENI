@@ -1,18 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	
-	
+
+<jsp:useBean id="utilisateur_temp" scope="request" type="fr.eni.encheres.bo.Utilisateur"/>
+<jsp:useBean id="erreurs" scope="request" type="fr.eni.encheres.beans.Erreurs"/>
+
+
 <%@ include file="../EnteteBootstrap.html"%>
 
 <h1>Bienvenue sur trocenchères</h1>
 
-<form>
+<form method="post">
 
-<c:if test="true">
-<div class="alert alert-danger">
-  <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-</div>
+<c:if test="${erreurs.hasErrors()}">
+	<div class="alert alert-danger">
+		<p>Certaines données du formulaire sont incorrectes !</p>
+		<ol>
+			<c:forEach var="erreur" items="${erreurs}">
+				<li>${erreur}</li>
+			</c:forEach>
+
+		</ol>
+	</div>
 </c:if>
 
 
@@ -106,7 +115,7 @@
 		<label class="form-check-label" for="exampleCheck1">Se
 			souvenir de moi ?</label>
 	</div>
-	<button type="submit" class="btn btn-primary">S'inscrire</button>
+	<button type="submit" class="btn btn-primary" name="inscription">S'inscrire</button>
 </form>
 
 <%@ include file="../PiedBootstrap.html"%>

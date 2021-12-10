@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.bo.misc.ArticleAchete;
+import fr.eni.encheres.bo.misc.ArticleVendu;
+import fr.eni.encheres.bo.misc.MeHasMany;
+
 public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ { 
 	// Pas moyen d'écrire class Utilisateur implements Serializable, MeToMany<ArticleVendu>, MeToMany<ArticleAchete>, MeToMany<Encheres> { ?
 
@@ -42,6 +46,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, int credit, boolean administrateur) {
 		super();
+
 		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -194,6 +199,5 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	public void supprimer(Enchere enchere) {
 		encheres.remove(enchere);
 	}
-
 	
 }

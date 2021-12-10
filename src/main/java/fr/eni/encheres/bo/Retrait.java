@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.bo.misc.ArticleVendu;
+import fr.eni.encheres.bo.misc.MeHasMany;
+
 /**
  * 
  * @author Sego

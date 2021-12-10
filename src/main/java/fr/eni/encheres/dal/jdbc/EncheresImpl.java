@@ -12,7 +12,7 @@ import java.util.List;
 
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAO;
 
@@ -58,7 +58,7 @@ public class EncheresImpl implements DAO<Enchere> {
 					Enchere e = null;
 					if(rs.next()) {
 						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-						ArticleVendu article = new ArticleVendu(rs.getInt(2));
+						Article article = new Article(rs.getInt(2));
 						e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
 						encheres.add(e);
 					}
@@ -81,7 +81,7 @@ public class EncheresImpl implements DAO<Enchere> {
 					Enchere e = null;
 					if(rs.next()) {
 						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-						ArticleVendu article = new ArticleVendu(rs.getInt(2));
+						Article article = new Article(rs.getInt(2));
 						e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
 						encheres.add(e);
 					}
@@ -104,7 +104,7 @@ public class EncheresImpl implements DAO<Enchere> {
 					Enchere e = null;
 					if(rs.next()) {
 						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-						ArticleVendu article = new ArticleVendu(rs.getInt(2));
+						Article article = new Article(rs.getInt(2));
 						e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
 						encheres.add(e);
 					}
@@ -128,7 +128,7 @@ public class EncheresImpl implements DAO<Enchere> {
 				
 				while(rs.next()){
 					Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-					ArticleVendu article = new ArticleVendu(rs.getInt(2));
+					Article article = new Article(rs.getInt(2));
 					e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
 					encheres.add(e);
 				}

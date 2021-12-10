@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAOFactory;
@@ -40,7 +41,7 @@ public class UtilisateursManager {
 	}
 
 	public Utilisateur createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String codePostal, String ville, String motDePasse, int credit, boolean administrateur, List<String> erreurs) {
+			String codePostal, String ville, String motDePasse, int credit, boolean administrateur, Erreurs erreurs) {
 		
 		Utilisateur utilisateur = new Utilisateur(
 				pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur
@@ -51,13 +52,13 @@ public class UtilisateursManager {
 		
 		// On retourne un Utilisateur meme si on l'ajout pas à la DAO histoire
 		// de pouvoir préremplir le formulaire à l'essai suivant
-		if(erreurs.size() > 0) {
+		if(erreurs.hasErrors()) {
 			return utilisateur;
 		}
 		
 		validerUtilisateur(utilisateur, erreurs);
 
-		if(erreurs.size() > 0) {
+		if(erreurs.hasErrors()) {
 			return utilisateur;
 		}
 
@@ -67,7 +68,7 @@ public class UtilisateursManager {
 			utilisateursDAO.addUtilisateurSecurise(utilisateur, motDePasse);
 		} catch (DALException e) {
 			
-			erreurs.add(e.getLocalizedMessage());
+			erreurs.addErreur(e.getLocalizedMessage());
 			utilisateur = null;
 		}
 	
@@ -76,18 +77,18 @@ public class UtilisateursManager {
 	
 	public Utilisateur createUtilisateurDepuisLeWeb(String pseudo, String nom, String prenom, 
 			String email, String telephone, String rue,
-			String codePostal, String ville, String motDePasse, String credit, String administrateur, List<String> erreurs) {
+			String codePostal, String ville, String motDePasse, String credit, String administrateur, Erreurs erreurs) {
 		
-		if(pseudo == null) erreurs.add("Le pseudo doit être renseigné");
-		if(nom == null) erreurs.add("Le nom doit être renseigné");
-		if(prenom == null) erreurs.add("Le prenom doit être renseigné");
-		if(email == null) erreurs.add("L'email doit être renseigné");
-		if(telephone == null) erreurs.add("Le telephone doit être renseigné");
-		if(rue == null) erreurs.add("La rue doit être renseignée");
-		if(codePostal == null) erreurs.add("Le code postal doit être renseigné");
-		if(ville == null) erreurs.add("La ville doit être renseignée");
-		if(motDePasse == null) erreurs.add("Le mot de passe doit être renseigné");
-		if(credit == null) erreurs.add("Le credit doit être renseigné");
+		if(pseudo == null) erreurs.addErreur("Le pseudo doit être renseigné");
+		if(nom == null) erreurs.addErreur("Le nom doit être renseigné");
+		if(prenom == null) erreurs.addErreur("Le prenom doit être renseigné");
+		if(email == null) erreurs.addErreur("L'email doit être renseigné");
+		if(telephone == null) erreurs.addErreur("Le telephone doit être renseigné");
+		if(rue == null) erreurs.addErreur("La rue doit être renseignée");
+		if(codePostal == null) erreurs.addErreur("Le code postal doit être renseigné");
+		if(ville == null) erreurs.addErreur("La ville doit être renseignée");
+		if(motDePasse == null) erreurs.addErreur("Le mot de passe doit être renseigné");
+		if(credit == null) erreurs.addErreur("Le credit doit être renseigné");
 		
 		boolean is_admin = false;
 		
@@ -99,7 +100,7 @@ public class UtilisateursManager {
 			} else if (administrateur.equalsIgnoreCase("off")) {
 				is_admin = false;
 			} else {
-				erreurs.add("Statut administrateur indefini");
+				erreurs.addErreur("Statut administrateur indefini");
 			}
 		}
 		
@@ -108,27 +109,27 @@ public class UtilisateursManager {
 		try{
 			credit_int = Integer.parseInt(credit);
 		} catch(NumberFormatException e) {
-			erreurs.add("Impossible de convertir le crédit en nombre entier");
+			erreurs.addErreur("Impossible de convertir le crédit en nombre entier");
 		}
 		
-		if (!erreurs.isEmpty()) return null;
+		if (erreurs.hasErrors()) return null;
 		
 		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit_int, is_admin, erreurs);
 	}
 
 	public void modifUtilisateurDepuisLeWeb(Utilisateur utilisateur, String pseudo, String nom, String prenom, 
 			String email, String telephone, String rue,
-			String codePostal, String ville, String credit, String administrateur, List<String> erreurs) {
+			String codePostal, String ville, String credit, String administrateur, Erreurs erreurs) {
 		
-		if(pseudo == null) erreurs.add("Le pseudo doit être renseigné");
-		if(nom == null) erreurs.add("Le nom doit être renseigné");
-		if(prenom == null) erreurs.add("Le prenom doit être renseigné");
-		if(email == null) erreurs.add("L'email doit être renseigné");
-		if(telephone == null) erreurs.add("Le telephone doit être renseigné");
-		if(rue == null) erreurs.add("La rue doit être renseignée");
-		if(codePostal == null) erreurs.add("Le code postal doit être renseigné");
-		if(ville == null) erreurs.add("La ville doit être renseignée");
-		if(credit == null) erreurs.add("Le credit doit être renseigné");
+		if(pseudo == null) erreurs.addErreur("Le pseudo doit être renseigné");
+		if(nom == null) erreurs.addErreur("Le nom doit être renseigné");
+		if(prenom == null) erreurs.addErreur("Le prenom doit être renseigné");
+		if(email == null) erreurs.addErreur("L'email doit être renseigné");
+		if(telephone == null) erreurs.addErreur("Le telephone doit être renseigné");
+		if(rue == null) erreurs.addErreur("La rue doit être renseignée");
+		if(codePostal == null) erreurs.addErreur("Le code postal doit être renseigné");
+		if(ville == null) erreurs.addErreur("La ville doit être renseignée");
+		if(credit == null) erreurs.addErreur("Le credit doit être renseigné");
 		
 		boolean is_admin = false;
 		if(administrateur == null) {
@@ -139,7 +140,7 @@ public class UtilisateursManager {
 			} else if (administrateur.equalsIgnoreCase("off")) {
 				is_admin = false;
 			} else {
-				erreurs.add("Statut administrateur indefini");
+				erreurs.addErreur("Statut administrateur indefini");
 			}
 		}
 		
@@ -147,10 +148,10 @@ public class UtilisateursManager {
 		try{
 			credit_int = Integer.parseInt(credit);
 		} catch(NumberFormatException e) {
-			erreurs.add("Impossible de convertir le crédit en nombre entier");
+			erreurs.addErreur("Impossible de convertir le crédit en nombre entier");
 		}
 		
-		if (!erreurs.isEmpty()) return;
+		if (erreurs.hasErrors()) return;
 		
 		utilisateur.setPseudo(pseudo);
 		utilisateur.setNom(nom);
@@ -166,7 +167,7 @@ public class UtilisateursManager {
 		try {
 			sauvegarderUtilisateur(utilisateur, erreurs);
 		} catch (BLLException e) {
-			erreurs.add(e.getLocalizedMessage());
+			erreurs.addErreur(e.getLocalizedMessage());
 		}
 	}
 
@@ -209,7 +210,7 @@ public class UtilisateursManager {
 		}
 	}
 
-	public void sauvegarderUtilisateur(Utilisateur utilisateur, List<String> erreurs) throws BLLException {
+	public void sauvegarderUtilisateur(Utilisateur utilisateur, Erreurs erreurs) throws BLLException {
 		
 		validerUtilisateur(utilisateur, erreurs);
 		
@@ -221,84 +222,100 @@ public class UtilisateursManager {
 		}
 	}
 
-	private void validerUtilisateur(Utilisateur utilisateur, List<String> erreurs) {
+	private void validerUtilisateur(Utilisateur utilisateur, Erreurs erreurs) {
 		
+		if(utilisateur.getPseudo() == null) erreurs.addErreur("Le pseudo doit être renseigné");
+		
+		if(utilisateur.getNom() == null) erreurs.addErreur("Le nom doit être renseigné");
+		
+		if(utilisateur.getPrenom() == null) erreurs.addErreur("Le prenom doit être renseigné");
+		
+		if(utilisateur.getEmail() == null) erreurs.addErreur("L'email doit être renseigné");
+		
+		if(utilisateur.getTelephone() == null) erreurs.addErreur("Le telephone doit être renseigné");
+		
+		if(utilisateur.getRue() == null) erreurs.addErreur("La rue doit être renseignée");
+		
+		if(utilisateur.getCodePostal() == null) erreurs.addErreur("Le code postal doit être renseigné");
+		
+		if(utilisateur.getVille() == null) erreurs.addErreur("La ville doit être renseignée");
+		
+		if(erreurs.hasErrors()) {
+			return;
+		}
+
 		if (utilisateur.getPseudo().length() < 1 || utilisateur.getPseudo().length() > 30) {
-			erreurs.add("Le pseudo a pas la bonne longueur.");
+			erreurs.addErreur("Le pseudo a pas la bonne longueur.");
 		}
 		
 		if (utilisateur.getNom().length() < 1 || utilisateur.getNom().length() > 50) {
-			erreurs.add("Le nom a pas la bonne longueur.");
+			erreurs.addErreur("Le nom a pas la bonne longueur.");
 		}
 		
 		if (utilisateur.getPrenom().length() < 1 || utilisateur.getPrenom().length() > 50) {
-			erreurs.add("Le prénom a pas la bonne longueur.");
+			erreurs.addErreur("Le prénom a pas la bonne longueur.");
 		}
 		
 		if (utilisateur.getEmail().length() < 1 || utilisateur.getEmail().length() > 50) {
-			erreurs.add("L'email a pas la bonne longueur.");
+			erreurs.addErreur("L'email a pas la bonne longueur.");
 		}
 		
 		if (utilisateur.getTelephone().length() < 1 || utilisateur.getTelephone().length() > 15) {
-			erreurs.add("Le téléphone a pas la bonne longueur.");
+			erreurs.addErreur("Le téléphone a pas la bonne longueur.");
 		}
 		
 		if (utilisateur.getRue().length() < 1 || utilisateur.getRue().length() > 250) {
-			erreurs.add("Le prénom a pas la bonne longueur.");
+			erreurs.addErreur("La rue a pas la bonne longueur.");
 		}
 		
 		if (utilisateur.getCodePostal().length() != 5) {
-			erreurs.add("Le code postal a pas la bonne longueur.");
+			erreurs.addErreur("Le code postal a pas la bonne longueur.");
 		}
 		
 		if (utilisateur.getVille().length() < 1 || utilisateur.getVille().length() > 50) {
-			erreurs.add("Le prénom a pas la bonne longueur.");
+			erreurs.addErreur("La ville a pas la bonne longueur.");
 		}
 	}
 	
-	private void validerMotDePasse(String motDePasse, List<String> erreurs) {
+	private void validerMotDePasse(String motDePasse, Erreurs erreurs) {
 		
+		if(motDePasse == null) erreurs.addErreur("Le mot de passe doit être renseigné");
+		
+		if(erreurs.hasErrors()) {
+			return;
+		}
+
 		if (motDePasse.length() < 6) {
-			erreurs.add("Le mot de passe doit faire 6 caractères au moins !");
+			erreurs.addErreur("Le mot de passe doit faire 6 caractères au moins !");
 		}
 	}
 
 
-	private void validerMotDePasseRepete(String motDePasse, String motDePasseRepete, List<String> erreurs) {
+	private void validerMotDePasseRepete(String motDePasse, String motDePasseRepete, Erreurs erreurs) {
+		
+		if(motDePasse == null) erreurs.addErreur("Le mot de passe doit être renseigné");
+		
+		if(motDePasseRepete == null) erreurs.addErreur("Le mot de passe répété doit être renseigné");
+
+		if(erreurs.hasErrors()) {
+			return;
+		}
 		
 		if (motDePasse.length() < 6) {
-			erreurs.add("Le mot de passe doit faire 6 caractères au moins !");
+			erreurs.addErreur("Le mot de passe doit faire 6 caractères au moins !");
 		}
 		
 		if(!motDePasse.equals(motDePasseRepete)) {
-			erreurs.add("Le mot de passe répété doit être identique !");
+			erreurs.addErreur("Le mot de passe répété doit être identique !");
 		}
 	}
 	
 	public Utilisateur traiteRequeteInscription(String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse, String motDePasseRepete,
-			List<String> errors) {
+			Erreurs errors) {
 		
-		if(pseudo == null) errors.add("Le pseudo doit être renseigné");
-		if(nom == null) errors.add("Le nom doit être renseigné");
-		if(prenom == null) errors.add("Le prenom doit être renseigné");
-		if(email == null) errors.add("L'email doit être renseigné");
-		if(telephone == null) errors.add("Le telephone doit être renseigné");
-		if(rue == null) errors.add("La rue doit être renseignée");
-		if(codePostal == null) errors.add("Le code postal doit être renseigné");
-		if(ville == null) errors.add("La ville doit être renseignée");
-		if(motDePasse == null) errors.add("Le mot de passe doit être renseigné");
-		if(motDePasseRepete == null) errors.add("Le mot de passe répété doit être renseigné");
-
-		if(errors.size() > 0) {
-			return null;
-		}
-
 		validerMotDePasseRepete(motDePasse, motDePasseRepete, errors);
 		
-		if(errors.size() > 0) {
-			return null;
-		}
 		
 		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, 100, false, errors);
 

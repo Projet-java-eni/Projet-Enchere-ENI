@@ -35,6 +35,10 @@ public class Article {
 			
 	}
 
+	public Article(int noArticle) {
+		this.noArticle = noArticle;
+	}
+
 	public int getNoArticle() {
 		return noArticle;
 	}

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(
 		description = "Page d'accueil", 
 		urlPatterns = { 
-				"/IndexServlet", 
+				"/Index", 
 				"/index.html"
 		})
 public class IndexServlet extends HttpServlet {
