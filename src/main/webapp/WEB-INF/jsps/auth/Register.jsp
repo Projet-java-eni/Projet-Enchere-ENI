@@ -60,7 +60,7 @@
 		<label for="exampleInputRue" class="form-label">Code postal</label> <input
 			type="text" class="form-control" id="exampleInputRue"
 			aria-describedby="cpHelp" minlength="5" maxlength="5" required
-			name="cp">
+			name="codePostal">
 		<!--     <div id="cpHelp" class="form-text">Votre code postal.</div> -->
 	</div>
 
@@ -77,7 +77,7 @@
 		<label for="exampleInputPassword" class="form-label">Mot de
 			passe</label> <input type="password" class="form-control"
 			id="exampleInputPassword" aria-describedby="passwordHelp" required
-			name="mdp">
+			name="mot_de_passe">
 		<div id="passwordHelp" class="form-text">6 lettres minimum.</div>
 	</div>
 
@@ -85,7 +85,7 @@
 		<label for="exampleInputPasswordRep" class="form-label">Répétez
 			le mot de passe</label> <input type="password" class="form-control"
 			id="exampleInputPasswordRep" aria-describedby="passwordHelpRep"
-			required name="mdp_rep">
+			required name="mot_de_passe_repete">
 		<!--     <div id="passwordHelpRep" class="form-text">Répétez le mot de passe.</div> -->
 	</div>
 	</div>
