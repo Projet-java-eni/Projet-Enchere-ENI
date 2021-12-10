@@ -13,7 +13,7 @@ import fr.eni.encheres.dal.UtilisateursDAO;
 public class UtilisateursImpl implements UtilisateursDAO {
 
 	@Override
-	public Utilisateur getUtilisateurById(int id) throws DALException {
+	public Utilisateur getById(int id) throws DALException {
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
 				"select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur "
 						+ "from dbo.utilisateurs " + "where no_utilisateur=?")) {
@@ -33,7 +33,7 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
-	public List<Utilisateur> getAllUtilisateurs() throws DALException {
+	public List<Utilisateur> getAll() throws DALException {
 		List<Utilisateur> utilisateurs = new ArrayList<>();
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
 				"select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur "
@@ -87,7 +87,7 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
-	public void updateUtilisateur(Utilisateur utilisateur) throws DALException {
+	public void update(Utilisateur utilisateur) throws DALException {
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement("UPDATE dbo.utilisateurs "
 				+ "SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, credit=?, administrateur=? "
 				+ "WHERE no_utilisateur=?")) {
@@ -113,7 +113,7 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
-	public void removeUtilisateur(Utilisateur utilisateur) throws DALException {
+	public void remove(Utilisateur utilisateur) throws DALException {
 
 		try (PreparedStatement statement = GetConnection.getConnexion()
 				.prepareStatement("DELETE FROM dbo.utilisateurs WHERE no_utilisateur=?")) {
@@ -126,7 +126,7 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
-	public void addUtilisateur(Utilisateur utilisateur) throws DALException {
+	public void add(Utilisateur utilisateur) throws DALException {
 		addUtilisateurSecurise(utilisateur, "");		
 	}
 
