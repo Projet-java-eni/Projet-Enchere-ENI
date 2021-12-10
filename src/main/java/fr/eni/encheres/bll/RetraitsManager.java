@@ -14,21 +14,21 @@ import fr.eni.encheres.dal.RetraitsDAO;
  * @author Sego
  *
  */
-//voir avisDAO dans demo module4 et catalogue manager du cours de souheil
+
 public class RetraitsManager {
 
 	private static RetraitsDAO daoRetraits;
 
 	public RetraitsManager() throws BLLException, DALException {
 		// on instancie le DAO
-		daoRetraits = DAOFactory.getRetraitsDAO();
+		daoRetraits = (RetraitsDAO) DAOFactory.getRetraitsDAO();
 
 	}
 
 	public static List<Retrait> getRetraits() throws BLLException {
 		List<Retrait> listCoordonnees = null;
 		try {
-			listCoordonnees = daoRetraits.selectAll();
+			listCoordonnees = daoRetraits.getAll();
 		} catch (DALException ex) {
 			ex.printStackTrace();
 			throw new BLLException("Erreur dans la récupération de l'adresse", ex);
@@ -51,7 +51,7 @@ public class RetraitsManager {
 			adresseRetrait = retraitsMap.get(IdRetrait);
 		} else {
 			try {
-				adresseRetrait = daoRetraits.pointDeRetrait(IdRetrait);
+				adresseRetrait = daoRetraits.getById(IdRetrait);
 				retraitsMap.put(IdRetrait, adresseRetrait);
 			} catch (DALException ex) {
 				throw new BLLException(ex.getLocalizedMessage(), ex);
@@ -89,7 +89,7 @@ public class RetraitsManager {
 	 */
 	public void removeAdresse(Retrait adresseRetrait) throws BLLException {
 		try {
-			daoRetraits.deleteAdresseRetrait(adresseRetrait.getIdRetrait());
+			daoRetraits.remove(adresseRetrait);
 		} catch (DALException ex) {
 			throw new BLLException("echec de la suppression de l'adresse - ", ex);
 		}
@@ -106,7 +106,7 @@ public class RetraitsManager {
 			System.out.println("Une adresse est existante");
 			try {
 				validerAdresse(newAdresse, exception);
-				daoRetraits.insertNouvelleAdresse(newAdresse);
+				daoRetraits.add(newAdresse);
 			} catch (DALException ex) {
 				throw new BLLException("Echec dans l'insertion de l'adresse", ex);
 			}
@@ -124,7 +124,7 @@ public class RetraitsManager {
 		BusinessException exception = new BusinessException();
 		try {
 			validerAdresse(adresseRetrait, exception);
-			daoRetraits.updateAdresseRetrait(adresseRetrait);
+			daoRetraits.update(adresseRetrait);
 		} catch (DALException ex) {
 			throw new BLLException("Echec dans la mise à jour de l'adresse :" + adresseRetrait, ex);
 

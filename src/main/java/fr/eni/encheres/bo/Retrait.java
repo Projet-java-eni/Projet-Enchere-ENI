@@ -1,26 +1,38 @@
 package fr.eni.encheres.bo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author Sego
  *
  */
 
-public class Retrait {
+public class Retrait implements Serializable, MeHasMany<ArticleVendu> {
 
+	private static final long serialVersionUID = 3153865924155982476L;
+
+	// champs de la BDD
 	private int noArticle;
 	private int idRetrait;
 	private String rue;
 	private String codePostal;
 	private String ville;
 
+	// champs supplémentaires
+	private List<ArticleVendu> lieuRetrait = null;
+
 	/**
-	 * 
+	 * Constructeur
 	 */
 	public Retrait() {
 	}
 
 	/**
+	 * Constructeur
+	 * 
 	 * @param rue
 	 * @param codePostal
 	 * @param ville
@@ -32,6 +44,8 @@ public class Retrait {
 	}
 
 	/**
+	 * Constructeur
+	 * 
 	 * @param noArticle
 	 * @param IdRetrait
 	 * @param rue
@@ -92,4 +106,18 @@ public class Retrait {
 				+ ", ville=" + this.ville + "]";
 	}
 
+//Création de méthodes permettant de faire le lien avec la classe ArticleVendu
+	@Override
+	public void ajouter(ArticleVendu adresseRetrait) {
+		if (lieuRetrait == null) {
+			lieuRetrait = new ArrayList<>();
+		}
+
+		lieuRetrait.add(adresseRetrait);
+
+	}
+
+	public void supprimer(ArticleVendu adresseRetrait) {
+		lieuRetrait.remove(adresseRetrait);
+	}
 }
