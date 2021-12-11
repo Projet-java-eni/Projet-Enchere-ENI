@@ -17,10 +17,15 @@ public class BLLException extends Exception {
 		return "Couche BLL - " + super.getMessage();
 	}
 
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	// methode créée dans la servlet "afficherEncheresServlet"
+	public Object getListeCodesErreur() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
