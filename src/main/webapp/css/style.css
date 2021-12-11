@@ -1,26 +1,28 @@
 @charset "UTF-8";
-h1
+
+header{
+		background-color: green
+	
+}
+
+h1, h2
 {
 	text-align: center;
+	color: black;
 }
-.contenu
+
+table {
+	border: 1px solid black;
+	margin-left:auto;
+	margin-right:auto;
+	width:500px;
+	height:250px;
+}
+
+footer
 {
-	padding: 20px;
 	text-align: center;
+	background-color: green
 }
-.saisie
-{
-	padding:5px;
-}
-label
-{
-	text-align:left;
-}
-thead
-{
-	font-weight: bolder;
-}
-li
-{
-	text-align: left;
-}
+footer-author
+{color: black;}

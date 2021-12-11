@@ -10,17 +10,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="<%=request.getContextPath() %>/css/style.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Liste des enchères</title>
 </head>
 <body>
+<header> 
+ <div id="header-logo">
+            <!-- logo -->
+            <img src="/images/logoProjet.png" alt="logo Association" />
+        </div>
+        
 <h1>ENCHERES</h1>
+
+<h2>Site d'enchères de seconde main</h2>
 
 
 <!-- Ici je vais juste afficher toutes les enchères -->
-<!-- faire soit sous forme de liste / soit avec image / pouvoir classer par dates -->
+
 <div class="contenu">
 	
+<!-- création d'un filtre... pour le moment par date... voir pour faire autre type de filtre -->	
 		<%
 		String dateFiltre="";
 		if(request.getParameter("dateFiltre")!=null)
@@ -29,11 +39,37 @@
 		}
 		%>
 		
+			
 		<form action="<%=request.getContextPath()%>/AfficherEncheresServlet" method="post">
 			<input type="date" name="dateFiltre" value="<%=dateFiltre%>"/>
 			<input type="submit" value="Filtrer"/>
 			<a href="<%=request.getContextPath()%>/AfficherEncheresServlet"><input type="button" value="Réinitialiser"/></a>
 		</form>
+</div>
+
+
+</header>	
+	<!-- faire soit sous forme de liste / soit avec image / pouvoir classer par dates -->
+	<hr>
+<article>
+<table>
+<tr>
+<td style="text-align:center">enchere1</td>
+<td style="text-align:center">enchere2</td>
+<td style="text-align:center">enchere3</td>
+</tr>
+<td style="text-align:center">enchere4</td>
+<td style="text-align:center">enchere5</td>
+<td style="text-align:center">enchere6</td>
+
+</table>
+
+
+
+ 
+ </article>	
+	<hr>
+	
 		
 <!-- TP REPAS: renvoyait à une liste de message d'erreur dans la classe "lecteur message"
 <%-- 		<%
@@ -116,7 +152,7 @@
 FIN DE LA LISTE MESSAGE D'ERREUR-->
 
 <!-- Là je crée un bouton permettant d'acceder aux enchères selon leur statut -->
-
+<footer> 
 <label for="statut de l'enchère">
 Choix du statut des enchères : 
 </label>
@@ -128,9 +164,13 @@ Choix du statut des enchères :
 </select> 
 <input type="submit" value="Ok"/>
 
-
-	</div>
-
+<a href="<%=request.getContextPath()%>"><input type="button" value="Retour à l'accueil"/></a>
+	
+	 <div id="footer-author">
+            <!-- auteur -->
+            <a href="mailto:troc.encheres@gmail.com" title="Si vous désirez nous écrire">Les objets sont nos amis</a>
+        </div>
+</footer>
 
 </body>
 </html>
