@@ -15,6 +15,14 @@ public class Article {
 	private int prixVente;
 	private String etatVente;
 	
+	//ajout
+	private Categorie categorie;
+	private Retrait retrait;
+	private Utilisateur utilisateur;
+	private List<Enchere> encheres;
+	
+	
+	
 	public Article() {	
 	}
 	
