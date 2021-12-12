@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Ce bean peut afficher des erreurs si besoin.
 public class Erreurs implements Serializable {
     private List<String> liste;
 

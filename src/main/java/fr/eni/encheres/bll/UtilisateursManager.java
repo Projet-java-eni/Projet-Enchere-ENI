@@ -47,22 +47,19 @@ public class UtilisateursManager {
 				pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur
 		);
 
-		
 		validerMotDePasse(motDePasse, erreurs);
-		
-		// On retourne un Utilisateur meme si on l'ajout pas à la DAO histoire
-		// de pouvoir préremplir le formulaire à l'essai suivant
-		if(erreurs.hasErrors()) {
-			return utilisateur;
-		}
-		
+
+		validerUtilisateurUnique(utilisateur, erreurs);
+
 		validerUtilisateur(utilisateur, erreurs);
 
+		// On retourne un Utilisateur meme si on l'ajout pas à la DAO histoire
+		// de pouvoir préremplir le formulaire à l'essai suivant
+
 		if(erreurs.hasErrors()) {
 			return utilisateur;
 		}
 
-		
 		try {
 			
 			utilisateursDAO.addUtilisateurSecurise(utilisateur, motDePasse);
@@ -74,7 +71,20 @@ public class UtilisateursManager {
 	
 		return utilisateur;
 	}
-	
+
+	// Verifie que le nom d'utilisateur n'est pas déjà pris
+	private void validerUtilisateurUnique(Utilisateur utilisateur, Erreurs erreurs) {
+		try {
+			Utilisateur existant = utilisateursDAO.getByPseudo(utilisateur.getPseudo());
+			if(existant != null) {
+				erreurs.addErreur("Cet utilisateur existe deja");
+			}
+		} catch (DALException e) {
+			// normalement si la requete SQL lève une exception, c'est qu'aucun utilisateur
+			// avec ce pseudo n'a été trouvé donc c'est ok, et on fait rien.
+		}
+	}
+
 	public Utilisateur createUtilisateurDepuisLeWeb(String pseudo, String nom, String prenom, 
 			String email, String telephone, String rue,
 			String codePostal, String ville, String motDePasse, String credit, String administrateur, Erreurs erreurs) {
@@ -315,8 +325,7 @@ public class UtilisateursManager {
 			Erreurs errors) {
 		
 		validerMotDePasseRepete(motDePasse, motDePasseRepete, errors);
-		
-		
+
 		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, 100, false, errors);
 
 	}

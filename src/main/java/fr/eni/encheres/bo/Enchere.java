@@ -3,8 +3,6 @@ package fr.eni.encheres.bo;
 
 import java.time.LocalDate;
 
-import fr.eni.encheres.bo.misc.ArticleVendu;
-
 public class Enchere {
 	private Utilisateur utilisateur;
 	private Article articleVendu;

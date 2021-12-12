@@ -1,8 +1,6 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.beans.Infos;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Utilisateur;
@@ -34,7 +33,12 @@ public class InscriptionServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("inscription") != null) { 
+
+		request.setAttribute("utilisateur_temp", new Utilisateur(-1));
+		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
+		Infos infos = (Infos)request.getAttribute("infos");
+
+		if(request.getParameter("inscription") != null) {
 			String pseudo = request.getParameter("pseudo");
 			String nom = request.getParameter("nom");
 			String prenom = request.getParameter("prenom");
@@ -46,23 +50,25 @@ public class InscriptionServlet extends HttpServlet {
 			String motDePasse = request.getParameter("mot_de_passe");
 			String motDePasseRepete = request.getParameter("mot_de_passe_repete");
 
-			Erreurs errors = new Erreurs();
-	
 			Utilisateur utilisateur = utilisateursManager.traiteRequeteInscription(
-					pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseRepete, errors);
+					pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseRepete, erreurs);
 			
 			request.setAttribute("utilisateur_temp", utilisateur);
 			
-			if(errors.hasErrors()) {
+			if(erreurs.hasErrors()) {
 				request.getRequestDispatcher("WEB-INF/jsps/auth/Register.jsp").forward(request, response);
 			} else {
-				request.setAttribute("message_succes", "Bienvenue sur TrocEncheres " + utilisateur.getPseudo() + " !");
+
+				infos.addInfo("Bienvenue sur TrocEncheres " + utilisateur.getPseudo() + " !");
+
+				request.getSession().setAttribute("id_user", utilisateur.getNoUtilisateur());
+
 				request.getRequestDispatcher("/Index").forward(request, response);
 			}
-		
 		}
-
-		request.getRequestDispatcher("WEB-INF/jsps/auth/Register.jsp").forward(request, response);
+		else {
+			request.getRequestDispatcher("WEB-INF/jsps/auth/Register.jsp").forward(request, response);
+		}
 	}
 
 	

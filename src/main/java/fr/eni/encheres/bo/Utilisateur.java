@@ -8,13 +8,15 @@ import fr.eni.encheres.bo.misc.ArticleAchete;
 import fr.eni.encheres.bo.misc.ArticleVendu;
 import fr.eni.encheres.bo.misc.MeHasMany;
 
-public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ { 
+public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ {
+	public Utilisateur() {
+	}
 	// Pas moyen d'écrire class Utilisateur implements Serializable, MeToMany<ArticleVendu>, MeToMany<ArticleAchete>, MeToMany<Encheres> { ?
 
 	@Override
 	public String toString() {
 		return String.format(
-				"Utilisateur : id %d, pseudo : %d, nom : %s, prenom : %s, email : %s, telephone : %s, rue : %s, code postal : %s, ville : %s, credit : %d, admin %d", 
+				"Utilisateur : id %d, pseudo : %s, nom : %s, prenom : %s, email : %s, telephone : %s, rue : %s, code postal : %s, ville : %s, credit : %d, admin %b",
 				noUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur
 		);
 	}

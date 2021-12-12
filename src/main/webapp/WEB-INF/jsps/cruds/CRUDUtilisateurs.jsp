@@ -1,3 +1,4 @@
+<%@page import="fr.eni.encheres.beans.Erreurs"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../Entete.html" %>
@@ -47,7 +48,7 @@
 
 <% } %>
 
-<% if(request.getAttribute("erreurs") != null && ((List)request.getAttribute("erreurs")).size() > 0) { %>
+<% if(request.getAttribute("erreurs") != null && ((Erreurs)request.getAttribute("erreurs")).hasErrors()) { %>
 	<div class="erreur">
 		Des ereurs sont survenues !
 		<ol>

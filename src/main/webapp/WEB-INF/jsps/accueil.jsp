@@ -8,8 +8,13 @@
 <title>Liste des enchères</title>
 </head>
 
-<h1>Liste des enchères</h1>
 <body>
+
+<a href="/Inscription">S'inscrire</a>
+<a href="/Login">Se connecter</a>
+<a href="/Login">Se déconnecter</a>
+
+<h1>Liste des enchères</h1>
 
 <div class="contenu">
 		<a href="<%=request.getContextPath()%>/encheresEnCours"><input type="button" value="Visualiser les enchères en cours"/></a>
