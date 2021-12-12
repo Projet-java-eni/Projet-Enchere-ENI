@@ -21,14 +21,22 @@
 			<!-- logo -->
 			<img src="/images/logoProjet.png" alt="logo Association" />
 		</div>
+	
+	
+	<div id="header-user">
+            <!-- information utilisateur TODO: donner la possibilité de charger une photo-->
+            <div id="header-user-avatar">
+                <!-- photo utilisateur -->
+                <img src="/images/150/1.jpg" width="75px" alt="Photo utilisateur" />
+   </div>
 		
 		 <div id="header-user">
                    
 		<!-- Création / connexion à un compte -->
-		<a href="<%=request.getContextPath()%>/AfficherEncheresServlet"><input
-			type="button" value="se connecter" /></a> | <a
-			href="<%=request.getContextPath()%>/InscriptionServlet"><input
-			type="button" value="créer un compte" /></a>
+		<a href="<%=request.getContextPath()%>/CRUDUtilisateurs"><input
+			type="button" value="Déconnexion" /></a> | <a
+			href="<%=request.getContextPath()%>/CRUDUtilisateurs"><input
+			type="button" value="Mon compte" /></a>
     </div>
 		
 <br>
@@ -36,11 +44,10 @@
 
 		<h2>Site d'enchères de seconde main</h2>
 
- 
-		<div class="contenu" id="contenu">
+		<div class="contenu">
 
 			<!-- Création liste déroulante permettant d'acceder aux enchères selon leur statut -->
-			<label for="statut de l'enchère"> Statut des
+			<label for="statut de l'enchère"> Choix du statut des
 				enchères : </label> <select name="statut" size="1">
 				<option value="en cours">Non commencées</option>
 				<option value="en cours">En cours</option>

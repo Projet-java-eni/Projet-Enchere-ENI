@@ -53,9 +53,9 @@ public class AfficherEncheresServlet extends HttpServlet {
 			ex.printStackTrace();
 			request.setAttribute("listeCodesErreur", ex.getListeCodesErreur());
 		}
-		// Transfert de l'affichage à la JSP
+		// Transfert de l'affichage à la JSP accueil
 		RequestDispatcher rd = null;
-		rd = request.getRequestDispatcher("/afficherEncheres.jsp");
+		rd = request.getRequestDispatcher("/accueil.jsp");
 		rd.forward(request, response);
 
 	}
@@ -66,8 +66,24 @@ public class AfficherEncheresServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+//TODO: SI ON CLIQUE SUR CONNEXION DANS ACCUEIL: servlet/jsp pour mettre identifiants
+//puis on revient ici pour l'affichage sur la page d'accueil des éléments de connexion
 
-		doGet(request, response);
+		// Affichage de toutes les enchères sans distinction
+		try {
+			EncheresManager encheresManager = new EncheresManager();
+			List<Enchere> listeEncheres = null; // problème avec le try catch
+
+			listeEncheres = encheresManager.getAllEncheres();
+
+		} catch (BLLException ex) {
+			ex.printStackTrace();
+			request.setAttribute("listeCodesErreur", ex.getListeCodesErreur());
+		}
+		// Transfert de l'affichage à la JSP accueilConnecte
+		RequestDispatcher rd = null;
+		rd = request.getRequestDispatcher("/accueilConnecte.jsp");
+		rd.forward(request, response);
 	}
 
 }
