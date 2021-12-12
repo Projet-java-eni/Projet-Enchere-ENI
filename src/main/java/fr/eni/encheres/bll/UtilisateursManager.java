@@ -211,6 +211,21 @@ public class UtilisateursManager {
 		return utilisateur;
 	}
 
+	public Utilisateur getUtilisateurAvecLoginMotDePasse(String utilisateurPseudo, String motDePasse, Erreurs erreurs) {
+
+		Utilisateur existant = null;
+		try {
+			existant = utilisateursDAO.getByPseudoEtMotDePasse(utilisateurPseudo, motDePasse);
+			if(existant == null) {
+				erreurs.addErreur("Utilisateur impossible à trouver");
+			}
+		} catch (DALException e) {
+			erreurs.addErreur("Utilisateur inexistant");
+		}
+
+		return existant;
+	}
+
 	public List<Utilisateur> getAllUtilisateur() throws BLLException {
 		
 		try {

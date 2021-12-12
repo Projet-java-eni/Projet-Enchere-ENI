@@ -7,6 +7,8 @@
 <%--  <%@page import="fr.eni.encheres.messages.LecteurMessage"%>--%>
 
 <%@page import="java.util.List"%>
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,17 +25,42 @@
 		</div>
 		
 		 <div id="header-user">
-		 
-  
-               
+
+
+
 		<!-- Création / connexion à un compte -->
 		<a href="<%=request.getContextPath()%>/Login"><input
 			type="button" value="se connecter" /></a> | <a
 			href="<%=request.getContextPath()%>/Inscription"><input
-			type="button" value="créer un compte" /></a>
+			type="button" value="créer un compte" /></a> | (${sessionScope.user_pseudo})
+			 <a href="<%=request.getContextPath()%>/Deconnexion">Se déconnecter</a>
     </div>
-		
-<br>
+
+		<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
+
+		<c:if test="${infos.hasInfos()}">
+
+			<div class="alert alert-success" id="infos">
+				<c:choose>
+					<c:when test="${infos.liste.size() > 1}">
+						<ul>
+							<c:forEach var="info" items="${infos.liste}">
+								<li>
+										${info}
+								</li>
+							</c:forEach>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						${infos.liste.get(0)}
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</c:if>
+
+
+
+		<br>
 		<h1>ENCHERES</h1>
 
 		<h2>Site d'enchères de seconde main</h2>

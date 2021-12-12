@@ -61,7 +61,8 @@ public class InscriptionServlet extends HttpServlet {
 
 				infos.addInfo("Bienvenue sur TrocEncheres " + utilisateur.getPseudo() + " !");
 
-				request.getSession().setAttribute("id_user", utilisateur.getNoUtilisateur());
+				request.getSession().setAttribute("user_id", utilisateur.getNoUtilisateur());
+				request.getSession().setAttribute("user_pseudo", utilisateur.getPseudo());
 
 				request.getRequestDispatcher("/Index").forward(request, response);
 			}

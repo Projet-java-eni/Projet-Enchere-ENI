@@ -13,6 +13,27 @@
 </head>
 <body>
 
+<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
+
+<c:if test="${infos.hasInfos()}">
+
+    <div class="alert alert-success">
+        <c:choose>
+            <c:when test="${infos.liste.size() > 1}">
+                <ul>
+                    <c:forEach var="info" items="${infos.liste}">
+                        <li>
+                                ${info}
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                ${infos.liste.get(0)}
+            </c:otherwise>
+        </c:choose>
+    </div>
+</c:if>
 
 
 </body>

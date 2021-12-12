@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ include file="../EnteteBootstrap.html" %>
 
+
+<jsp:useBean id="errors" scope="request" type="fr.eni.encheres.beans.Erreurs" />
+<jsp:useBean id="utilisateur_temp" scope="request" type="fr.eni.encheres.bo.Utilisateur" />
 
 Login
 
@@ -41,7 +46,7 @@ Login
                 passe</label>
             <input type="password" class="form-control"
                    id="exampleInputPassword" aria-describedby="passwordHelp" required maxlength="30"
-                   name="mot_de_passe" >
+                   name="password" >
             <div id="passwordHelp" class="form-text">6 lettres minimum.</div>
         </div>
     </div>

@@ -51,6 +51,28 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
+	public Utilisateur getByPseudoEtMotDePasse(String utilisateurPseudo, String motDePasse) throws DALException {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
+				"select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur "
+						+ "from dbo.utilisateurs where pseudo=? and mot_de_passe=?")) {
+
+			statement.setString(1, utilisateurPseudo);
+			statement.setString(2, motDePasse);
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSet.next();
+				return new Utilisateur(resultSet.getInt("no_utilisateur"),
+						resultSet.getString("pseudo"), resultSet.getString("nom"), resultSet.getString("prenom"),
+						resultSet.getString("email"), resultSet.getString("telephone"), resultSet.getString("rue"),
+						resultSet.getString("code_postal"), resultSet.getString("ville"), resultSet.getInt("credit"),
+						resultSet.getBoolean("administrateur"));
+			}
+		} catch (SQLException e) {
+			throw new DALException(e.getMessage(), e);
+		}
+	}
+
+	@Override
 	public List<Utilisateur> getAll() throws DALException {
 		List<Utilisateur> utilisateurs = new ArrayList<>();
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(

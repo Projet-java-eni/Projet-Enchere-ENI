@@ -11,7 +11,6 @@ import fr.eni.encheres.bo.misc.MeHasMany;
 public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ {
 	public Utilisateur() {
 	}
-	// Pas moyen d'écrire class Utilisateur implements Serializable, MeToMany<ArticleVendu>, MeToMany<ArticleAchete>, MeToMany<Encheres> { ?
 
 	@Override
 	public String toString() {
