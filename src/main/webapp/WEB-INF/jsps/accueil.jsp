@@ -23,11 +23,13 @@
 		</div>
 		
 		 <div id="header-user">
-                   
+		 
+  
+               
 		<!-- Création / connexion à un compte -->
-		<a href="<%=request.getContextPath()%>/AfficherEncheresServlet"><input
+		<a href="<%=request.getContextPath()%>/Login"><input
 			type="button" value="se connecter" /></a> | <a
-			href="<%=request.getContextPath()%>/InscriptionServlet"><input
+			href="<%=request.getContextPath()%>/Inscription"><input
 			type="button" value="créer un compte" /></a>
     </div>
 		

@@ -31,9 +31,9 @@
    </div>
 		
 		 <div id="header-user">
-                   
+  <!-- todo le lien avec la bonne servlet de mon compte -->                 
 		<!-- Création / connexion à un compte -->
-		<a href="<%=request.getContextPath()%>/CRUDUtilisateurs"><input
+		<a href="<%=request.getContextPath()%>/Login"><input
 			type="button" value="Déconnexion" /></a> | <a
 			href="<%=request.getContextPath()%>/CRUDUtilisateurs"><input
 			type="button" value="Mon compte" /></a>
