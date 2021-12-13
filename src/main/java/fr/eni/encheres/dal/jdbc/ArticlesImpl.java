@@ -1,6 +1,9 @@
 package fr.eni.encheres.dal.jdbc;
 
 
+package fr.eni.encheres.dal.jdbc;
+
+
 public class ArticlesVendusImpl implements ArticlesVendusDAO {
 
 	enum StoredStatements {
@@ -112,4 +115,4 @@ public class ArticlesVendusImpl implements ArticlesVendusDAO {
 		}
 
 	}
-}
+}}
