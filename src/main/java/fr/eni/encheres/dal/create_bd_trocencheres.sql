@@ -3,7 +3,7 @@
 --
 
 use bdd_encheres;
-go;
+go
 
 CREATE TABLE CATEGORIES (
     no_categorie   INTEGER IDENTITY(1,1) NOT NULL,
