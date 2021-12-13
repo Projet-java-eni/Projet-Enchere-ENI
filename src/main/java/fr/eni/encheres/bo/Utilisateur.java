@@ -4,13 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ { 
-	// Pas moyen d'écrire class Utilisateur implements Serializable, MeToMany<ArticleVendu>, MeToMany<ArticleAchete>, MeToMany<Encheres> { ?
+import fr.eni.encheres.bo.misc.ArticleAchete;
+import fr.eni.encheres.bo.misc.ArticleVendu;
+import fr.eni.encheres.bo.misc.MeHasMany;
+
+public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ {
+	public Utilisateur() {
+	}
 
 	@Override
 	public String toString() {
 		return String.format(
-				"Utilisateur : id %d, pseudo : %d, nom : %s, prenom : %s, email : %s, telephone : %s, rue : %s, code postal : %s, ville : %s, credit : %d, admin %d", 
+				"Utilisateur : id %d, pseudo : %s, nom : %s, prenom : %s, email : %s, telephone : %s, rue : %s, code postal : %s, ville : %s, credit : %d, admin %b",
 				noUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur
 		);
 	}
@@ -42,6 +47,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, int credit, boolean administrateur) {
 		super();
+
 		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -194,6 +200,5 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	public void supprimer(Enchere enchere) {
 		encheres.remove(enchere);
 	}
-
 	
 }

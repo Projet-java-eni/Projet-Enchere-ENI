@@ -5,3 +5,7 @@ bin
 .classpath
 .project
 .idea
+/lib/
+/classes/
+/ProjetEncheres.eml
+/ProjetEncheres.iml

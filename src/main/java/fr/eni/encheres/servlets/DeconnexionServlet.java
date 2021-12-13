@@ -5,11 +5,13 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "IndexServlet", value = "/index.html")
-public class IndexServlet extends HttpServlet {
+@WebServlet(name = "DeconnexionServlet", value = "/Deconnexion")
+public class DeconnexionServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("WEB-INF/jsps/Index.jsp").forward(request, response);
+		request.getSession().removeAttribute("user_id");
+		request.getSession().removeAttribute("user_pseudo");
+		response.sendRedirect(request.getHeader("Referer"));
 	}
 
 	@Override

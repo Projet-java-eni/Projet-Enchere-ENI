@@ -1,7 +1,6 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Utilisateur;
@@ -48,7 +48,7 @@ public class CRUDUtilisateurs extends HttpServlet {
 		String administrateur = request.getParameter("administrateur");
 		String idUtilisateur = request.getParameter("id_utilisateur");
 
-		List<String> errors = new ArrayList<>();
+		Erreurs errors = new Erreurs();
 
 		Utilisateur nouvelUtilisateur = null;
 
@@ -70,9 +70,9 @@ public class CRUDUtilisateurs extends HttpServlet {
 				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur);
 				
 			} catch (NumberFormatException e) {
-				errors.add("Id utilisateur malformé !");
+				errors.addErreur("Id utilisateur malformé !");
 			} catch (BLLException e) {
-				errors.add(e.getLocalizedMessage());
+				errors.addErreur(e.getLocalizedMessage());
 			}
 			
 		}
@@ -88,9 +88,9 @@ public class CRUDUtilisateurs extends HttpServlet {
 				utilisateursManager.modifUtilisateurDepuisLeWeb(modifUtilisateur, pseudo, nom, prenom, email, telephone,
 						rue, codePostal, ville, credit, administrateur, errors);
 			} catch (NumberFormatException e) {
-				errors.add("Id utilisateur malformé !");
+				errors.addErreur("Id utilisateur malformé !");
 			} catch (BLLException e) {
-				errors.add(e.getLocalizedMessage());
+				errors.addErreur(e.getLocalizedMessage());
 			}
 			
 		}
@@ -107,13 +107,13 @@ public class CRUDUtilisateurs extends HttpServlet {
 			try {
 				id_utilisateur = Integer.parseInt((String) request.getParameter("id_utilisateur"));
 			} catch (NumberFormatException e) {
-				errors.add("Nombre ma formaté.");
+				errors.addErreur("Nombre ma formaté.");
 			}
 			try {
 				modifUtilisateur = utilisateursManager.getUtilisateurById(id_utilisateur);
 				utilisateursManager.supprimerUtilisateur(modifUtilisateur);
 			} catch (BLLException e) {
-				errors.add(e.getLocalizedMessage());
+				errors.addErreur(e.getLocalizedMessage());
 			}
 		}
 		
@@ -125,14 +125,14 @@ public class CRUDUtilisateurs extends HttpServlet {
 		try {
 			allUsers = utilisateursManager.getAllUtilisateur();
 		} catch (BLLException e) {
-			errors.add(e.getLocalizedMessage());
+			errors.addErreur(e.getLocalizedMessage());
 		}
-		
+
 		request.setAttribute("all_users", allUsers);
 
 		request.setAttribute("erreurs", errors);
 		
-		request.getRequestDispatcher("WEB-INF/jsps/cruds/CRUDUtilisateurs.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsps/cruds/CRUDUtilisateurs.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

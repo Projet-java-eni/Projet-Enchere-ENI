@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class Enchere {
 	private Utilisateur utilisateur;
-	private ArticleVendu articleVendu;
+	private Article articleVendu;
 	/*private int noUtilisateur;
 	private int noArticle;*/
 	private int montantEnchere;
@@ -14,7 +14,7 @@ public class Enchere {
 	public Enchere() {	
 	}
 	
-	public Enchere(Utilisateur utilisateur, ArticleVendu articleVendu, LocalDate dateEnchere, int montantEnchere) {
+	public Enchere(Utilisateur utilisateur, Article articleVendu, LocalDate dateEnchere, int montantEnchere) {
 		super();
 		this.setUtilisateur(utilisateur);
 		this.setArticleVendu(articleVendu);
@@ -47,11 +47,11 @@ public class Enchere {
 		this.utilisateur = utilisateur;
 	}
 
-	public ArticleVendu getArticleVendu() {
+	public Article getArticleVendu() {
 		return articleVendu;
 	}
 
-	public void setArticleVendu(ArticleVendu articleVendu) {
+	public void setArticleVendu(Article articleVendu) {
 		this.articleVendu = articleVendu;
 	}
 	
