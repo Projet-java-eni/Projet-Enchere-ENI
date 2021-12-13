@@ -36,6 +36,10 @@ public class Categorie implements Serializable, MeHasMany<ArticleVendu> {
 		this(-1, libelle);
 	}
 
+	public Categorie() {
+
+	}
+
 	public int getId() {
 		return noCategorie;
 	}

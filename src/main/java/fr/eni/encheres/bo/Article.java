@@ -41,6 +41,26 @@ public class Article {
 
 	}
 
+	/**
+	 * @author Sego Constructeur avec tous les paramètres
+	 */
+	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
+			LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Categorie categorie,
+			Retrait retrait, Utilisateur utilisateur, List<Enchere> encheres) {
+		this.noArticle = noArticle;
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEnchere = dateDebutEnchere;
+		this.dateFinEnchere = dateFinEnchere;
+		this.miseAPrix = miseAPrix;
+		this.prixVente = prixVente;
+		this.etatVente = etatVente;
+		this.categorie = categorie;
+		this.retrait = retrait;
+		this.utilisateur = utilisateur;
+		this.encheres = encheres;
+	}
+
 	public Article(int noArticle) {
 		super();
 		this.noArticle = noArticle;

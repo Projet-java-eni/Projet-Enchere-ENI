@@ -167,6 +167,9 @@ public class RetraitsImpl implements RetraitsDAO {
 			stmt.setString(3, adresse.getRue());
 			stmt.setString(4, adresse.getCodePostal());
 			stmt.setString(5, adresse.getVille());
+
+			stmt.executeUpdate();
+
 		} catch (SQLException ex) {
 			throw new DALException("update article failed - " + adresse, ex);
 		}
