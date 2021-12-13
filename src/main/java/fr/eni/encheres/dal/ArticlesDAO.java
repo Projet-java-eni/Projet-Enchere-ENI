@@ -1,6 +1,7 @@
-ackage fr.eni.encheres.dal;
+package fr.eni.encheres.dal;
 
 import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.dal.DAO;
 
 //@Frederic
 
