@@ -11,34 +11,40 @@ import java.util.List;
 
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.dal.ArticlesDAO;
-import fr.eni.encheres.dal.DALException;
+import fr.eni.encheres.dal.*;
 
 public class ArticlesImpl implements ArticlesDAO {
+	UtilisateursDAO utilisateursDAO = null;
+	CategoriesDAO categoriesDAO = null;
 
-	enum StoredStatements {
-		GET_BY_ID("SELECT noArticle, nomArticle,description,dateDebutEnchere,dateFinEnchere,miseAPrix,"
-				+ "prixVente,etatVente,categorie,retrait,utilisateur,encheres  FROM dbo.article WHERE Utilisateur=?"),
-		SELECT_ALL("SELECT noArticle, nomArticle,description,dateDebutEnchere,dateFinEnchere,miseAPrix,"
-				+ "prixVente,etatVente,categorie,retrait,utilisateur,encheres  FROM dbo.article"),
-		SELECT_BY_CATEGORIE("SELECT noArticle, nomArticle,description,dateDebutEnchere,dateFinEnchere,miseAPrix,"
-				+ "prixVente,etatVente,categorie,retrait,utilisateur,encheres FROM dbo.article WHERE categorie=?"),
-		INSERT("INSERT INTO dbo.article (noArticle, nomArticle,description,dateDebutEnchere,dateFinEnchere,miseAPrix,"
-				+ "prixVente,etatVente,categorie,retrait,utilisateur,encheres) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"),
-		UPDATE("UPDATE dbo.article SET noArticle=?, nomArticle=?,description=?,dateDebutEnchere=?,dateFinEnchere=?,miseAPrix=?,"
-				+ "prixVente=?,etatVente=?,categorie=?,retrait=?,utilisateur=?,encheres=? WHERE noArticle=?"),
-		REMOVE("DELETE FROM Article WHERE noArticle=?");
 
-		private String value;
 
-		StoredStatements(String value) {
-			this.value = value;
-		}
+	private static final String sqlSelectById = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,"
+			+ "prix_vente,no_categorie, no_utilisateur  FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
 
-		public String getValue() {
-			return this.value;
+	private static final String sqlSelectAll = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,"
+			+ "prix_vente,etat_vente,no_categorie,no_utilisateur  FROM dbo.ARTICLES_VENDUS";
+
+	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial, " +
+			" prix_vente,etat_vente,no_categorie,no_utilisateur FROM dbo.ARTICLES_VENDUS WHERE no_categorie=?";
+
+	private static final String sqlInsert = "INSERT INTO dbo.ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial, "
+			+ "prix_vente,etat_vente,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?)";
+
+	private static final String sqlUpdate = "UPDATE dbo.ARTICLES_VENDUS SET  nom_article=?,description=?,date_debut_encheres=?,date_fin_encheres=?,prix_initial=?, "
+			+ "prix_vente=?,etat_vente=?,no_categorie=?,no_utilisateur=? WHERE no_article=?";
+
+	private static final String sqlDelete = "DELETE FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
+
+	public ArticlesImpl() {
+		try {
+			this.utilisateursDAO = (UtilisateursDAO) DAOFactory.getUtilisateursDAO();
+			this.categoriesDAO = (CategoriesDAO) DAOFactory.getCategoriesDAO();
+		} catch (DALException e) {
+			e.printStackTrace();
 		}
 	}
+
 
 	@Override
 	public Article getById(int id) throws DALException {
@@ -49,25 +55,18 @@ public class ArticlesImpl implements ArticlesDAO {
 
 		try {
 			con = GetConnection.getConnexion();
-			statement = con.prepareStatement("GET_BY_ID");
+			statement = con.prepareStatement(sqlSelectById);
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
 
-			while (resultSet.next())
-
-				// ivo: peux tu vérifier les setObject et LocalDate... j'ai des doutes??
-				statement.setString(2, article.getNomArticle());
-			statement.setString(3, article.getDescription());
-			statement.setObject(4, (LocalDate) article.getDateDebutEnchere());
-			statement.setObject(5, (LocalDate) article.getDateFinEnchere());
-			statement.setInt(6, article.getMiseAPrix());
-			statement.setInt(7, article.getPrixVente());
-			statement.setString(8, article.getEtatVente());
-			statement.setObject(9, article.getCategorie());
-			statement.setObject(10, article.getRetrait());
-			statement.setObject(11, article.getUtilisateur());
-			statement.setObject(12, article.getEncheres());
-
+			article.setNomArticle(resultSet.getString("nom_article"));
+			article.setDescription(resultSet.getString("description"));
+//			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres"));
+//			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres"));
+			article.setMiseAPrix(resultSet.getInt("prix_initial"));
+			article.setPrixVente(resultSet.getInt("prix_vente"));
+			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
+			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
 		} catch (SQLException ex) {
 			throw new DALException("getById failed  = " + id, ex);
 		}
@@ -91,14 +90,14 @@ public class ArticlesImpl implements ArticlesDAO {
 		try {
 			con = GetConnection.getConnexion();
 			statement = con.createStatement();
-			resultSet = statement.executeQuery("SELECT_ALL");
+			resultSet = statement.executeQuery(sqlSelectAll);
 			Article article = null;
 			while (resultSet.next())
 
-				article = new Article(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-						resultSet.getLocalDate(4), resultSet.getLocalDate(5), resultSet.getInt(6), resultSet.getInt(7),
-						resultSet.getString(8), resultSet.getString(9), resultSet.getString(10),
-						resultSet.getString(11), resultSet.getString(12));
+//				article = new Article(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+//						resultSet.getLocalDate(4), resultSet.getLocalDate(5), resultSet.getInt(6), resultSet.getInt(7),
+//						resultSet.getString(8), resultSet.getString(9), resultSet.getString(10),
+//						resultSet.getString(11), resultSet.getString(12));
 
 			listArticle.add(article);
 		} catch (SQLException ex) {
@@ -122,24 +121,18 @@ public class ArticlesImpl implements ArticlesDAO {
 
 		try {
 			con = GetConnection.getConnexion();
-			statement = con.prepareStatement("SELECT_BY_CATEGORIE");
+			statement = con.prepareStatement(sqlSelectByCategorie);
 			statement.setObject(1, categorie);
 			resultSet = statement.executeQuery();
 
-			while (resultSet.next())
-
-				// ivo: peux tu vérifier les setObject et LocalDate... j'ai des doutes??
-				statement.setObject(2, article.getNoArticle());
-			statement.setString(3, article.getNomArticle());
-			statement.setString(4, article.getDescription());
-			statement.setObject(5, (LocalDate) article.getDateDebutEnchere());
-			statement.setObject(6, (LocalDate) article.getDateFinEnchere());
-			statement.setInt(7, article.getMiseAPrix());
-			statement.setInt(8, article.getPrixVente());
-			statement.setString(9, article.getEtatVente());
-			statement.setObject(10, article.getRetrait());
-			statement.setObject(11, article.getUtilisateur());
-			statement.setObject(12, article.getEncheres());
+			article.setNomArticle(resultSet.getString("nom_article"));
+			article.setDescription(resultSet.getString("description"));
+//			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres"));
+//			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres"));
+			article.setMiseAPrix(resultSet.getInt("prix_initial"));
+			article.setPrixVente(resultSet.getInt("prix_vente"));
+			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
+			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
 
 		} catch (SQLException ex) {
 			throw new DALException("getByCategorie failed  = " + categorie, ex);
@@ -163,7 +156,7 @@ public class ArticlesImpl implements ArticlesDAO {
 
 		try {
 			con = GetConnection.getConnexion();
-			statement = con.prepareStatement("INSERT", Statement.RETURN_GENERATED_KEYS);
+			statement = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 			int i = 1;
 
 			statement.setString(i++, nouvelArticle.getNomArticle());
@@ -205,7 +198,7 @@ public class ArticlesImpl implements ArticlesDAO {
 
 		try {
 			con = GetConnection.getConnexion();
-			statement = con.prepareStatement("UPDATE");
+			statement = con.prepareStatement(sqlUpdate);
 
 			int i = 1;
 			statement.setInt(i++, article.getNoArticle());
@@ -240,7 +233,7 @@ public class ArticlesImpl implements ArticlesDAO {
 		ResultSet rs = null;
 		try {
 			con = GetConnection.getConnexion();
-			stmt = con.prepareStatement("REMOVE");
+			stmt = con.prepareStatement(sqlDelete);
 
 			stmt.setInt(1, supArticle.getNoArticle());
 			stmt.executeUpdate();

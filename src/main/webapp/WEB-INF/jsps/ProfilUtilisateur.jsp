@@ -158,7 +158,16 @@
         <label class="form-check-label" for="exampleCheck1">Se
             souvenir de moi ?</label>
     </div>
-    <button type="submit" class="btn btn-primary" name="mise_a_jour">Mettre à jour</button>
+    <div class="row mb-3">
+        <button type="submit" class="btn btn-primary" name="mise_a_jour">Mettre à jour</button>
+    </div>
+
+<hr>
+    <div class="row mb-3">
+        <button type="submit" class="btn btn-danger" name="supprimer" aria-describedby="supprimerHelp">Supprimer votre compte</button>
+        <div id="supprimerHelp" class="form-text ml-3">Vous serez déconnecté et ne pourrez plus accéder au site.</div>
+    </div>
+
 </form>
 
 

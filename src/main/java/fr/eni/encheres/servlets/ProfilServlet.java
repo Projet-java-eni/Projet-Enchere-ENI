@@ -33,6 +33,8 @@ public class ProfilServlet extends HttpServlet {
 		Infos infos = (Infos) request.getAttribute("infos");
 		request.setAttribute("utilisateur", new Utilisateur(-1));
 
+		String addresse = "WEB-INF/jsps/ProfilUtilisateur.jsp";
+
 		try {
 			Integer userId = ((Integer) request.getSession().getAttribute("user_id"));
 			if(userId == null) {
@@ -63,6 +65,14 @@ public class ProfilServlet extends HttpServlet {
 
 				}
 
+				if(request.getParameter("supprimer") != null) {
+
+					utilisateurConnecte.setActif(false);
+					utilisateursManager.sauvegarderUtilisateur(utilisateurConnecte, erreurs);
+					infos.addInfo("Au revoir " + utilisateurConnecte.getPseudo());
+					addresse = "WEB-INF/jsps/ProfilUtilisateur.jsp";
+				}
+
 				request.setAttribute("utilisateur", utilisateurConnecte);
 
 			}
@@ -70,7 +80,7 @@ public class ProfilServlet extends HttpServlet {
 			erreurs.addErreur(e.getLocalizedMessage());
 		}
 
-		request.getRequestDispatcher("WEB-INF/jsps/ProfilUtilisateur.jsp").forward(request, response);
+		request.getRequestDispatcher(addresse).forward(request, response);
 	}
 
 	@Override
