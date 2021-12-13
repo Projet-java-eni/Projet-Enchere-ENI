@@ -10,6 +10,7 @@ import fr.eni.encheres.bo.misc.MeHasMany;
 
 public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ {
 	public Utilisateur() {
+		super();
 	}
 
 	@Override

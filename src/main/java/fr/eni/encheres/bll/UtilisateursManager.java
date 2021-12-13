@@ -377,4 +377,55 @@ public class UtilisateursManager {
 				codePostal, ville, motDePasse, 100, false, true, errors);
 
 	}
+
+	public void modifieDepuisLeWeb(
+			Utilisateur utilisateurConnecte, String pseudo, String nom, String prenom, String email,
+			String telephone, String rue, String codePostal, String ville,
+			String motDePasseOriginal, String motDePasse, String motDePasseRepete, Erreurs erreurs) {
+
+		if(pseudo == null) erreurs.addErreur("Le pseudo doit être renseigné");
+		if(nom == null) erreurs.addErreur("Le nom doit être renseigné");
+		if(prenom == null) erreurs.addErreur("Le prenom doit être renseigné");
+		if(email == null) erreurs.addErreur("L'email doit être renseigné");
+		if(telephone == null) erreurs.addErreur("Le telephone doit être renseigné");
+		if(rue == null) erreurs.addErreur("La rue doit être renseignée");
+		if(codePostal == null) erreurs.addErreur("Le code postal doit être renseigné");
+		if(ville == null) erreurs.addErreur("La ville doit être renseignée");
+		if(motDePasseOriginal == null) erreurs.addErreur("Le mdp doit être renseigné");
+		if(motDePasse == null) erreurs.addErreur("Le mdp doit être renseigné");
+		if(motDePasseRepete == null) erreurs.addErreur("Le mdp doit être renseigné");
+
+		if(erreurs.hasErrors()) return;
+
+		utilisateurConnecte.setPseudo(pseudo);
+		utilisateurConnecte.setNom(nom);
+		utilisateurConnecte.setPrenom(prenom);
+		utilisateurConnecte.setEmail(email);
+		utilisateurConnecte.setTelephone(telephone);
+		utilisateurConnecte.setRue(rue);
+		utilisateurConnecte.setCodePostal(codePostal);
+		utilisateurConnecte.setVille(ville);
+
+		try {
+			utilisateursDAO.update(utilisateurConnecte);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+
+		if(erreurs.hasErrors()) return;
+
+		if(motDePasseOriginal.length() > 0) {
+
+			validerMotDePasseRepete(motDePasse, motDePasseRepete, erreurs);
+
+			if(!erreurs.hasErrors()) {
+				try {
+					utilisateursDAO.changeMDP(utilisateurConnecte, motDePasse);
+				} catch (DALException e) {
+					erreurs.addErreur(e.getLocalizedMessage());
+				}
+			}
+		}
+
+	}
 }

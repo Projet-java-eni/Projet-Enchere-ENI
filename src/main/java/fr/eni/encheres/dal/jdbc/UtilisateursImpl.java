@@ -143,6 +143,19 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
+	public void changeMDP(Utilisateur utilisateur, String motDePasse) throws DALException {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
+				"UPDATE dbo.utilisateurs SET mot_de_passe=? where no_utilisateur=?"
+		)) {
+			statement.setString(1, motDePasse);
+			statement.setInt(2, utilisateur.getNoUtilisateur());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DALException(e.getMessage(), e);
+		}
+	}
+
+	@Override
 	public void update(Utilisateur utilisateur) throws DALException {
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(StoredStatements.UPDATE.value)) {
 			statement.setString(1, utilisateur.getPseudo());
