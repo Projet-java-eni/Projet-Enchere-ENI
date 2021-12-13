@@ -250,6 +250,9 @@ public class UtilisateursManager {
 			if(existant == null) {
 				erreurs.addErreur("Utilisateur impossible à trouver");
 			}
+			else if(!existant.isActif()) {
+				erreurs.addErreur("Utilisateur supprimmé");
+			}
 		} catch (DALException e) {
 			erreurs.addErreur("Utilisateur inexistant");
 		}
