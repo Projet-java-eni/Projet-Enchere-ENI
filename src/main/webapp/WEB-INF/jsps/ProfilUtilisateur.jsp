@@ -36,7 +36,7 @@
 </c:if>
 
 
-<h1>Profil de ${sessionScope.user_pseudo}</h1>
+<h1>Profil de ${utilisateur.pseudo} avec ${utilisateur.credit} points</h1>
 
 
 <form method="post">
