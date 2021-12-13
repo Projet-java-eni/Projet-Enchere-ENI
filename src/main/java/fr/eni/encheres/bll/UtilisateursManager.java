@@ -418,6 +418,8 @@ public class UtilisateursManager {
 
 			validerMotDePasseRepete(motDePasse, motDePasseRepete, erreurs);
 
+			Utilisateur utilisateurValide = getUtilisateurAvecLoginMotDePasse(pseudo, motDePasseOriginal, erreurs);
+
 			if(!erreurs.hasErrors()) {
 				try {
 					utilisateursDAO.changeMDP(utilisateurConnecte, motDePasse);
