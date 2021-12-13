@@ -118,18 +118,18 @@ public class UtilisateursImpl implements UtilisateursDAO {
 		try (PreparedStatement statement = GetConnection.getConnexion()
 				.prepareStatement(StoredStatements.INSERT.value, new String[] { "no_utilisateur" })) {
 
-			int i = 1;
-			statement.setString(i++, utilisateur.getPseudo());
-			statement.setString(i++, utilisateur.getNom());
-			statement.setString(i++, utilisateur.getPrenom());
-			statement.setString(i++, utilisateur.getEmail());
-			statement.setString(i++, utilisateur.getTelephone());
-			statement.setString(i++, utilisateur.getRue());
-			statement.setString(i++, utilisateur.getCodePostal());
-			statement.setString(i++, utilisateur.getVille());
-			statement.setString(i++, motDePasse);
-			statement.setInt(i++, utilisateur.getCredit());
-			statement.setBoolean(i, utilisateur.isAdministrateur());
+			statement.setString(1, utilisateur.getPseudo());
+			statement.setString(2, utilisateur.getNom());
+			statement.setString(3, utilisateur.getPrenom());
+			statement.setString(4, utilisateur.getEmail());
+			statement.setString(5, utilisateur.getTelephone());
+			statement.setString(6, utilisateur.getRue());
+			statement.setString(7, utilisateur.getCodePostal());
+			statement.setString(8, utilisateur.getVille());
+			statement.setString(9, motDePasse);
+			statement.setInt(10, utilisateur.getCredit());
+			statement.setBoolean(11, utilisateur.isAdministrateur());
+			statement.setBoolean(12, utilisateur.isActif());
 
 			statement.executeUpdate();
 			try (ResultSet resultSet = statement.getGeneratedKeys()) {

@@ -34,7 +34,8 @@ public class InscriptionServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.setAttribute("utilisateur_temp", new Utilisateur(-1));
+		Utilisateur utilisateurTemp = new Utilisateur(-1);
+		request.setAttribute("utilisateur_temp", utilisateurTemp);
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		Infos infos = (Infos)request.getAttribute("infos");
 
@@ -50,10 +51,16 @@ public class InscriptionServlet extends HttpServlet {
 			String motDePasse = request.getParameter("mot_de_passe");
 			String motDePasseRepete = request.getParameter("mot_de_passe_repete");
 
+
+
 			Utilisateur utilisateur = utilisateursManager.traiteRequeteInscription(
 					pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseRepete, erreurs);
-			
-			request.setAttribute("utilisateur_temp", utilisateur);
+
+			if(utilisateur != null) {
+				request.setAttribute("utilisateur_temp", utilisateur);
+			} else {
+				utilisateurTemp.setPseudo(pseudo);
+			}
 			
 			if(erreurs.hasErrors()) {
 				request.getRequestDispatcher("WEB-INF/jsps/auth/Register.jsp").forward(request, response);

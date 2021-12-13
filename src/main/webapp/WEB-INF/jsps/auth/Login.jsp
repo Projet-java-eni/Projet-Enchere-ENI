@@ -57,8 +57,12 @@ Login
         <label class="form-check-label" for="exampleCheck1">Se
             souvenir de moi ?</label>
     </div>
-    <button type="submit" class="btn btn-primary" name="inscription">S'inscrire</button>
+    <button type="submit" class="btn btn-primary" name="inscription">Se connecter</button>
 </form>
 
+<hr>
+<p>
+    Pas encore inscrit ? <a href="<%= request.getContextPath() %>/Inscription">S'inscrire</a>
+</p>
 
 <%@ include file="../PiedBootstrap.html" %>
