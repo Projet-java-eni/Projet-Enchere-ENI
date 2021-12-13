@@ -21,7 +21,7 @@
 	<header>
 		<div id="header-logo">
 			<!-- logo -->
-			<img src="/images/logoProjet.png" alt="logo Association" />
+			<img src="<%=request.getContextPath()%>/images/logoProjet.png" alt="logo Association" />
 		</div>
 		
 		 <div id="header-user">
