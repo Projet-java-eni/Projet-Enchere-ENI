@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.encheres.bo.misc.ArticleVendu;
 import fr.eni.encheres.bo.misc.MeHasMany;
 
 /**
@@ -13,7 +12,7 @@ import fr.eni.encheres.bo.misc.MeHasMany;
  *
  */
 
-public class Retrait implements Serializable, MeHasMany<ArticleVendu> {
+public class Retrait implements Serializable, MeHasMany<Article> {
 
 	private static final long serialVersionUID = 3153865924155982476L;
 
@@ -25,7 +24,7 @@ public class Retrait implements Serializable, MeHasMany<ArticleVendu> {
 	private String ville;
 
 	// champs supplémentaires
-	private List<ArticleVendu> lieuRetrait = null;
+	private List<Article> lieuRetrait = null;
 
 	/**
 	 * Constructeur
@@ -109,9 +108,9 @@ public class Retrait implements Serializable, MeHasMany<ArticleVendu> {
 				+ ", ville=" + this.ville + "]";
 	}
 
-//Création de méthodes permettant de faire le lien avec la classe ArticleVendu
+//Création de méthodes permettant de faire le lien avec la classe Article
 	@Override
-	public void ajouter(ArticleVendu adresseRetrait) {
+	public void ajouter(Article adresseRetrait) {
 		if (lieuRetrait == null) {
 			lieuRetrait = new ArrayList<>();
 		}
@@ -120,7 +119,9 @@ public class Retrait implements Serializable, MeHasMany<ArticleVendu> {
 
 	}
 
-	public void supprimer(ArticleVendu adresseRetrait) {
+	@Override
+	public void supprimer(Article adresseRetrait) {
 		lieuRetrait.remove(adresseRetrait);
 	}
+
 }
