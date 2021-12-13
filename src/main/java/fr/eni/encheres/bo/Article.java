@@ -26,6 +26,9 @@ public class Article {
 	public Article() {
 	}
 
+	public Article(int id_article) {
+	}
+
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
 				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente) {
 

@@ -120,6 +120,7 @@ if(request.getAttribute("modif_utilisateur") != null) {
 	<label>Ville : <input type="text" name="ville" value="<%= ville  %>" /></label>
 	<label>Credit : <input type="text" step="1" name="credit" value="<%= credit  %>"/></label>
 	<label>Est administrateur ? <input type="checkbox" name="administrateur" <%= administrateur ? "checked" : ""  %> /></label>
+	<label>Est actif ? <input type="checkbox" name="actif" <%= administrateur ? "checked" : ""  %> /></label>
 
 	<input type="submit" name="ajouter" />
 

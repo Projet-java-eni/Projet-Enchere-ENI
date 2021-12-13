@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticlesVendusImpl implements ArticlesDAO {
+public class ArticlesImpl implements ArticlesDAO {
 
 	enum StoredStatements {
 		GET_BY_ID("select noArticle libelle from dbo.articleVendu where noUtilisateur=?"),

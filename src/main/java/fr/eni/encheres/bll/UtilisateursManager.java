@@ -41,10 +41,10 @@ public class UtilisateursManager {
 	}
 
 	public Utilisateur createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String codePostal, String ville, String motDePasse, int credit, boolean administrateur, Erreurs erreurs) {
+			String codePostal, String ville, String motDePasse, int credit, boolean administrateur, boolean actif, Erreurs erreurs) {
 		
 		Utilisateur utilisateur = new Utilisateur(
-				pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur
+				pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur, actif
 		);
 
 		validerMotDePasse(motDePasse, erreurs);
@@ -87,7 +87,7 @@ public class UtilisateursManager {
 
 	public Utilisateur createUtilisateurDepuisLeWeb(String pseudo, String nom, String prenom, 
 			String email, String telephone, String rue,
-			String codePostal, String ville, String motDePasse, String credit, String administrateur, Erreurs erreurs) {
+			String codePostal, String ville, String motDePasse, String credit, String administrateur, String actif, Erreurs erreurs) {
 		
 		if(pseudo == null) erreurs.addErreur("Le pseudo doit être renseigné");
 		if(nom == null) erreurs.addErreur("Le nom doit être renseigné");
@@ -113,7 +113,22 @@ public class UtilisateursManager {
 				erreurs.addErreur("Statut administrateur indefini");
 			}
 		}
-		
+
+		boolean is_actif = false;
+
+		if(actif == null) {
+			is_actif = false;
+		} else {
+			if(actif.equalsIgnoreCase("on")) {
+				is_actif = true;
+			} else if (actif.equalsIgnoreCase("off")) {
+				is_actif = false;
+			} else {
+				erreurs.addErreur("Statut actif indefini");
+			}
+		}
+
+
 		Integer credit_int = 0;
 		
 		try{
@@ -124,12 +139,12 @@ public class UtilisateursManager {
 		
 		if (erreurs.hasErrors()) return null;
 		
-		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit_int, is_admin, erreurs);
+		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit_int, is_admin, is_actif, erreurs);
 	}
 
 	public void modifUtilisateurDepuisLeWeb(Utilisateur utilisateur, String pseudo, String nom, String prenom, 
 			String email, String telephone, String rue,
-			String codePostal, String ville, String credit, String administrateur, Erreurs erreurs) {
+			String codePostal, String ville, String credit, String administrateur, String actif, Erreurs erreurs) {
 		
 		if(pseudo == null) erreurs.addErreur("Le pseudo doit être renseigné");
 		if(nom == null) erreurs.addErreur("Le nom doit être renseigné");
@@ -153,7 +168,22 @@ public class UtilisateursManager {
 				erreurs.addErreur("Statut administrateur indefini");
 			}
 		}
-		
+
+		boolean is_actif = false;
+
+		if(actif == null) {
+			is_actif = false;
+		} else {
+			if(actif.equalsIgnoreCase("on")) {
+				is_actif = true;
+			} else if (actif.equalsIgnoreCase("off")) {
+				is_actif = false;
+			} else {
+				erreurs.addErreur("Statut actif indefini");
+			}
+		}
+
+
 		Integer credit_int = 0;
 		try{
 			credit_int = Integer.parseInt(credit);
@@ -173,7 +203,8 @@ public class UtilisateursManager {
 		utilisateur.setVille(ville);
 		utilisateur.setCredit(credit_int);
 		utilisateur.setAdministrateur(is_admin);
-		
+		utilisateur.setActif(is_actif);
+
 		try {
 			sauvegarderUtilisateur(utilisateur, erreurs);
 		} catch (BLLException e) {
@@ -341,7 +372,9 @@ public class UtilisateursManager {
 		
 		validerMotDePasseRepete(motDePasse, motDePasseRepete, errors);
 
-		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, 100, false, errors);
+		return createUtilisateur(
+				pseudo, nom, prenom, email, telephone, rue,
+				codePostal, ville, motDePasse, 100, false, true, errors);
 
 	}
 }

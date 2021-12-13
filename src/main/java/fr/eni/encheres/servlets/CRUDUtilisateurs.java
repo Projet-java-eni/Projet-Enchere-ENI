@@ -46,6 +46,7 @@ public class CRUDUtilisateurs extends HttpServlet {
 		String motDePasse = request.getParameter("mot_de_passe");
 		String credit = request.getParameter("credit");
 		String administrateur = request.getParameter("administrateur");
+		String actif = request.getParameter("actif");
 		String idUtilisateur = request.getParameter("id_utilisateur");
 
 		Erreurs errors = new Erreurs();
@@ -55,7 +56,7 @@ public class CRUDUtilisateurs extends HttpServlet {
 		if (idUtilisateur == null && request.getParameter("ajouter") != null) {
 			
 			nouvelUtilisateur = utilisateursManager.createUtilisateurDepuisLeWeb(pseudo, nom, prenom, email, telephone,
-					rue, codePostal, ville, motDePasse, credit, administrateur, errors);
+					rue, codePostal, ville, motDePasse, credit, administrateur, actif, errors);
 		}
 
 		request.setAttribute("nouvel_utilisateur", nouvelUtilisateur);
@@ -86,7 +87,7 @@ public class CRUDUtilisateurs extends HttpServlet {
 				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur);
 				
 				utilisateursManager.modifUtilisateurDepuisLeWeb(modifUtilisateur, pseudo, nom, prenom, email, telephone,
-						rue, codePostal, ville, credit, administrateur, errors);
+						rue, codePostal, ville, credit, administrateur, actif, errors);
 			} catch (NumberFormatException e) {
 				errors.addErreur("Id utilisateur malformé !");
 			} catch (BLLException e) {
