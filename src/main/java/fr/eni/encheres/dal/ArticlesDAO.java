@@ -7,4 +7,5 @@ import fr.eni.encheres.bo.Article;
 
 public interface ArticlesDAO extends DAO <Article>  {
 
+	public Article getById(int id_article) throws DALException;
 }

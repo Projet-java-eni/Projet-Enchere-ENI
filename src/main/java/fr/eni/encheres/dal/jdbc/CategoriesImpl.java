@@ -10,28 +10,28 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.CategoriesDAO;
 import fr.eni.encheres.dal.DALException;
 
-enum StoredStatements {
-	GET_BY_ID("select no_categorie, libelle from dbo.categories where no_utilisateur=?"),
-	SELECT_ALL("select no_categorie, libelle from dbo.categories"),
-	INSERT("INSERT INTO dbo.categories (libelle) VALUES (?)"),
-	UPDATE("UPDATE dbo.categories SET libelle=? WHERE no_categorie=?"),
-	DELETE("DELETE FROM dbo.categories WHERE no_categorie=?");
-	private String value; 
-	StoredStatements(String value) {
-		this.value = value;
-	}
-	
-	public String getValue() {
-		return this.value;
-	}
-}
 
 public class CategoriesImpl implements CategoriesDAO {
+
+	enum StoredStatements {
+		GET_BY_ID("select no_categorie, libelle from dbo.categories where no_utilisateur=?"),
+		SELECT_ALL("select no_categorie, libelle from dbo.categories"),
+		INSERT("INSERT INTO dbo.categories (libelle) VALUES (?)"),
+		UPDATE("UPDATE dbo.categories SET libelle=? WHERE no_categorie=?"),
+		DELETE("DELETE FROM dbo.categories WHERE no_categorie=?");
+
+		private final String value;
+
+		StoredStatements(String value) {
+			this.value = value;
+		}
+	}
+
 
 	@Override
 	public Categorie getById(int id) throws DALException {
 		
-		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(StoredStatements.GET_BY_ID.getValue())) {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(StoredStatements.GET_BY_ID.value)) {
 			
 			statement.setInt(1, id);
 			
@@ -55,7 +55,7 @@ public class CategoriesImpl implements CategoriesDAO {
 		List<Categorie> categories = new ArrayList<>();
 		
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
-				StoredStatements.SELECT_ALL.getValue())) {
+				StoredStatements.SELECT_ALL.value)) {
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				
@@ -81,7 +81,7 @@ public class CategoriesImpl implements CategoriesDAO {
 	public void add(Categorie categorie) throws DALException {
 	
 		try (PreparedStatement statement = GetConnection.getConnexion()
-				.prepareStatement(StoredStatements.INSERT.getValue(), new String[] { "no_categorie" })) {
+				.prepareStatement(StoredStatements.INSERT.value, new String[] { "no_categorie" })) {
 
 			statement.setString(1, categorie.getLibelle());
 
@@ -101,7 +101,7 @@ public class CategoriesImpl implements CategoriesDAO {
 	@Override
 	public void update(Categorie utilisateur) throws DALException {
 		
-		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(StoredStatements.UPDATE.getValue())) {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(StoredStatements.UPDATE.value)) {
 			
 			statement.setString(1, utilisateur.getLibelle());
 
@@ -118,7 +118,7 @@ public class CategoriesImpl implements CategoriesDAO {
 	public void remove(Categorie utilisateur) throws DALException {
 		
 		try (PreparedStatement statement = GetConnection.getConnexion()
-				.prepareStatement(StoredStatements.DELETE.getValue())) {
+				.prepareStatement(StoredStatements.DELETE.value)) {
 			
 			statement.setInt(1, utilisateur.getId());
 			statement.executeUpdate();

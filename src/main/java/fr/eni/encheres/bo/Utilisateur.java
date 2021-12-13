@@ -37,6 +37,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	private String ville;
 	private int credit;
 	private boolean administrateur;
+	private boolean actif;
 	
 	// champs supplémentaires
 	private List<Article> articlesVendus = null;
@@ -45,7 +46,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	
 
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, int credit, boolean administrateur) {
+			String rue, String codePostal, String ville, int credit, boolean administrateur, boolean actif) {
 		super();
 
 		this.noUtilisateur = noUtilisateur;
@@ -59,6 +60,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 		this.ville = ville;
 		this.credit = credit;
 		this.administrateur = administrateur;
+		this.actif = actif;
 	}
 	
 	//@author Lucie MAJ ajout constructeur
@@ -68,16 +70,16 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
     }
 	
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String codePostal, String ville, int credit, boolean administrateur) {
-		this(-1, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur);
+			String codePostal, String ville, int credit, boolean administrateur, boolean actif) {
+		this(-1, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur, actif);
 	}
 
 	public Integer getNoUtilisateur() {
 		return noUtilisateur;
 	}
 
-	public void setNoUtilisateur(int no_utilisateur) {
-		this.noUtilisateur = no_utilisateur;
+	public void setNoUtilisateur(int noUtilisateur) {
+		this.noUtilisateur = noUtilisateur;
 	}
 
 	public String getPseudo() {
@@ -132,8 +134,8 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 		return codePostal;
 	}
 
-	public void setCodePostal(String code_postal) {
-		this.codePostal = code_postal;
+	public void setCodePostal(String codePostal) {
+		this.codePostal = codePostal;
 	}
 
 	public String getVille() {
@@ -200,5 +202,12 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	public void supprimer(Enchere enchere) {
 		encheres.remove(enchere);
 	}
-	
+
+	public boolean isActif() {
+		return actif;
+	}
+
+	public void setActif(boolean actif) {
+		this.actif = actif;
+	}
 }
