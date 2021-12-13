@@ -8,6 +8,7 @@
 
 <%@page import="java.util.List"%>
 
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -85,16 +86,9 @@
 			<label for="statut de l'enchère"> Catégories :</label> <select
 				name="statut" size="1">
 				<option value="en cours">Ameublement</option>
-				<option value="annulée">Arts de la Table</option>
-				<option value="annulée">Bricolage</option>
-				<option value="annulée">Décoration</option>
-				<option value="terminée">Electroménager</option>
-				<option value="annulée">Equipement bébé</option>
-				<option value="annulée">Jardinage</option>
-				<option value="annulée">Jeux / Jouets</option>
-				<option value="annulée">Mode</option>
-				<option value="annulée">Sports / Hobbies</option>
-				<option value="annulée">Tissus / linge</option>
+				<option value="annulée">Informatique</option>
+				<option value="annulée">Sports / Loisirs</option>
+				<option value="annulée">Vêtements</option>
 				<option value="annulée">Divers</option>
 			</select>
 			<form method="link"
