@@ -70,7 +70,7 @@ public class ProfilServlet extends HttpServlet {
 					utilisateurConnecte.setActif(false);
 					utilisateursManager.sauvegarderUtilisateur(utilisateurConnecte, erreurs);
 					infos.addInfo("Au revoir " + utilisateurConnecte.getPseudo());
-					addresse = "WEB-INF/jsps/ProfilUtilisateur.jsp";
+					addresse = "WEB-INF/jsps/accueil.jsp";
 				}
 
 				request.setAttribute("utilisateur", utilisateurConnecte);
