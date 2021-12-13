@@ -33,7 +33,7 @@
 		<a href="<%=request.getContextPath()%>/Login"><input
 			type="button" value="se connecter" /></a> | <a
 			href="<%=request.getContextPath()%>/Inscription"><input
-			type="button" value="créer un compte" /></a> | (${sessionScope.user_pseudo})
+			type="button" value="créer un compte" /></a> | (<a href="<%=request.getContextPath()%>/Profil"> ${sessionScope.user_pseudo}</a>)
 			 <a href="<%=request.getContextPath()%>/Deconnexion">Se déconnecter</a>
     </div>
 
