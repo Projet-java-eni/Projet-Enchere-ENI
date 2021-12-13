@@ -1,0 +1,76 @@
+/*@author Lucie*/
+@charset "UTF-8";
+
+body{
+	display: flex;
+	flex-direction: column;	
+	color: grey;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: normal;
+}
+section{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 90vh;
+	justify-content: space-around;
+}
+h1{
+	text-align: center;
+	background-color: rgb(80, 215, 88);
+	color: white;
+	border-radius: 30px;
+	padding: 10px 20px 10px 20px;
+	width: 300px;
+	margin: auto;
+	margin-bottom: 10px;
+}
+.titre{
+	border-radius: 30px;
+	width: 680px;
+	box-shadow: 0px -10px 10px -10px #666 inset;
+}
+article{
+	border-radius: 30px;
+	box-shadow: 0px -10px 10px -10px #666 inset;
+	padding: 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	min-height: 300px;
+	width: 600px;
+}
+img{
+	width: 200px;
+	border-radius: 10px;
+	box-shadow: 4px 4px 4px grey;
+}
+strong{
+	font-size: 1.5em;
+	align-self: center;
+}
+.details{
+	display: flex;
+	flex-direction: row;
+	font-size: 0.9em;
+}
+.infos{
+	padding-left: 20px ;
+}
+.encherir{
+	background-color: rgb(80, 215, 88);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.9em;
+	color: white;
+	width: 450px;
+	border-radius: 10px;
+	padding: 5px;
+}
+.offre{
+	border: 1px white solid;
+	padding: 5px
+}
