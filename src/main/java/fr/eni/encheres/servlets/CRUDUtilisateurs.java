@@ -20,17 +20,8 @@ import fr.eni.encheres.bo.Utilisateur;
 @WebServlet("/CRUDUtilisateurs")
 public class CRUDUtilisateurs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	UtilisateursManager utilisateursManager = null;
+	static UtilisateursManager utilisateursManager = UtilisateursManager.GetInstance();
 
-	public CRUDUtilisateurs() throws Exception {
-		super();
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-			throw new Exception("Impossible de se connecter à la DAL!!");
-		}
-	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

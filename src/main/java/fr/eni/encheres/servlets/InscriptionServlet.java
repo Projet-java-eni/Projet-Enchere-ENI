@@ -19,19 +19,8 @@ import fr.eni.encheres.bo.Utilisateur;
 public class InscriptionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	UtilisateursManager utilisateursManager = null;
+	UtilisateursManager utilisateursManager = UtilisateursManager.GetInstance();
 
-	public InscriptionServlet() throws Exception {
-		super();
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-			throw new Exception("Impossible de se connecter à la DAL");
-		}
-	}
-
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Utilisateur utilisateurTemp = new Utilisateur(-1);

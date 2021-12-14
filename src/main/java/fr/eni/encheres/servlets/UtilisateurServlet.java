@@ -16,15 +16,8 @@ import java.util.ArrayList;
 
 @WebServlet(name = "UtilisateurServlet", urlPatterns = {"/Utilisateur/*"})
 public class UtilisateurServlet extends HttpServlet {
-	private UtilisateursManager utilisateursManager;
+	private UtilisateursManager utilisateursManager = UtilisateursManager.GetInstance();
 
-	public UtilisateurServlet() {
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-		}
-	}
 
 
 	@Override

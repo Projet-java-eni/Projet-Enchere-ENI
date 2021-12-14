@@ -17,15 +17,7 @@ import java.io.IOException;
 @WebServlet(name = "ProfilServlet", value = "/Profil")
 public class ProfilServlet extends HttpServlet {
 
-	private UtilisateursManager utilisateursManager;
-
-	public ProfilServlet() {
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-		}
-	}
+	private static UtilisateursManager utilisateursManager = UtilisateursManager.GetInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
