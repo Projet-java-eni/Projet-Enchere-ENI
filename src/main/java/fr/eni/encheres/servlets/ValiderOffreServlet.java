@@ -46,14 +46,14 @@ public class ValiderOffreServlet extends HttpServlet {
 	//Else 
 	//meilleureOffre=nouvelleOffre 
 	//créer nouvelleEnchere
-	//nouvelleEnchere.montantEnchere = nouvelleEnchere
-	//nouvelleEnchere.noUtilisateur = noUtilisateur de l'Utilisateur connecté
-	//nouvelleEnchere.noArticle = noArticle de l'article affiché
-	//nouvelleEnchere.dateEnchere = current date
-	//ET debiter le compte de crédits de l'utilisateur du montant de la nouvelle offre
-		
-	//
-		
+		//via EnchereManager
+			//appeler methode validerEnchere
+			//appeler methode addEnchere
+				//nouvelleEnchere.montantEnchere = nouvelleEnchere
+				//nouvelleEnchere.noUtilisateur = noUtilisateur de l'Utilisateur connecté
+				//nouvelleEnchere.noArticle = noArticle de l'article affiché
+				//nouvelleEnchere.dateEnchere = current date
+	//ET debiter le compte de crédits de l'utilisateur du montant de la nouvelle offre	
 	}
 
 }
