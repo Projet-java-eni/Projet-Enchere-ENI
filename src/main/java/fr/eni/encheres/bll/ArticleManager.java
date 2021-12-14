@@ -12,7 +12,6 @@ import fr.eni.encheres.dal.ArticlesDAO;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAOFactory;
 
-
 public class ArticleManager {
 
 	private static ArticlesDAO articlesDAO = null;
@@ -23,7 +22,7 @@ public class ArticleManager {
 
 	public static ArticleManager GetInstance() {
 
-		if(articlesDAO == null) {
+		if (articlesDAO == null) {
 			try {
 				articlesDAO = (ArticlesDAO) DAOFactory.getArticlesDAO();
 			} catch (DALException e) {
@@ -39,28 +38,38 @@ public class ArticleManager {
 	}
 
 	public void addArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
-						   LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs){
-		
-		if(nomArticle == null) erreurs.addErreur("Le nom de l'article doit être renseigné");
-		if(description == null) erreurs.addErreur("Une description de votre article doit être renseigné");
-		if(dateDebutEncheres == null) erreurs.addErreur("Une date de début d'enchère doit être renseignée");
-		if(dateFinEncheres == null) erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
-		if(miseAPrix == null) erreurs.addErreur("Le prix de départ doit être renseigné");
-		if(etatVente == null) erreurs.addErreur("L'état de la vente doit être renseignée");
-	}
-	
-	
-	
-	public void modifArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres, 
 			LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
-			
-		if(nomArticle == null) erreurs.addErreur("Le nom de l'article doit être renseigné");
-		if(description == null) erreurs.addErreur("Une description de votre article doit être renseigné");
-		if(dateDebutEncheres == null) erreurs.addErreur("Une date de début d'enchère doit être renseignée");
-		if(dateFinEncheres == null) erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
-		if(miseAPrix == null) erreurs.addErreur("Le prix de départ doit être renseigné");
-		if(etatVente == null) erreurs.addErreur("L'état de la vente doit être renseignée");
-			
+
+		if (nomArticle == null)
+			erreurs.addErreur("Le nom de l'article doit être renseigné");
+		if (description == null)
+			erreurs.addErreur("Une description de votre article doit être renseigné");
+		if (dateDebutEncheres == null)
+			erreurs.addErreur("Une date de début d'enchère doit être renseignée");
+		if (dateFinEncheres == null)
+			erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
+		if (miseAPrix == null)
+			erreurs.addErreur("Le prix de départ doit être renseigné");
+		if (etatVente == null)
+			erreurs.addErreur("L'état de la vente doit être renseignée");
+	}
+
+	public void modifArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
+
+		if (nomArticle == null)
+			erreurs.addErreur("Le nom de l'article doit être renseigné");
+		if (description == null)
+			erreurs.addErreur("Une description de votre article doit être renseigné");
+		if (dateDebutEncheres == null)
+			erreurs.addErreur("Une date de début d'enchère doit être renseignée");
+		if (dateFinEncheres == null)
+			erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
+		if (miseAPrix == null)
+			erreurs.addErreur("Le prix de départ doit être renseigné");
+		if (etatVente == null)
+			erreurs.addErreur("L'état de la vente doit être renseignée");
+
 		try {
 			sauvegarderArticle(article, erreurs);
 		} catch (BLLException e) {
@@ -68,17 +77,18 @@ public class ArticleManager {
 		}
 	}
 
-	private void sauvegarderArticle(Article article, Erreurs erreurs) throws BLLException{
+	private void sauvegarderArticle(Article article, Erreurs erreurs) throws BLLException {
 	}
 
 	public void supprimerArticle(Article article) throws BLLException {
-		
+
 		try {
 			articlesDAO.remove(article);
 		} catch (DALException e) {
 			throw new BLLException(e.getLocalizedMessage(), e);
 		}
 	}
+
 	public Article getArticleByCategorie(Categorie categorie) throws BLLException {
 
 		Article article = null;
@@ -90,11 +100,26 @@ public class ArticleManager {
 		}
 
 		return article;
+
 	}
-	public Article getArticleById(int articleId) throws BLLException {
+
+	public Article getArticleByDateDebut(LocalDate dateDebut) throws BLLException {
 
 		Article article = null;
 
+		try {
+			article = articlesDAO.getByDateDebut(dateDebut);
+		} catch (DALException ex) {
+			throw new BLLException(ex.getLocalizedMessage(), ex);
+		}
+
+		return article;
+
+	}
+
+	public Article getArticleById(int articleId) throws BLLException {
+
+		Article article = null;
 
 		try {
 			article = articlesDAO.getById(articleId);
@@ -105,13 +130,23 @@ public class ArticleManager {
 		return article;
 	}
 
-	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String date, Article article, Erreurs erreurs) {
-		if(nom == null) erreurs.addErreur("Le nom doit être renseigné"); else article.setNomArticle(nom);
-		if(description == null) erreurs.addErreur("La description doit être renseignée"); else article.setDescription(description);
-		if(prix == null) erreurs.addErreur("Le prix doit être renseigné");
-		if(date == null) erreurs.addErreur("La date doit être renseignée");
+	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String date, Article article,
+			Erreurs erreurs) {
+		if (nom == null)
+			erreurs.addErreur("Le nom doit être renseigné");
+		else
+			article.setNomArticle(nom);
+		if (description == null)
+			erreurs.addErreur("La description doit être renseignée");
+		else
+			article.setDescription(description);
+		if (prix == null)
+			erreurs.addErreur("Le prix doit être renseigné");
+		if (date == null)
+			erreurs.addErreur("La date doit être renseignée");
 
-		if (erreurs.hasErrors()) return;
+		if (erreurs.hasErrors())
+			return;
 
 		int prixInt;
 
@@ -130,5 +165,3 @@ public class ArticleManager {
 		article.setTimeDebutEnchere(dateMise.toLocalTime());
 	}
 }
-
-
