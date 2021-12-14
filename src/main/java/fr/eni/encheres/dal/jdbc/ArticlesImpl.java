@@ -1,28 +1,38 @@
 package fr.eni.encheres.dal.jdbc;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.dal.*;
+import fr.eni.encheres.dal.ArticlesDAO;
+import fr.eni.encheres.dal.CategoriesDAO;
+import fr.eni.encheres.dal.DALException;
+import fr.eni.encheres.dal.DAOFactory;
+import fr.eni.encheres.dal.UtilisateursDAO;
 
 public class ArticlesImpl implements ArticlesDAO {
 	UtilisateursDAO utilisateursDAO = null;
 	CategoriesDAO categoriesDAO = null;
 
-
-
 	private static final String sqlSelectById = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,"
 			+ "prix_vente,no_categorie, no_utilisateur  FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
+
+	private static final String sqlSelectByDateDebut = "SELECT no_article, nom_article, description, date_debut_encheres,date_fin_encheres,prix_initial,"
+			+ "prix_vente,no_categorie, no_utilisateur  FROM dbo.ARTICLES_VENDUS WHERE date_debut_encheres=?";
 
 	private static final String sqlSelectAll = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,"
 			+ "prix_vente,etat_vente,no_categorie,no_utilisateur  FROM dbo.ARTICLES_VENDUS";
 
-	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial, " +
-			" prix_vente,etat_vente,no_categorie,no_utilisateur FROM dbo.ARTICLES_VENDUS WHERE no_categorie=?";
+	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial, "
+			+ " prix_vente,etat_vente,no_categorie,no_utilisateur FROM dbo.ARTICLES_VENDUS WHERE no_categorie=?";
 
 	private static final String sqlInsert = "INSERT INTO dbo.ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial, "
 			+ "prix_vente,etat_vente,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -40,7 +50,6 @@ public class ArticlesImpl implements ArticlesDAO {
 			e.printStackTrace();
 		}
 	}
-
 
 	@Override
 	public Article getById(int id) throws DALException {
@@ -77,6 +86,42 @@ public class ArticlesImpl implements ArticlesDAO {
 	}
 
 	@Override
+	public Article getByDateDebut(LocalDate dateDebut) throws DALException {
+		Article article = new Article();
+		ResultSet resultSet = null;
+		PreparedStatement statement = null;
+		Connection con = null;
+
+		try {
+			con = GetConnection.getConnexion();
+			statement = con.prepareStatement(sqlSelectByDateDebut);
+			statement.setDate(1, Date.valueOf(article.getDateDebutEnchere()));
+
+			resultSet = statement.executeQuery();
+
+			article.setNoArticle(resultSet.getInt("no_article"));
+			article.setNomArticle(resultSet.getString("nom_article"));
+			article.setDescription(resultSet.getString("description"));
+			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
+			article.setMiseAPrix(resultSet.getInt("prix_initial"));
+			article.setPrixVente(resultSet.getInt("prix_vente"));
+			// Ivo je n'ai pas modifié le getById ici.... est-ce necéssaire?
+			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
+			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
+		} catch (SQLException ex) {
+			throw new DALException("getByDateDebut failed  = " + dateDebut, ex);
+		}
+
+		finally {
+			GetConnection.close(resultSet);
+			GetConnection.close(statement);
+			GetConnection.close(con);
+		}
+
+		return article;
+	}
+
+	@Override
 	public List<Article> getAll() throws DALException {
 		List<Article> listArticle = new ArrayList<Article>();
 		ResultSet resultSet = null;
@@ -95,7 +140,7 @@ public class ArticlesImpl implements ArticlesDAO {
 //						resultSet.getString(8), resultSet.getString(9), resultSet.getString(10),
 //						resultSet.getString(11), resultSet.getString(12));
 
-			listArticle.add(article);
+				listArticle.add(article);
 		} catch (SQLException ex) {
 			throw new DALException("selectAll failed - ", ex);
 		}
