@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -52,12 +53,14 @@ public class DetailArticleServlet extends HttpServlet {
 		int noArticle = Integer.parseInt(request.getParameter("noArticle"));
 		
 		//utiliser le noArticle pour récupérer le contenu de l'article
+
 		try {
 			articleAAfficher = articleManager.getArticleById(noArticle);
 		} catch (BLLException ex) {
 			ex.printStackTrace();
 		}
 		
+
 		//get attribute contenu de l'article
 		String nomArticle = articleAAfficher.getNomArticle();
 		String description = articleAAfficher.getDescription();
