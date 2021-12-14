@@ -25,7 +25,7 @@ public class RetraitsImpl implements RetraitsDAO {
 	// Recupération de l'adresse en fonction de son identifiant
 	private static final String sqlSelectAdresseByIdRetrait = "SELECT rue, code_postal, ville FROM Retraits WHERE id_retrait=?";
 	// Requête SQL pour que le vendeur insert une nouvelle adresse
-	private static final String sqlInsertAdresseRetrait = "INSERT INTO Retraits (rue, code_postal, ville)  VALUES (? , ? , ?)";
+	private static final String sqlInsertAdresseRetrait = "INSERT INTO Retraits (no_article, rue, code_postal, ville)  VALUES (? , ? , ? , ?)";
 	// le vendeur efface l'adresse
 	private static final String sqlDeleteAdresseRetrait = "DELETE FROM Retraits WHERE id_retrait=?";
 	// le vendeur MAJ l'adresse
@@ -46,11 +46,11 @@ public class RetraitsImpl implements RetraitsDAO {
 			stmt.setInt(1, noArticle);
 			rs = stmt.executeQuery();
 
-			while (rs.next()) {
-				stmt.setString(2, adresseRetrait.getRue());
-				stmt.setString(3, adresseRetrait.getCodePostal());
-				stmt.setString(4, adresseRetrait.getVille());
-			}
+			adresseRetrait.setIdRetrait(rs.getInt("id_retrait"));
+			adresseRetrait.setNoArticle(rs.getInt("no_article"));
+			adresseRetrait.setRue(rs.getString("rue"));
+			adresseRetrait.setCodePostal(rs.getString("code_postal"));
+			adresseRetrait.setVille(rs.getString("ville"));
 		}
 
 		catch (SQLException ex) {
@@ -78,11 +78,11 @@ public class RetraitsImpl implements RetraitsDAO {
 			stmt.setInt(1, idRetrait);
 			rs = stmt.executeQuery();
 
-			while (rs.next()) {
-				stmt.setString(2, adresseRetrait.getRue());
-				stmt.setString(3, adresseRetrait.getCodePostal());
-				stmt.setString(4, adresseRetrait.getVille());
-			}
+			adresseRetrait.setIdRetrait(rs.getInt("id_retrait"));
+			adresseRetrait.setNoArticle(rs.getInt("no_article"));
+			adresseRetrait.setRue(rs.getString("rue"));
+			adresseRetrait.setCodePostal(rs.getString("code_postal"));
+			adresseRetrait.setVille(rs.getString("ville"));
 		}
 
 		catch (SQLException ex) {
@@ -102,14 +102,14 @@ public class RetraitsImpl implements RetraitsDAO {
 	public void add(Retrait adresse) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
-		Retrait newAdresseRetrait = new Retrait();
 		ResultSet rs = null;
 		try {
 			con = GetConnection.getConnexion();
 			stmt = con.prepareStatement(sqlInsertAdresseRetrait, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, newAdresseRetrait.getRue());
-			stmt.setString(2, newAdresseRetrait.getCodePostal());
-			stmt.setString(3, newAdresseRetrait.getVille());
+			stmt.setInt(1, adresse.getNoArticle());
+			stmt.setString(2, adresse.getRue());
+			stmt.setString(3, adresse.getCodePostal());
+			stmt.setString(4, adresse.getVille());
 
 			int nbRows = stmt.executeUpdate();
 			if (nbRows == 1) {
