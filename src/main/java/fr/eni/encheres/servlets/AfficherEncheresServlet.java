@@ -44,7 +44,7 @@ public class AfficherEncheresServlet extends HttpServlet {
 
 		// Affichage de toutes les enchères sans distinction
 		try {
-			EncheresManager encheresManager = new EncheresManager();
+			EncheresManager encheresManager = EncheresManager.GetInstance();
 			List<Enchere> listeEncheres = null; // problème avec le try catch
 
 			listeEncheres = encheresManager.getAllEncheres();
@@ -55,7 +55,7 @@ public class AfficherEncheresServlet extends HttpServlet {
 		}
 		// Transfert de l'affichage à la JSP accueil
 		RequestDispatcher rd = null;
-		rd = request.getRequestDispatcher("/accueil.jsp");
+		rd = request.getRequestDispatcher("/WEB-INF/jsps/afficherEncheres.jsp");
 		rd.forward(request, response);
 
 	}
@@ -71,7 +71,7 @@ public class AfficherEncheresServlet extends HttpServlet {
 
 		// Affichage de toutes les enchères sans distinction
 		try {
-			EncheresManager encheresManager = new EncheresManager();
+			EncheresManager encheresManager = EncheresManager.GetInstance();
 			List<Enchere> listeEncheres = null; // problème avec le try catch
 
 			listeEncheres = encheresManager.getAllEncheres();
@@ -82,7 +82,7 @@ public class AfficherEncheresServlet extends HttpServlet {
 		}
 		// Transfert de l'affichage à la JSP accueilConnecte
 		RequestDispatcher rd = null;
-		rd = request.getRequestDispatcher("/accueilConnecte.jsp");
+		rd = request.getRequestDispatcher("/WEB-INF/jsps/accueilConnecte.jsp");
 		rd.forward(request, response);
 	}
 

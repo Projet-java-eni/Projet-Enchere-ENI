@@ -10,9 +10,10 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAO;
+import fr.eni.encheres.dal.EncheresDAO;
 
 
-public class EncheresImpl implements DAO<Enchere> {
+public class EncheresImpl implements EncheresDAO {
 
 	String sqlInsertEnchere = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere)  VALUES (? , ? , ? , ? , ?)";
 	String sqlSelectEncheresByNoUtilisateur = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? ";

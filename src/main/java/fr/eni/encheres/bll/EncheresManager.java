@@ -14,16 +14,29 @@ import fr.eni.encheres.bo.Enchere;
 
 public class EncheresManager {
 
-	private static DAO<Enchere> daoEnchere;
+	private static EncheresDAO daoEnchere = null;
+	private static EncheresManager instance = null;
 		
-	public EncheresManager() throws BLLException {
+	private EncheresManager() {
 		//instancier le EncheresDAO
+
+	}
+
+	public static EncheresManager GetInstance() {
+		if(instance == null) {
+			instance = new EncheresManager();
+		}
+
+		if(daoEnchere == null) {
 			try {
 				daoEnchere = (EncheresDAO) DAOFactory.getEncheresDAO();
 			} catch (DALException ex) {
 				ex.printStackTrace();
 			}
-	}	
+		}
+
+		return instance;
+	}
 	
 	/**
 	 * Valider les données d'une enchère
