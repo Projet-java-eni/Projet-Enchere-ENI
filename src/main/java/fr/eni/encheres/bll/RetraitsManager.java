@@ -17,13 +17,30 @@ import fr.eni.encheres.dal.RetraitsDAO;
 
 public class RetraitsManager {
 
-	private static RetraitsDAO daoRetraits;
+	private static RetraitsDAO daoRetraits = null;
 
-	public RetraitsManager() throws BLLException, DALException {
+	private static RetraitsManager instance = null;
+
+	private RetraitsManager()  {
 		// on instancie le DAO
-		daoRetraits = (RetraitsDAO) DAOFactory.getRetraitsDAO();
-
 	}
+
+	public static RetraitsManager GetInstance() {
+		if(instance == null) {
+			instance = new RetraitsManager();
+		}
+
+		if(daoRetraits == null) {
+			try {
+				daoRetraits = (RetraitsDAO) DAOFactory.getRetraitsDAO();
+			} catch (DALException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return instance;
+	}
+
 
 	public static List<Retrait> getRetraits() throws BLLException {
 		List<Retrait> listCoordonnees = null;
@@ -102,16 +119,14 @@ public class RetraitsManager {
 	 */
 	public void ajouterAdresse(Retrait newAdresse) throws BLLException, BusinessException {
 		BusinessException exception = new BusinessException();
-		if (newAdresse.getIdRetrait() != 0) {
-			System.out.println("Une adresse est existante");
-			try {
-				validerAdresse(newAdresse, exception);
-				daoRetraits.add(newAdresse);
-			} catch (DALException ex) {
-				throw new BLLException("Echec dans l'insertion de l'adresse", ex);
-			}
-
+//		System.out.println("Une adresse est existante");
+		try {
+			validerAdresse(newAdresse, exception);
+			daoRetraits.add(newAdresse);
+		} catch (DALException ex) {
+			throw new BLLException("Echec dans l'insertion de l'adresse " + ex.getLocalizedMessage(), ex);
 		}
+
 	}
 
 	/**

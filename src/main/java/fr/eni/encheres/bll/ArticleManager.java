@@ -4,10 +4,12 @@ package fr.eni.encheres.bll;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.Utilitaires;
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticlesDAO;
 import fr.eni.encheres.dal.DALException;
@@ -146,12 +148,17 @@ public class ArticleManager {
 		return article;
 	}
 
-	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String date, Categorie categorie,
+	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String dateDebut,
+									   String dateFin, String rue, String codePostal, String ville, Categorie categorie,
 									   Utilisateur utilisateur, Article article, Erreurs erreurs) {
 		if(nom == null) erreurs.addErreur("Le nom doit être renseigné"); else article.setNomArticle(nom);
 		if(description == null) erreurs.addErreur("La description doit être renseignée"); else article.setDescription(description);
 		if(prix == null) erreurs.addErreur("Le prix doit être renseigné");
-		if(date == null) erreurs.addErreur("La date doit être renseignée");
+		if(dateDebut == null) erreurs.addErreur("La date doit être renseignée");
+		if(dateFin == null) erreurs.addErreur("La date de fin doit être renseignée");
+		if(rue == null) erreurs.addErreur("La rue doit être renseignée");
+		if(codePostal == null) erreurs.addErreur("Le code postal doit être renseigné");
+		if(ville == null) erreurs.addErreur("La ville doit être renseignée");
 		if(categorie == null) erreurs.addErreur("La catégorie doit être renseignée");
 		if(utilisateur == null) erreurs.addErreur("Il faut être connecté pour vendre un article");
 
@@ -169,11 +176,18 @@ public class ArticleManager {
 
 		article.setMiseAPrix(prixInt);
 
-		LocalDateTime dateMise = Utilitaires.fromHTMLDateTimeLocal(date);
+
+		LocalDateTime dateMise = Utilitaires.fromHTMLDateTimeLocal(dateDebut);
+		LocalDateTime dateFinD = Utilitaires.fromHTMLDateTimeLocal(dateFin);
+
 		article.setDateDebutEnchere(dateMise.toLocalDate());
 		article.setTimeDebutEnchere(dateMise.toLocalTime());
 
-		article.setDateFinEnchere(dateMise.toLocalDate().plusDays(2)); // par defaut enchere finit dans 2 jours
+		boolean finDefault = dateFin.length() == 0;
+		if(!finDefault)
+			article.setDateFinEnchere(dateFinD.toLocalDate().plusDays(2)); // par defaut enchere finit dans 2 jours
+		else
+			article.setDateFinEnchere(dateFinD.toLocalDate());
 		article.setTimeFinEnchere(dateMise.toLocalTime()); // par defaut enchere finit a la meme heure
 
 		article.setCategorie(categorie);
@@ -183,6 +197,16 @@ public class ArticleManager {
 		if(erreurs.hasErrors()) return;
 
 		creerArticle(article, erreurs);
+
+		Retrait retrait = new Retrait(rue, codePostal, ville);
+		retrait.setNoArticle(article.getNoArticle());
+		try {
+			RetraitsManager.GetInstance().ajouterAdresse(retrait);
+		} catch (BLLException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		} catch (BusinessException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
 	}
 }
 

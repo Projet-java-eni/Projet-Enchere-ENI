@@ -21,18 +21,18 @@ import fr.eni.encheres.dal.RetraitsDAO;
 public class RetraitsImpl implements RetraitsDAO {
 
 	// Recupération de l'adresse en fonction de l'article
-	private static final String sqlSelectAdresseByArticle = "SELECT rue, code_postal, ville FROM Retrait WHERE no_article=?";
+	private static final String sqlSelectAdresseByArticle = "SELECT rue, code_postal, ville FROM Retraits WHERE no_article=?";
 	// Recupération de l'adresse en fonction de son identifiant
-	private static final String sqlSelectAdresseByIdRetrait = "SELECT rue, code_postal, ville FROM Retrait WHERE id_retrait=?";
+	private static final String sqlSelectAdresseByIdRetrait = "SELECT rue, code_postal, ville FROM Retraits WHERE id_retrait=?";
 	// Requête SQL pour que le vendeur insert une nouvelle adresse
-	private static final String sqlInsertAdresseRetrait = "INSERT INTO Retrait (rue, code_postal, ville)  VALUES (? , ? , ?)";
+	private static final String sqlInsertAdresseRetrait = "INSERT INTO Retraits (rue, code_postal, ville)  VALUES (? , ? , ?)";
 	// le vendeur efface l'adresse
-	private static final String sqlDeleteAdresseRetrait = "DELETE FROM Retrait WHERE id_retrait=?";
+	private static final String sqlDeleteAdresseRetrait = "DELETE FROM Retraits WHERE id_retrait=?";
 	// le vendeur MAJ l'adresse
-	private static final String sqlUpdateAdresseRetrait = "UPDATE Retrait SET noArticle=?,"
+	private static final String sqlUpdateAdresseRetrait = "UPDATE Retraits SET no_article=?,"
 			+ "id_retrait=?, rue=?, code_postal=?, ville=? WHERE id_retrait=?";
 	// on selectionne l'ens des infos du retrait
-	private static final String sqlSelectAllCoordonnees = "SELECT no_article, id_retrait, rue, code_postal, ville FROM Retrait";
+	private static final String sqlSelectAllCoordonnees = "SELECT no_article, id_retrait, rue, code_postal, ville FROM Retraits";
 
 	@Override
 	public Retrait lieuRetrait(int noArticle) throws DALException {
@@ -54,7 +54,7 @@ public class RetraitsImpl implements RetraitsDAO {
 		}
 
 		catch (SQLException ex) {
-			throw new DALException("selectCoordonnees failed - artv = " + noArticle, ex);
+			throw new DALException("selectCoordonnees failed - artv = " + noArticle + ex.getLocalizedMessage(), ex);
 		}
 
 		finally {
@@ -86,7 +86,7 @@ public class RetraitsImpl implements RetraitsDAO {
 		}
 
 		catch (SQLException ex) {
-			throw new DALException("selectCoordonnees failed - artv = " + idRetrait, ex);
+			throw new DALException("selectCoordonnees failed - artv = " + idRetrait + " " + ex.getLocalizedMessage(), ex);
 		}
 
 		finally {
@@ -121,7 +121,7 @@ public class RetraitsImpl implements RetraitsDAO {
 			stmt.execute();
 
 		} catch (SQLException ex) {
-			throw new DALException("Erreur dans l'insertion de l'adresse", ex);
+			throw new DALException("Erreur dans l'insertion de l'adresse" + " " + ex.getLocalizedMessage(), ex);
 		}
 
 		finally {
@@ -144,7 +144,7 @@ public class RetraitsImpl implements RetraitsDAO {
 			stmt.executeUpdate();
 
 		} catch (SQLException ex) {
-			throw new DALException("Erreur dans la suppression de l'article ", ex);
+			throw new DALException("Erreur dans la suppression de l'article " + " " + ex.getLocalizedMessage(), ex);
 
 		} finally {
 			GetConnection.close(rs);
@@ -171,7 +171,7 @@ public class RetraitsImpl implements RetraitsDAO {
 			stmt.executeUpdate();
 
 		} catch (SQLException ex) {
-			throw new DALException("update article failed - " + adresse, ex);
+			throw new DALException("update article failed - " + adresse + " " + ex.getLocalizedMessage(), ex);
 		}
 
 		finally {
@@ -198,7 +198,7 @@ public class RetraitsImpl implements RetraitsDAO {
 				listCoordonnees.add(coordonnees);
 			}
 		} catch (SQLException ex) {
-			throw new DALException("selectAll failed - ", ex);
+			throw new DALException("selectAll failed - " + " " + ex.getLocalizedMessage(), ex);
 		}
 
 		finally {

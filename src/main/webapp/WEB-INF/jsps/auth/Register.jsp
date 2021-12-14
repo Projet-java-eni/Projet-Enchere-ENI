@@ -6,7 +6,7 @@
 <jsp:useBean id="errors" scope="request" type="fr.eni.encheres.beans.Erreurs"/>
 
 
-<%@ include file="../EnteteBootstrap.html"%>
+<%@ include file="../EnteteBootstrap.jspf"%>
 
 <h1>Bienvenue sur trocenchères</h1>
 
@@ -121,4 +121,4 @@
 	<button type="submit" class="btn btn-primary" name="inscription">S'inscrire</button>
 </form>
 
-<%@ include file="../PiedBootstrap.html"%>
+<%@ include file="../PiedBootstrap.jspf"%>

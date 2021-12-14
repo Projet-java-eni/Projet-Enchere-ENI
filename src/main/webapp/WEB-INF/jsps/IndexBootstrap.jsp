@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="EnteteBootstrap.html" %>
+<%@ include file="EnteteBootstrap.jspf" %>
 
 <jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
 
@@ -27,4 +27,4 @@
 </c:if>
 
 Salut de Bootstrap
-<%@ include file="PiedBootstrap.html" %>
+<%@ include file="PiedBootstrap.jspf" %>

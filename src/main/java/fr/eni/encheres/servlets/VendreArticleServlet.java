@@ -27,22 +27,26 @@ public class VendreArticleServlet extends HttpServlet {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		Infos infos = (Infos) request.getAttribute("infos");
 		Article article = new Article();
+		Utilisateur utilisateur=new Utilisateur();
+		try {
+			utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"));
+		} catch (BLLException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
 
 		if(request.getParameter("vendre") != null) {
 			String nom = request.getParameter("nom");
 			String description = request.getParameter("description");
 			String prix = request.getParameter("prix");
-			String date = request.getParameter("date");
-			Categorie categorie = null;
-			categorie = categoriesManager.getByLibelle(request.getParameter("category"), erreurs);
-			Utilisateur utilisateur=null;
-			try {
-				 utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"));
-			} catch (BLLException e) {
-				erreurs.addErreur(e.getLocalizedMessage());
-			}
+			String dateDebut = request.getParameter("date_debut");
+			String dateFin = request.getParameter("date_fin");
+			String rue = request.getParameter("rue");
+			String codePostal = request.getParameter("code_postal");
+			String ville = request.getParameter("ville");
+			Categorie categorie = categoriesManager.getByLibelle(request.getParameter("category"), erreurs);
 
-			articleManager.sauvegarderDepuisLeWeb(nom, description, prix, date, categorie, utilisateur, article, erreurs);
+
+			articleManager.sauvegarderDepuisLeWeb(nom, description, prix, dateDebut, dateFin, rue, codePostal, ville, categorie, utilisateur, article, erreurs);
 			if(!erreurs.hasErrors()) {
 				infos.addInfo("Nouvel article ajouté !");
 			}
@@ -50,6 +54,7 @@ public class VendreArticleServlet extends HttpServlet {
 
 		request.setAttribute("article", article);
 		request.setAttribute("categories", categoriesManager.getAllCategories(erreurs) );
+		request.setAttribute("utilisateur", utilisateur);
 
         request.getRequestDispatcher("/WEB-INF/jsps/VendreArticle.jsp").forward(request, response);
 	}

@@ -14,7 +14,7 @@ import fr.eni.encheres.dal.DAO;
 
 public class EncheresImpl implements DAO<Enchere> {
 
-	String sqlInsertEnchere = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, montant_enchere)  VALUES (? , ? , ? , ?)";
+	String sqlInsertEnchere = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere)  VALUES (? , ? , ? , ? , ?)";
 	String sqlSelectEncheresByNoUtilisateur = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? ";
 	String sqlSelectEncheresByNoArticle = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_article = ? ";
 	String sqlSelectEncheresByNoUtilisateurEtNoArticle = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";

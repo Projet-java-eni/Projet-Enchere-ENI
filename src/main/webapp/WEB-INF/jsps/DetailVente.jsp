@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 </head>
 
-<%@ include file="..//jsps/Entete.html" %>
+<%@ include file="../jsps/Entete.html" %>
 
 <body>
 

@@ -7,7 +7,7 @@
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="EnteteBootstrap.html" %>
+<%@ include file="EnteteBootstrap.jspf" %>
 
 <jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
 <jsp:useBean id="utilisateur" type="fr.eni.encheres.bo.Utilisateur" scope="request" />
@@ -33,4 +33,4 @@
 </div>
 
 
-<%@ include file="PiedBootstrap.html" %>
+<%@ include file="PiedBootstrap.jspf" %>

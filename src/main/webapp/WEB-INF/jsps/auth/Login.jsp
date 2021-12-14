@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="../EnteteBootstrap.html" %>
+<%@ include file="../EnteteBootstrap.jspf" %>
 
 
 <jsp:useBean id="errors" scope="request" type="fr.eni.encheres.beans.Erreurs" />
@@ -65,4 +65,4 @@ Login
     Pas encore inscrit ? <a href="<%= request.getContextPath() %>/Inscription">S'inscrire</a>
 </p>
 
-<%@ include file="../PiedBootstrap.html" %>
+<%@ include file="../PiedBootstrap.jspf" %>
