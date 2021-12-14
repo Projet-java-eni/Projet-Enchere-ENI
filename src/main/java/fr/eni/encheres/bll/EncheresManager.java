@@ -45,7 +45,7 @@ public class EncheresManager {
 			valide = false;
 		}
 		//le numéro article ne peut pas être inférieur ou égal à 0. Il est récupéré via la sélecrion de l'article par l'utilisateur au moment de faire l'enchère
-		if(e.getArticleVendu().getNoArticle()<=0){
+		if(e.getArticle().getNoArticle()<=0){
 			sb.append("Le numéro de l'article est obligatoire.\n");
 			valide = false;
 		}
