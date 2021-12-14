@@ -3,6 +3,7 @@
 package fr.eni.encheres.bo;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class Article {
@@ -11,7 +12,9 @@ public class Article {
 	private String nomArticle;
 	private String description;
 	private LocalDate dateDebutEnchere;
+	private LocalTime timeDebutEnchere;
 	private LocalDate dateFinEnchere;
+	private LocalTime timeFinEnchere;
 	private int miseAPrix;
 	private int prixVente;
 	private String etatVente;
@@ -26,7 +29,7 @@ public class Article {
 	}
 
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-			LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente) {
+				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente) {
 
 		super();
 		this.noArticle = noArticle;
@@ -34,7 +37,6 @@ public class Article {
 		this.description = description;
 		this.dateDebutEnchere = dateDebutEnchere;
 		this.dateFinEnchere = dateFinEnchere;
-		this.miseAPrix = miseAPrix;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
@@ -45,7 +47,7 @@ public class Article {
 	 * @author Sego Constructeur avec tous les paramètres
 	 */
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-			LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Categorie categorie,
+				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Categorie categorie,
 			Retrait retrait, Utilisateur utilisateur, List<Enchere> encheres) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -88,22 +90,6 @@ public class Article {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public LocalDate getDateDebutEnchere() {
-		return this.dateDebutEnchere;
-	}
-
-	public void setDateDebutEnchere(LocalDate dateDebutEnchere) {
-		this.dateDebutEnchere = dateDebutEnchere;
-	}
-
-	public LocalDate getDateFinEnchere() {
-		return this.dateFinEnchere;
-	}
-
-	public void setDateFinEnchere(LocalDate dateFinEnchere) {
-		this.dateFinEnchere = dateFinEnchere;
 	}
 
 	public int getMiseAPrix() {
@@ -169,5 +155,40 @@ public class Article {
 				+ this.dateFinEnchere + ", miseAPrix=" + this.miseAPrix + ", prixVente=" + this.prixVente
 				+ ", etatVente=" + this.etatVente + ", categorie=" + this.categorie + ", retrait=" + this.retrait
 				+ ", utilisateur=" + this.utilisateur + ", encheres=" + this.encheres + "]";
+	}
+
+	public LocalDate getDateDebutEnchere() {
+		return dateDebutEnchere;
+	}
+
+	public void setDateDebutEnchere(LocalDate dateDebutEnchere) {
+		this.dateDebutEnchere = dateDebutEnchere;
+	}
+
+	public LocalTime getTimeDebutEnchere() {
+		return timeDebutEnchere;
+	}
+
+	public void setTimeDebutEnchere(LocalTime timeDebutEnchere) {
+		this.timeDebutEnchere = timeDebutEnchere;
+	}
+
+	public void setDateFinEnchere(LocalDate dateFinEnchere) {
+		this.dateFinEnchere = dateFinEnchere;
+	}
+
+	public LocalTime getTimeFinEnchere() {
+		return timeFinEnchere;
+	}
+
+	public void setTimeFinEnchere(LocalTime timeFinEnchere) {
+		this.timeFinEnchere = timeFinEnchere;
+	}
+
+	public LocalDate getDateFinEnchere() {
+		return dateFinEnchere;
+	}
+
+	public void setHeureDebutEnchere(LocalDate toLocalDate) {
 	}
 }

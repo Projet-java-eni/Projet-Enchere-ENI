@@ -1,10 +1,6 @@
 package fr.eni.encheres.dal.jdbc;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,8 +157,8 @@ public class ArticlesImpl implements ArticlesDAO {
 
 			statement.setString(i++, nouvelArticle.getNomArticle());
 			statement.setString(i++, nouvelArticle.getDescription());
-			statement.setObject(i++, nouvelArticle.getDateDebutEnchere());
-			statement.setObject(i++, nouvelArticle.getDateFinEnchere());
+			statement.setDate(i++, Date.valueOf(nouvelArticle.getDateDebutEnchere()));
+			statement.setDate(i++, Date.valueOf(nouvelArticle.getDateFinEnchere()));
 			statement.setInt(i++, nouvelArticle.getMiseAPrix());
 			statement.setInt(i++, nouvelArticle.getPrixVente());
 			statement.setString(i++, nouvelArticle.getEtatVente());

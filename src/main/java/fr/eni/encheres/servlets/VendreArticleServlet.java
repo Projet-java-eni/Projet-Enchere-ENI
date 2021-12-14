@@ -2,6 +2,7 @@ package fr.eni.encheres.servlets;
 
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bll.ArticleManager;
+import fr.eni.encheres.bo.Article;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,13 +19,18 @@ public class VendreArticleServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
+		Article article = new Article();
 
 		if(request.getParameter("vendre") != null) {
 			String nom = request.getParameter("nom");
 			String description = request.getParameter("description");
 			String prix = request.getParameter("prix");
 			String date = request.getParameter("date");
+
+			articleManager.sauvegarderDepuisLeWeb(nom, description, prix, date, article, erreurs);
 		}
+
+		request.setAttribute("article", article);
 
         request.getRequestDispatcher("/WEB-INF/jsps/VendreArticle.jsp").forward(request, response);
 	}

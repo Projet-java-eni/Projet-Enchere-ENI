@@ -2,7 +2,9 @@ package fr.eni.encheres.bll;
 //@author frederic
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import fr.eni.encheres.Utilitaires;
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
@@ -101,6 +103,31 @@ public class ArticleManager {
 		}
 
 		return article;
+	}
+
+	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String date, Article article, Erreurs erreurs) {
+		if(nom == null) erreurs.addErreur("Le nom doit être renseigné"); else article.setNomArticle(nom);
+		if(description == null) erreurs.addErreur("La description doit être renseignée"); else article.setDescription(description);
+		if(prix == null) erreurs.addErreur("Le prix doit être renseigné");
+		if(date == null) erreurs.addErreur("La date doit être renseignée");
+
+		if (erreurs.hasErrors()) return;
+
+		int prixInt;
+
+		try {
+			assert prix != null;
+			prixInt = Integer.parseInt(prix);
+		} catch (NumberFormatException e) {
+			erreurs.addErreur("Valeur mise à prix malformatée");
+			prixInt = 0;
+		}
+
+		article.setMiseAPrix(prixInt);
+
+		LocalDateTime dateMise = Utilitaires.fromHTMLDateTimeLocal(date);
+		article.setDateDebutEnchere(dateMise.toLocalDate());
+		article.setTimeDebutEnchere(dateMise.toLocalTime());
 	}
 }
 

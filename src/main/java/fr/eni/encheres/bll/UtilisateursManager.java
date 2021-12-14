@@ -126,6 +126,7 @@ public class UtilisateursManager {
 			}
 		}
 
+		if (erreurs.hasErrors()) return null;
 
 		Integer credit_int = 0;
 		
@@ -135,7 +136,7 @@ public class UtilisateursManager {
 			erreurs.addErreur("Impossible de convertir le crédit en nombre entier");
 		}
 		
-		if (erreurs.hasErrors()) return null;
+
 		
 		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit_int, is_admin, is_actif, erreurs);
 	}
