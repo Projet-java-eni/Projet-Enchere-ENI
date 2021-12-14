@@ -101,17 +101,23 @@ public class ArticlesImpl implements ArticlesDAO {
 			con = GetConnection.getConnexion();
 			statement = con.createStatement();
 			resultSet = statement.executeQuery(sqlSelectAll);
-			Article article = null;
-			while (resultSet.next())
 
-//				article = new Article(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-//						resultSet.getLocalDate(4), resultSet.getLocalDate(5), resultSet.getInt(6), resultSet.getInt(7),
-//						resultSet.getString(8), resultSet.getString(9), resultSet.getString(10),
-//						resultSet.getString(11), resultSet.getString(12));
-
-			listArticle.add(article);
+			while (resultSet.next()) {
+				listArticle.add(new Article(
+						resultSet.getInt("no_article"),
+						resultSet.getString("nom_article"),
+						resultSet.getString("description"),
+						resultSet.getDate("date_debut_encheres").toLocalDate(),
+						resultSet.getTime("heure_debut_encheres").toLocalTime(),
+						resultSet.getDate("date_fin_encheres").toLocalDate(),
+						resultSet.getTime("heure_fin_encheres").toLocalTime(),
+						resultSet.getInt("prix_initial"),
+						resultSet.getInt("prix_vente"),
+						resultSet.getInt("etat_vente")
+				));
+			}
 		} catch (SQLException ex) {
-			throw new DALException("selectAll failed - ", ex);
+			throw new DALException("selectAll failed - " + ex.getLocalizedMessage(), ex);
 		}
 
 		finally {
@@ -147,7 +153,7 @@ public class ArticlesImpl implements ArticlesDAO {
 			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
 
 		} catch (SQLException ex) {
-			throw new DALException("getByCategorie failed  = " + categorie, ex);
+			throw new DALException("getByCategorie failed  = " + categorie + " " + ex.getLocalizedMessage(), ex);
 		}
 
 		finally {

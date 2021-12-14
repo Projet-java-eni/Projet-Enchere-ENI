@@ -1,17 +1,21 @@
 package fr.eni.encheres.servlets;
 
+import fr.eni.encheres.bll.ArticleManager;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "DeconnexionServlet", value = "/Deconnexion")
-public class DeconnexionServlet extends HttpServlet {
+@WebServlet(name = "VentesEnCoursServlet", value = "/VentesEnCours")
+public class VentesEnCoursServlet extends HttpServlet {
+	static ArticleManager articleManager = ArticleManager.GetInstance();
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession().removeAttribute("user_id");
-		request.getSession().removeAttribute("user_pseudo");
-		response.sendRedirect(request.getHeader("Referer"));
+		request.setAttribute("articles", articleManager.getCatalogue());
+
+		request.getRequestDispatcher("/WEB-INF/jsps/vente/ListerVentes.jsp").forward(request, response);
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package fr.eni.encheres.bll;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.Utilitaires;
@@ -39,6 +41,32 @@ public class ArticleManager {
 		}
 
 		return instance;
+	}
+
+	public Article getArticleById(int articleId) throws BLLException {
+
+		Article article = null;
+
+		try {
+			article = articlesDAO.getById(articleId);
+		} catch (DALException e) {
+			throw new BLLException(e.getLocalizedMessage(), e);
+		}
+
+		return article;
+	}
+
+	public List<Article> getCatalogue() {
+		return getCatalogue(new Erreurs());
+	}
+
+	public List<Article> getCatalogue(Erreurs erreurs) {
+		try {
+			return articlesDAO.getAll();
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+			return new ArrayList<>();
+		}
 	}
 
 	public void addArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
@@ -134,19 +162,7 @@ public class ArticleManager {
 
 		return article;
 	}
-	public Article getArticleById(int articleId) throws BLLException {
 
-		Article article = null;
-
-
-		try {
-			article = articlesDAO.getById(articleId);
-		} catch (DALException e) {
-			throw new BLLException(e.getLocalizedMessage(), e);
-		}
-
-		return article;
-	}
 
 	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String dateDebut,
 									   String dateFin, String rue, String codePostal, String ville, Categorie categorie,

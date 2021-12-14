@@ -1,4 +1,4 @@
-package fr.eni.encheres.servlets;
+package fr.eni.encheres.servlets.utilisateurs;
 
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bll.BLLException;

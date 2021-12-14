@@ -29,14 +29,17 @@ public class Article {
 	}
 
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, Integer etatVente) {
+				   LocalTime timeDebutEnchere, LocalDate dateFinEnchere, LocalTime timeFinEnchere,
+				   int miseAPrix, int prixVente, Integer etatVente) {
 
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEnchere = dateDebutEnchere;
+		this.timeDebutEnchere = timeDebutEnchere;
 		this.dateFinEnchere = dateFinEnchere;
+		this.timeFinEnchere = timeFinEnchere;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
