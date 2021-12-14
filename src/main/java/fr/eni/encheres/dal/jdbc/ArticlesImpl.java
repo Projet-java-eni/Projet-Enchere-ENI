@@ -162,12 +162,10 @@ public class ArticlesImpl implements ArticlesDAO {
 	@Override
 	public void add(Article article) throws DALException {
 		Connection con = null;
-		PreparedStatement statement = null;
 		ResultSet rs = null;
 
-		try {
-			con = GetConnection.getConnexion();
-			statement = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
+				sqlInsert, new String[] { "no_article" })){
 			int i = 1;
 
 			statement.setString(i++, article.getNomArticle());
@@ -178,9 +176,9 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement.setTime(i++, Time.valueOf(article.getTimeFinEnchere()));
 			statement.setInt(i++, article.getMiseAPrix());
 			statement.setInt(i++, article.getPrixVente());
-			statement.setInt(i++, article.getUtilisateur().getNoUtilisateur());
-			statement.setInt(i++, article.getCategorie().getId());
 			statement.setInt(i++, article.getEtatVente());
+			statement.setInt(i++, article.getCategorie().getId());
+			statement.setInt(i++, article.getUtilisateur().getNoUtilisateur());
 
 			int nbRows = statement.executeUpdate();
 			if (nbRows == 1) {
@@ -191,13 +189,12 @@ public class ArticlesImpl implements ArticlesDAO {
 			}
 			statement.execute();
 
-		} catch (SQLException ex) {
-			throw new DALException("Erreur dans l'insertion de l'article", ex);
+		} catch (SQLException | NullPointerException ex) {
+			throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 
 		finally {
 			GetConnection.close(rs);
-			GetConnection.close(statement);
 			GetConnection.close(con);
 		}
 	}

@@ -8,6 +8,7 @@ import fr.eni.encheres.Utilitaires;
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticlesDAO;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAOFactory;
@@ -145,11 +146,14 @@ public class ArticleManager {
 		return article;
 	}
 
-	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String date, Article article, Erreurs erreurs) {
+	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String date, Categorie categorie,
+									   Utilisateur utilisateur, Article article, Erreurs erreurs) {
 		if(nom == null) erreurs.addErreur("Le nom doit être renseigné"); else article.setNomArticle(nom);
 		if(description == null) erreurs.addErreur("La description doit être renseignée"); else article.setDescription(description);
 		if(prix == null) erreurs.addErreur("Le prix doit être renseigné");
 		if(date == null) erreurs.addErreur("La date doit être renseignée");
+		if(categorie == null) erreurs.addErreur("La catégorie doit être renseignée");
+		if(utilisateur == null) erreurs.addErreur("Il faut être connecté pour vendre un article");
 
 		if (erreurs.hasErrors()) return;
 
@@ -171,6 +175,10 @@ public class ArticleManager {
 
 		article.setDateFinEnchere(dateMise.toLocalDate().plusDays(2)); // par defaut enchere finit dans 2 jours
 		article.setTimeFinEnchere(dateMise.toLocalTime()); // par defaut enchere finit a la meme heure
+
+		article.setCategorie(categorie);
+		article.setUtilisateur(utilisateur);
+		article.setEtatVente(0);
 
 		if(erreurs.hasErrors()) return;
 

@@ -85,6 +85,19 @@ public class CategoriesManager {
 		return categorie;
 	}
 
+	public Categorie getByLibelle(String libelle, Erreurs erreurs) {
+
+		Categorie categorie = null;
+
+		try {
+			categorie = categoriesDAO.getByLibelle(libelle);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+
+		return categorie;
+	}
+
 	public List<Categorie> getAllCategories(Erreurs erreurs) {
 		
 		try {

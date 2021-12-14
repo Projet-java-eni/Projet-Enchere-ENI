@@ -3,8 +3,12 @@ package fr.eni.encheres.servlets;
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.beans.Infos;
 import fr.eni.encheres.bll.ArticleManager;
+import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.CategoriesManager;
+import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Utilisateur;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,6 +20,7 @@ public class VendreArticleServlet extends HttpServlet {
 
 	static ArticleManager articleManager = ArticleManager.GetInstance();
 	static CategoriesManager categoriesManager = CategoriesManager.GetInstance();
+	static UtilisateursManager utilisateursManager = UtilisateursManager.GetInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,8 +33,16 @@ public class VendreArticleServlet extends HttpServlet {
 			String description = request.getParameter("description");
 			String prix = request.getParameter("prix");
 			String date = request.getParameter("date");
+			Categorie categorie = null;
+			categorie = categoriesManager.getByLibelle(request.getParameter("category"), erreurs);
+			Utilisateur utilisateur=null;
+			try {
+				 utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"));
+			} catch (BLLException e) {
+				erreurs.addErreur(e.getLocalizedMessage());
+			}
 
-			articleManager.sauvegarderDepuisLeWeb(nom, description, prix, date, article, erreurs);
+			articleManager.sauvegarderDepuisLeWeb(nom, description, prix, date, categorie, utilisateur, article, erreurs);
 			if(!erreurs.hasErrors()) {
 				infos.addInfo("Nouvel article ajouté !");
 			}

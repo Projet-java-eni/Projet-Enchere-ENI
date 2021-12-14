@@ -1,0 +1,1 @@
+insert into CATEGORIES values ('decorations'), ('vetements')

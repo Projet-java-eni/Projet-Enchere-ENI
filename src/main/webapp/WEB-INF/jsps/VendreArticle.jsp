@@ -43,7 +43,8 @@
     </div>
 
     <div class="row mb-3">
-        <select name="category">
+        <label class="form-label" for="category">Catégorie</label>
+        <select name="category" id="category" class="form-control">
             <c:forEach items="${categories}" var="category">
                 <option value="${category.libelle}">${category.libelle}</option>
             </c:forEach>

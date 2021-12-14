@@ -15,6 +15,7 @@ public class CategoriesImpl implements CategoriesDAO {
 
 	enum StoredStatements {
 		GET_BY_ID("select no_categorie, libelle from dbo.categories where no_utilisateur=?"),
+		GET_BY_LIB("select no_categorie, libelle from dbo.categories where libelle=?"),
 		SELECT_ALL("select no_categorie, libelle from dbo.categories"),
 		INSERT("INSERT INTO dbo.categories (libelle) VALUES (?)"),
 		UPDATE("UPDATE dbo.categories SET libelle=? WHERE no_categorie=?"),
@@ -48,7 +49,26 @@ public class CategoriesImpl implements CategoriesDAO {
 		}
 	}
 
-	
+	@Override
+	public Categorie getByLibelle(String libelle) throws DALException {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(StoredStatements.GET_BY_LIB.value)) {
+
+			statement.setString(1, libelle);
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+
+				resultSet.next();
+
+				return new Categorie(resultSet.getInt("no_categorie"),
+						resultSet.getString("libelle"));
+			}
+
+		} catch (SQLException e) {
+			throw new DALException(e.getMessage(), e);
+		}
+	}
+
+
 	@Override
 	public List<Categorie> getAll() throws DALException {
 		
