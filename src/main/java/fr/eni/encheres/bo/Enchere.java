@@ -2,6 +2,7 @@
 package fr.eni.encheres.bo;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Enchere {
 	private Utilisateur utilisateur;
@@ -10,16 +11,18 @@ public class Enchere {
 	private int noArticle;*/
 	private int montantEnchere;
 	private LocalDate dateEnchere;
-	
+	private LocalTime heureEnchere;
+
 	public Enchere() {	
 	}
 	
-	public Enchere(Utilisateur utilisateur, Article article, LocalDate dateEnchere, int montantEnchere) {
+	public Enchere(Utilisateur utilisateur, Article article, LocalDate dateEnchere, LocalTime heureEnchere, int montantEnchere) {
 		super();
 		this.setUtilisateur(utilisateur);
 		this.setArticle(article);
 		this.montantEnchere = montantEnchere;
 		this.dateEnchere = dateEnchere;
+		this.heureEnchere = heureEnchere;
 	}
 
 	/*public int getNoUtilisateur() {
@@ -77,6 +80,12 @@ public class Enchere {
 				+ this.montantEnchere + ", dateEnchere=" + this.dateEnchere + "]";
 	}
 
-	
 
+	public LocalTime getHeureEnchere() {
+		return heureEnchere;
+	}
+
+	public void setHeureEnchere(LocalTime heureEnchere) {
+		this.heureEnchere = heureEnchere;
+	}
 }

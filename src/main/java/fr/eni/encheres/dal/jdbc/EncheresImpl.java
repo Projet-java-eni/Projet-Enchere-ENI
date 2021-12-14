@@ -1,12 +1,7 @@
 // @author Lucie
 package fr.eni.encheres.dal.jdbc;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +15,11 @@ import fr.eni.encheres.dal.DAO;
 public class EncheresImpl implements DAO<Enchere> {
 
 	String sqlInsertEnchere = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, montant_enchere)  VALUES (? , ? , ? , ?)";
-	String sqlSelectEncheresByNoUtilisateur = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? ";
-	String sqlSelectEncheresByNoArticle = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_article = ? ";
-	String sqlSelectEncheresByNoUtilisateurEtNoArticle = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
-	String sqlSelectAllEncheres = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres";
-	String sqlUpdateEnchere = "UPDATE encheres SET no_utilisateur = ?, no_article = ?, date_enchere = ?, montant_enchere = ? WHERE no_utilisateur = ? AND no_article = ?";
+	String sqlSelectEncheresByNoUtilisateur = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? ";
+	String sqlSelectEncheresByNoArticle = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_article = ? ";
+	String sqlSelectEncheresByNoUtilisateurEtNoArticle = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
+	String sqlSelectAllEncheres = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres";
+	String sqlUpdateEnchere = "UPDATE encheres SET no_utilisateur = ?, no_article = ?, date_enchere = ?, heure_enchere = ?, montant_enchere = ? WHERE no_utilisateur = ? AND no_article = ?";
 	String sqlDeleteEnchereByNoUtilisateurEtNoArticle = "DELETE FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
 	String sqlSelectMeilleureOffreByNoArticle = "SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?;";
 	
@@ -38,8 +33,9 @@ public class EncheresImpl implements DAO<Enchere> {
 					
 					pstmt.setInt(1, e.getUtilisateur().getNoUtilisateur());
 					pstmt.setInt(2, e.getArticle().getNoArticle());
-					pstmt.setObject(3,(LocalDate) e.getDateEnchere());
-					pstmt.setInt(4, e.getMontantEnchere());
+					pstmt.setDate(3, Date.valueOf(e.getDateEnchere()));
+					pstmt.setTime(4, Time.valueOf(e.getHeureEnchere()));
+					pstmt.setInt(5, e.getMontantEnchere());
 					
 					pstmt.execute();
 			}catch(SQLException ex){
@@ -60,13 +56,19 @@ public class EncheresImpl implements DAO<Enchere> {
 					if(rs.next()) {
 						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
 						Article article = new Article(rs.getInt(2));
-						e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
+						e = new Enchere(
+								utilisateur,
+								article,
+								rs.getDate(3).toLocalDate(),
+								rs.getTime(4).toLocalTime(),
+								rs.getInt(5)
+						);
 						encheres.add(e);
 					}
 					return encheres;	
 				}
 		} catch (SQLException ex) {
-						throw new DALException(sqlSelectEncheresByNoUtilisateur, ex);
+						throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 			
 	}
@@ -78,18 +80,24 @@ public class EncheresImpl implements DAO<Enchere> {
 			){
 				pstmt.setInt(1, noArticle);
 				try(ResultSet rs = pstmt.executeQuery();){
-					List<Enchere> encheres = new ArrayList<Enchere>();			
+					List<Enchere> encheres = new ArrayList<>();
 					Enchere e = null;
 					if(rs.next()) {
 						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
 						Article article = new Article(rs.getInt(2));
-						e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
+						e = new Enchere(
+								utilisateur,
+								article,
+								rs.getDate(3).toLocalDate(),
+								rs.getTime(4).toLocalTime(),
+								rs.getInt(5)
+						);
 						encheres.add(e);
 					}
 					return encheres;	
 				}	
 		}catch (SQLException ex) {
-						throw new DALException(sqlSelectEncheresByNoArticle, ex);
+						throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
 
@@ -106,14 +114,20 @@ public class EncheresImpl implements DAO<Enchere> {
 					if(rs.next()) {
 						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
 						Article article = new Article(rs.getInt(2));
-						e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
+						e = new Enchere(
+								utilisateur,
+								article,
+								rs.getDate(3).toLocalDate(),
+								rs.getTime(4).toLocalTime(),
+								rs.getInt(5)
+						);
 						encheres.add(e);
 					}
 					return encheres;	
 				}
 		}	
 		catch (SQLException ex) {
-						throw new DALException(sqlSelectEncheresByNoUtilisateurEtNoArticle, ex);
+						throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
 	
@@ -124,18 +138,24 @@ public class EncheresImpl implements DAO<Enchere> {
 				Statement stmt = con.createStatement();
 				ResultSet rs =  stmt.executeQuery(sqlSelectAllEncheres);	
 			){
-				List<Enchere> encheres=new ArrayList<Enchere>();			
+				List<Enchere> encheres=new ArrayList<>();
 				Enchere e = null;
 				
 				while(rs.next()){
 					Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
 					Article article = new Article(rs.getInt(2));
-					e = new Enchere(utilisateur, article, (LocalDate) rs.getObject(3), rs.getInt(4));
+					e = new Enchere(
+							utilisateur,
+							article,
+							rs.getDate(3).toLocalDate(),
+							rs.getTime(4).toLocalTime(),
+							rs.getInt(5)
+					);
 					encheres.add(e);
 				}
 				return encheres;
 		} catch (SQLException ex) {
-				throw new DALException(ex.getMessage(), ex);
+				throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
 	
@@ -148,12 +168,13 @@ public class EncheresImpl implements DAO<Enchere> {
 				){
 					pstmt.setInt(1, e.getUtilisateur().getNoUtilisateur());
 					pstmt.setInt(2, e.getArticle().getNoArticle());
-					pstmt.setObject(3,(LocalDate) e.getDateEnchere());
-					pstmt.setInt(4, e.getMontantEnchere());
+					pstmt.setDate(3, Date.valueOf(e.getDateEnchere()));
+					pstmt.setTime(3, Time.valueOf(e.getHeureEnchere()));
+					pstmt.setInt(5, e.getMontantEnchere());
 					
 					pstmt.execute();
 			}catch (SQLException ex) {
-					throw new DALException(sqlUpdateEnchere, ex);
+					throw new DALException(ex.getLocalizedMessage(), ex);
 			}
 	}
 	
@@ -168,7 +189,7 @@ public class EncheresImpl implements DAO<Enchere> {
 					
 					pstmt.execute();
 			}catch (SQLException ex) {
-						throw new DALException(sqlDeleteEnchereByNoUtilisateurEtNoArticle, ex);
+						throw new DALException(ex.getLocalizedMessage(), ex);
 				}
 	}
 
@@ -194,7 +215,7 @@ public class EncheresImpl implements DAO<Enchere> {
 					return meilleureOffre;
 				}
 		} catch (SQLException ex) {
-						throw new DALException(sqlSelectEncheresByNoUtilisateur, ex);
+						throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
 
