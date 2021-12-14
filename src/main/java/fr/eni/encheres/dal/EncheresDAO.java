@@ -15,5 +15,8 @@ public interface EncheresDAO extends DAO<Enchere> {
 	public List<Enchere> selectEncheresByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle) throws DALException;
 
 	public void deleteEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle) throws DALException;
-
+	
+	//@authorLucie ajout requete
+	//pour récupérer le plus haut montant_enchere dans les offres faites sur un article
+	public int selectMeilleureOffreByNoArticle(int noArticle) throws DALException;
 }

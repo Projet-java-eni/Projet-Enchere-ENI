@@ -26,7 +26,7 @@
 <!-- Récupérer les infos de l'article -->
 
 <% 	String nomArticle = (String)request.getAttribute("nomArticle");
-	String categorie = (String)request.getAttribute("categorie");
+	String categorie = (String)request.getAttribute("libelleCategorie");
 	String pseudoVendeur = (String)request.getAttribute("pseudoVendeur");
 	String description = (String)request.getAttribute("description");
 	String rue = (String)request.getAttribute("rue");
@@ -35,6 +35,7 @@
 	int miseAPrix = (int)request.getAttribute("miseAPrix");
 	int meilleureOffre = (int)request.getAttribute("meilleureOffre");
 	String dateFinEnchere = (String)request.getAttribute("dateFinEnchere");
+	int offreMin = meilleureOffre -1;
 	 %>
 		<article>
 			<div><strong><%=nomArticle%></strong></div>
@@ -77,7 +78,7 @@
 			<div class="offre">
 				<form action="ValiderOffreServlet" method="post">	
 					<p><label for="offre">FAIRE UNE OFFRE</label></p>
-					<input type="number" id="offre" min="<%=meilleureOffre%>" max="9999" step="1" name="nouvelleOffre"/>
+					<input type="number" id="offre" min="<%=offreMin%>" max="9999" step="1" name="nouvelleOffre"/>
 					<input class="valider"	type="submit" value="Enchérir">
 				</form>
 			</div>

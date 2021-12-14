@@ -38,7 +38,21 @@ public class ValiderOffreServlet extends HttpServlet {
 		CharSequence nouvelleOffre = (request.getParameter("nouvelleOffre"));
 		response.getWriter().append("La nouvelle offre est : ").append(nouvelleOffre);
 		
+	//vérifier que l'offre est bien supérieure à la meilleure offre
+	//Si non Erreur
+	//Vérifier si le nombre de crédit de l'utilisateur est supérieur au montant de nouvelleOffre
+	//Si non Erreur
 		
+	//Else 
+	//meilleureOffre=nouvelleOffre 
+	//créer nouvelleEnchere
+	//nouvelleEnchere.montantEnchere = nouvelleEnchere
+	//nouvelleEnchere.noUtilisateur = noUtilisateur de l'Utilisateur connecté
+	//nouvelleEnchere.noArticle = noArticle de l'article affiché
+	//nouvelleEnchere.dateEnchere = current date
+	//ET debiter le compte de crédits de l'utilisateur du montant de la nouvelle offre
+		
+	//
 		
 	}
 
