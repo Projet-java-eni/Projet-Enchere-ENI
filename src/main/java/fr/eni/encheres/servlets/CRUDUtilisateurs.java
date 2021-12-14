@@ -22,14 +22,9 @@ public class CRUDUtilisateurs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UtilisateursManager utilisateursManager = null;
 
-	public CRUDUtilisateurs() throws Exception {
+	public CRUDUtilisateurs() {
 		super();
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-			throw new Exception("Impossible de se connecter à la DAL!!");
-		}
+		utilisateursManager = UtilisateursManager.GetInstance();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

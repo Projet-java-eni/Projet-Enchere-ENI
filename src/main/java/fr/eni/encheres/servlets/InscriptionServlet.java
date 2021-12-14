@@ -21,14 +21,9 @@ public class InscriptionServlet extends HttpServlet {
 
 	UtilisateursManager utilisateursManager = null;
 
-	public InscriptionServlet() throws Exception {
+	public InscriptionServlet() {
 		super();
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-			throw new Exception("Impossible de se connecter à la DAL");
-		}
+		utilisateursManager = UtilisateursManager.GetInstance();
 	}
 
 	

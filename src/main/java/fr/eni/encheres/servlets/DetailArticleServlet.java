@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Utilisateur;
@@ -44,8 +45,13 @@ public class DetailArticleServlet extends HttpServlet {
 		int noArticle = Integer.parseInt(request.getParameter("noArticle"));
 		
 		//utiliser le noArticle pour récupérer le contenu de l'article
-		Article articleAAfficher = articleManager.getArticleById(noArticle);
-		
+		Article articleAAfficher = null;
+		try {
+			articleAAfficher = articleManager.getArticleById(noArticle);
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
+
 		//get attribute contenu de l'article
 		String nomArticle = articleAAfficher.getNomArticle();
 		String categorie = articleAAfficher.getCategorie().toString();

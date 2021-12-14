@@ -17,14 +17,10 @@ import java.io.IOException;
 @WebServlet(name = "ProfilServlet", value = "/Profil")
 public class ProfilServlet extends HttpServlet {
 
-	private UtilisateursManager utilisateursManager;
+	private final UtilisateursManager utilisateursManager;
 
 	public ProfilServlet() {
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-		}
+		utilisateursManager = UtilisateursManager.GetInstance();
 	}
 
 	@Override

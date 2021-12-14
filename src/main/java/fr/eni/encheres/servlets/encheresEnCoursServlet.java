@@ -44,19 +44,19 @@ public class encheresEnCoursServlet extends HttpServlet {
 		// Je lis les ecnhères en cours: donc date de fin > date du jour
 		// lien avec BLL encheresManager et BO encheres
 		LocalDate dateDuJour = LocalDate.now();
-  Date dateEnchere= Enchere.
-		  EncheresManager enchereManager = new EncheresManager();
-	List<Repas> listeRepas = null;
-	if (dateFiltre == null) {
-		listeRepas = enchereManager.selectionnerEncheresEnCours();
-	} else {
-		listeRepas = repasManager.selectionnerTousLesRepasDUnJour(dateFiltre);
-	}
-	request.setAttribute("listeRepas", listeRepas);
+//  Date dateEnchere= Enchere.
+//		  EncheresManager enchereManager = new EncheresManager();
+//	List<Repas> listeRepas = null;
+//	if (dateFiltre == null) {
+//		listeRepas = enchereManager.selectionnerEncheresEnCours();
+//	} else {
+//		listeRepas = repasManager.selectionnerTousLesRepasDUnJour(dateFiltre);
+//	}
+//	request.setAttribute("listeRepas", listeRepas);
 		  
 		  
-		if (request.getParameter("dateDuJour") <= request.getParameter("dateEnchere"))
-			;
+//		if (request.getParameter("dateDuJour") <= request.getParameter("dateEnchere"))
+//			;
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

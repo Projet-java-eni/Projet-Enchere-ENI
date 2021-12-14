@@ -27,12 +27,7 @@ public class LoginServlet extends HttpServlet {
      */
     public LoginServlet() {
         super();
-
-		try {
-			utilisateursManager = UtilisateursManager.GetInstance();
-		} catch (BLLException e) {
-			e.printStackTrace();
-		}
+		utilisateursManager = UtilisateursManager.GetInstance();
 	}
 
 	/**
