@@ -23,23 +23,36 @@
 			<h1>Détails de l'article</h1>
 		</div>
 
+<!-- Récupérer les infos de l'article -->
+
+<% 	String nomArticle = (String)request.getAttribute("nomArticle");
+	String categorie = (String)request.getAttribute("categorie");
+	String pseudoVendeur = (String)request.getAttribute("pseudoVendeur");
+	String description = (String)request.getAttribute("description");
+	String rue = (String)request.getAttribute("rue");
+	String codePostal = (String)request.getAttribute("codePostal");
+	String ville = (String)request.getAttribute("ville");
+	int miseAPrix = (int)request.getAttribute("miseAPrix");
+	int meilleureOffre = (int)request.getAttribute("meilleureOffre");
+	String dateFinEnchere = (String)request.getAttribute("dateFinEnchere");
+	 %>
 		<article>
-			<div><strong>"Nom de l'article"</strong></div>
+			<div><strong><%=nomArticle%></strong></div>
 			
 			<div class="details">
-				<img src="images/chaise2.jpg" title="chaise" alt="chaise">
+				<img src="images/fauteuil.jpg" title="chaise" alt="chaise">
 				<table class="infos">
 					<tr>
-						<th>Catégorie : "Nom de la catégorie"</th>
+						<th>Catégorie : <%=categorie%></th>
 					</tr>
 					<tr>
-						<th> Vendu par <a href="">"pseudo du vendeur"</a></th>
+						<th> Vendu par <a href=""><%=pseudoVendeur%></a></th>
 					</tr>
 					<tr>
-						<th>"Description"</th>
+						<th><%=description%></th>
 					</tr>
 					<tr>
-						<th>Adresse de retrait : "adresse de retrait"</th>
+						<th>Adresse de retrait : <%=rue%><%=codePostal%><%=ville%></th>
 					</tr>
 				</table>
 			</div>
@@ -50,21 +63,21 @@
 			<table>
 				<tr>
 					<th>Mise à prix : </th>
-					<td>--</td>
+					<td><%=miseAPrix%></td>
 				</tr>
 				<tr>
 					<th>Meilleure offre : </th>
-					<td>--</td>
+					<td><%=meilleureOffre%></td>
 				</tr>
 				<tr>
 					<th>Date de fin de l'enchère : </th>
-					<td>--</td>
+					<td><%=dateFinEnchere%></td>
 				</tr>	
 			</table>
 			<div class="offre">
 				<form action="ValiderOffreServlet" method="post">	
 					<p><label for="offre">FAIRE UNE OFFRE</label></p>
-					<input type="number" id="offre" min="5" max="9999" step="1" name="nouvelleOffre"/>
+					<input type="number" id="offre" min="<%=meilleureOffre%>" max="9999" step="1" name="nouvelleOffre"/>
 					<input class="valider"	type="submit" value="Enchérir">
 				</form>
 			</div>
