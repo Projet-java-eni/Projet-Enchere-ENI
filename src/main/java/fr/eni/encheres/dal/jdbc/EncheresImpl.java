@@ -36,7 +36,7 @@ public class EncheresImpl implements DAO<Enchere> {
 				){
 					
 					pstmt.setInt(1, e.getUtilisateur().getNoUtilisateur());
-					pstmt.setInt(2, e.getArticleVendu().getNoArticle());
+					pstmt.setInt(2, e.getArticle().getNoArticle());
 					pstmt.setObject(3,(LocalDate) e.getDateEnchere());
 					pstmt.setInt(4, e.getMontantEnchere());
 					
@@ -146,7 +146,7 @@ public class EncheresImpl implements DAO<Enchere> {
 					PreparedStatement pstmt = con.prepareStatement(sqlUpdateEnchere);
 				){
 					pstmt.setInt(1, e.getUtilisateur().getNoUtilisateur());
-					pstmt.setInt(2, e.getArticleVendu().getNoArticle());
+					pstmt.setInt(2, e.getArticle().getNoArticle());
 					pstmt.setObject(3,(LocalDate) e.getDateEnchere());
 					pstmt.setInt(4, e.getMontantEnchere());
 					
@@ -173,7 +173,6 @@ public class EncheresImpl implements DAO<Enchere> {
 
 	@Override
 	public void remove(Enchere utilisateur) throws DALException {
-		// TODO Auto-generated method stub
 		
 	}
 
