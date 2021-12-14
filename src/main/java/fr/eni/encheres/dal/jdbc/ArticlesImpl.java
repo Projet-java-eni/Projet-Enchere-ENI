@@ -61,8 +61,8 @@ public class ArticlesImpl implements ArticlesDAO {
 
 			article.setNomArticle(resultSet.getString("nom_article"));
 			article.setDescription(resultSet.getString("description"));
-//			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres"));
-//			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres"));
+			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
+			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
 			article.setMiseAPrix(resultSet.getInt("prix_initial"));
 			article.setPrixVente(resultSet.getInt("prix_vente"));
 			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
@@ -127,8 +127,8 @@ public class ArticlesImpl implements ArticlesDAO {
 
 			article.setNomArticle(resultSet.getString("nom_article"));
 			article.setDescription(resultSet.getString("description"));
-//			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres"));
-//			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres"));
+			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
+			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
 			article.setMiseAPrix(resultSet.getInt("prix_initial"));
 			article.setPrixVente(resultSet.getInt("prix_vente"));
 			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));

@@ -12,26 +12,24 @@ import fr.eni.encheres.dal.UtilisateursDAO;
 
 public class UtilisateursManager {
 	
-	private final UtilisateursDAO utilisateursDAO;
-	
+	private static UtilisateursDAO utilisateursDAO;
 	private static UtilisateursManager instance = null;
-	
 	private Map<Integer, Utilisateur> utilisateursMap = null;
 
-	private UtilisateursManager() throws BLLException {
+	private UtilisateursManager() {
 
-		try {
-		
-			this.utilisateursDAO = (UtilisateursDAO)DAOFactory.getUtilisateursDAO();
-		} catch (DALException e) {
-			
-			throw new BLLException(e.getLocalizedMessage(), e);
-		}
-		
 		this.utilisateursMap = new HashMap<>();
 	}
 
-	public static UtilisateursManager GetInstance() throws BLLException {
+	public static UtilisateursManager GetInstance() {
+
+		if(utilisateursDAO == null) {
+			try {
+				utilisateursDAO = (UtilisateursDAO) DAOFactory.getUtilisateursDAO();
+			} catch (DALException e) {
+				e.printStackTrace();
+			}
+		}
 
 		if (instance == null) {
 			instance = new UtilisateursManager();

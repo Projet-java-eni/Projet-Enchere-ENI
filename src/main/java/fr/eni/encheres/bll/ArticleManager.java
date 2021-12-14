@@ -13,9 +13,29 @@ import fr.eni.encheres.dal.DAOFactory;
 
 public class ArticleManager {
 
-	private ArticlesDAO articlesDAO;
+	private static ArticlesDAO articlesDAO = null;
+	private static ArticleManager instance = null;
 
-	
+	private ArticleManager() {
+	}
+
+	public static ArticleManager GetInstance() {
+
+		if(articlesDAO == null) {
+			try {
+				articlesDAO = (ArticlesDAO) DAOFactory.getArticlesDAO();
+			} catch (DALException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (instance == null) {
+			instance = new ArticleManager();
+		}
+
+		return instance;
+	}
+
 	public void addArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
 						   LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs){
 		
