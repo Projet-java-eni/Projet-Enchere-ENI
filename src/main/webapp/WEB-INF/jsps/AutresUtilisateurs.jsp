@@ -10,13 +10,16 @@
 <%@ include file="EnteteBootstrap.html" %>
 
 <jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
+<jsp:useBean id="errors" type="fr.eni.encheres.beans.Erreurs" scope="request" />
 <jsp:useBean id="utilisateur" type="fr.eni.encheres.bo.Utilisateur" scope="request" />
 
 <jsp:include page="blocs/erreurs.jsp" >
     <jsp:param name="errors" value="${errors}"/>
 </jsp:include>
 
-
+<jsp:include page="blocs/infos.jsp">
+    <jsp:param name="infos" value="${infos}"/>
+</jsp:include>
 
 <h1>Profil de ${utilisateur.pseudo}</h1>
 
