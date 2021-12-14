@@ -37,6 +37,9 @@ public class ValiderOffreServlet extends HttpServlet {
 		
 		CharSequence nouvelleOffre = (request.getParameter("nouvelleOffre"));
 		response.getWriter().append("La nouvelle offre est : ").append(nouvelleOffre);
+		
+		
+		
 	}
 
 }
