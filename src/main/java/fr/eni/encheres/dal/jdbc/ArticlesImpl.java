@@ -91,7 +91,7 @@ public class ArticlesImpl implements ArticlesDAO {
 	}
 
 	@Override
-	public List<Article> getAll() throws DALException {
+	public List<Article> getAll() throws DALException  {
 		List<Article> listArticle = new ArrayList<>();
 		ResultSet resultSet = null;
 		Statement statement = null;
