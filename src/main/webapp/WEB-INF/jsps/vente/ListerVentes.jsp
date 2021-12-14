@@ -13,9 +13,9 @@
 
 <h1>Ventes en cours</h1>
 
-<div style="display: flex; flex-direction: column; flex-wrap: wrap">
+<div style="display: flex; flex-direction: row; flex-wrap: wrap">
 <c:forEach var="article" items="${requestScope.articles}">
-    <div class="card" style="width: 18rem;">
+    <div class="card mr-3" style="width: 18rem;">
         <img class="card-img-top" src="images/logo_retreci.png" alt="Image de la vente">
         <div class="card-body">
             <h5 class="card-title">${article.nomArticle}</h5>
@@ -23,7 +23,7 @@
             <a href="<%=request.getContextPath()%>/DetailArticle/${article.noArticle}" class="btn btn-primary">Voir</a>
         </div>
     </div>
-</div>
 </c:forEach>
+</div>
 
 <%@ include file="../PiedBootstrap.jspf" %>
