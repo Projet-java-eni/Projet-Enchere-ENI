@@ -21,7 +21,7 @@ public class DAOFactory {
     private DAOFactory() {
     }
 
-    public static DAO<Article> getArticlesDAO() throws DALException {
+    public static DAO<Article> getArticlesVendusDAO() throws DALException {
     	if(articlesDAO == null) {
     		articlesDAO = new ArticlesImpl();
     	}

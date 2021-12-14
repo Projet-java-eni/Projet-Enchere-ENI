@@ -19,9 +19,11 @@ public class UtilisateurServlet extends HttpServlet {
 	private UtilisateursManager utilisateursManager;
 
 	public UtilisateurServlet() {
-
-		utilisateursManager = UtilisateursManager.GetInstance();
-
+		try {
+			utilisateursManager = UtilisateursManager.GetInstance();
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
 	}
 
 

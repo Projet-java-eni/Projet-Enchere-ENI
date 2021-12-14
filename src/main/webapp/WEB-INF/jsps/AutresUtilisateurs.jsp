@@ -13,13 +13,38 @@
 <jsp:useBean id="errors" type="fr.eni.encheres.beans.Erreurs" scope="request" />
 <jsp:useBean id="utilisateur" type="fr.eni.encheres.bo.Utilisateur" scope="request" />
 
-<jsp:include page="blocs/erreurs.jsp" >
-    <jsp:param name="errors" value="${errors}"/>
-</jsp:include>
+<c:if test="${errors.hasErrors()}">
+    <div class="alert alert-danger">
+        <p>Certaines données du formulaire sont incorrectes !</p>
+        <ol>
+            <c:forEach var="erreur" items="${errors.liste}">
+                <li>${erreur}</li>
+            </c:forEach>
 
-<jsp:include page="blocs/infos.jsp">
-    <jsp:param name="infos" value="${infos}"/>
-</jsp:include>
+        </ol>
+    </div>
+</c:if>
+
+
+<c:if test="${infos.hasInfos()}">
+
+    <div class="alert alert-success">
+        <c:choose>
+            <c:when test="${infos.liste.size() > 1}">
+                <ul>
+                    <c:forEach var="info" items="${infos.liste}">
+                        <li>
+                                ${info}
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                ${infos.liste.get(0)}
+            </c:otherwise>
+        </c:choose>
+    </div>
+</c:if>
 
 <h1>Profil de ${utilisateur.pseudo}</h1>
 

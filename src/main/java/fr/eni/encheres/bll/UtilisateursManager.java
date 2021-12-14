@@ -12,24 +12,26 @@ import fr.eni.encheres.dal.UtilisateursDAO;
 
 public class UtilisateursManager {
 	
-	private static UtilisateursDAO utilisateursDAO;
+	private final UtilisateursDAO utilisateursDAO;
+	
 	private static UtilisateursManager instance = null;
+	
 	private Map<Integer, Utilisateur> utilisateursMap = null;
 
-	private UtilisateursManager() {
+	private UtilisateursManager() throws BLLException {
 
+		try {
+		
+			this.utilisateursDAO = (UtilisateursDAO)DAOFactory.getUtilisateursDAO();
+		} catch (DALException e) {
+			
+			throw new BLLException(e.getLocalizedMessage(), e);
+		}
+		
 		this.utilisateursMap = new HashMap<>();
 	}
 
-	public static UtilisateursManager GetInstance() {
-
-		if(utilisateursDAO == null) {
-			try {
-				utilisateursDAO = (UtilisateursDAO) DAOFactory.getUtilisateursDAO();
-			} catch (DALException e) {
-				e.printStackTrace();
-			}
-		}
+	public static UtilisateursManager GetInstance() throws BLLException {
 
 		if (instance == null) {
 			instance = new UtilisateursManager();
@@ -126,7 +128,6 @@ public class UtilisateursManager {
 			}
 		}
 
-		if (erreurs.hasErrors()) return null;
 
 		Integer credit_int = 0;
 		
@@ -136,7 +137,7 @@ public class UtilisateursManager {
 			erreurs.addErreur("Impossible de convertir le crédit en nombre entier");
 		}
 		
-
+		if (erreurs.hasErrors()) return null;
 		
 		return createUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit_int, is_admin, is_actif, erreurs);
 	}

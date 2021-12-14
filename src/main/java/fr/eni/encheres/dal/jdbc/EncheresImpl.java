@@ -26,6 +26,7 @@ public class EncheresImpl implements DAO<Enchere> {
 	String sqlSelectAllEncheres = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM encheres";
 	String sqlUpdateEnchere = "UPDATE encheres SET no_utilisateur = ?, no_article = ?, date_enchere = ?, montant_enchere = ? WHERE no_utilisateur = ? AND no_article = ?";
 	String sqlDeleteEnchereByNoUtilisateurEtNoArticle = "DELETE FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
+	String sqlSelectMeilleureOffreByNoArticle = "SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?;";
 	
 	
 	@Override
@@ -174,6 +175,27 @@ public class EncheresImpl implements DAO<Enchere> {
 	@Override
 	public void remove(Enchere utilisateur) throws DALException {
 		
+	}
+	
+	
+	//Pas sure d'en avoir besoin
+		public int selectMeilleureOffreByNoArticle(int noArticle) throws DALException{
+		
+		
+		
+		
+		try(	
+				Connection con = GetConnection.getConnexion();
+				PreparedStatement pstmt = con.prepareStatement(sqlSelectMeilleureOffreByNoArticle);
+			){
+				pstmt.setInt(1, noArticle);
+				try(ResultSet rs =  pstmt.executeQuery();){
+					int meilleureOffre = (rs.getInt(1));
+					return meilleureOffre;
+				}
+		} catch (SQLException ex) {
+						throw new DALException(sqlSelectEncheresByNoUtilisateur, ex);
+		}
 	}
 
 }

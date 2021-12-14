@@ -186,5 +186,19 @@ public class EncheresManager {
 		
 	}
 	
+	/**
+	 * selectMeilleureOffre : récupérer le montant de la plus haute offre faite sur un article
+	 * @param noArticle
+	 * @throws BLLException
+	 */
+	public int getMeilleureOffre(int noArticle) throws BLLException{
+		int meilleureOffre;
+		try {
+			meilleureOffre = ((EncheresDAO) daoEnchere).selectMeilleureOffreByNoArticle(noArticle);
+		} catch (DALException e) {
+			throw new BLLException("Echec selectMeilleureOffre - ", e);
+		}
+		return meilleureOffre;
+	}
 	
 }

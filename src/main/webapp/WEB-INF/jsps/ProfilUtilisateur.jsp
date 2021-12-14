@@ -60,7 +60,7 @@
             <input
                     type="text" class="form-control" id="exampleInputPseudo"
                     aria-describedby="emailHelp" required maxlength="30" name="pseudo" value="${utilisateur.pseudo}">
-                <div id="emailHelp" class="form-text">Comment vous apparaitrez
+            <div id="emailHelp" class="form-text">Comment vous apparaitrez
                 sur le site.</div>
         </div>
 
