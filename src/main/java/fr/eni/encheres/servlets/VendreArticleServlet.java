@@ -1,7 +1,9 @@
 package fr.eni.encheres.servlets;
 
 import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.beans.Infos;
 import fr.eni.encheres.bll.ArticleManager;
+import fr.eni.encheres.bll.CategoriesManager;
 import fr.eni.encheres.bo.Article;
 
 import javax.servlet.*;
@@ -11,14 +13,14 @@ import java.io.IOException;
 
 @WebServlet(name = "VendreArticleServlet", value = "/Vendre")
 public class VendreArticleServlet extends HttpServlet {
-	static ArticleManager articleManager;
 
-	public VendreArticleServlet() {
-		articleManager = ArticleManager.GetInstance();
-	}
+	static ArticleManager articleManager = ArticleManager.GetInstance();
+	static CategoriesManager categoriesManager = CategoriesManager.GetInstance();
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
+		Infos infos = (Infos) request.getAttribute("infos");
 		Article article = new Article();
 
 		if(request.getParameter("vendre") != null) {
@@ -28,9 +30,13 @@ public class VendreArticleServlet extends HttpServlet {
 			String date = request.getParameter("date");
 
 			articleManager.sauvegarderDepuisLeWeb(nom, description, prix, date, article, erreurs);
+			if(!erreurs.hasErrors()) {
+				infos.addInfo("Nouvel article ajouté !");
+			}
 		}
 
 		request.setAttribute("article", article);
+		request.setAttribute("categories", categoriesManager.getAllCategories(erreurs) );
 
         request.getRequestDispatcher("/WEB-INF/jsps/VendreArticle.jsp").forward(request, response);
 	}

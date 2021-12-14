@@ -17,7 +17,7 @@ public class Article {
 	private LocalTime timeFinEnchere;
 	private int miseAPrix;
 	private int prixVente;
-	private String etatVente;
+	private Integer etatVente;
 
 	// ajout
 	private Categorie categorie;
@@ -29,7 +29,7 @@ public class Article {
 	}
 
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente) {
+				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, Integer etatVente) {
 
 		super();
 		this.noArticle = noArticle;
@@ -47,7 +47,7 @@ public class Article {
 	 * @author Sego Constructeur avec tous les paramètres
 	 */
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Categorie categorie,
+				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, Integer etatVente, Categorie categorie,
 			Retrait retrait, Utilisateur utilisateur, List<Enchere> encheres) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -92,7 +92,7 @@ public class Article {
 		this.description = description;
 	}
 
-	public int getMiseAPrix() {
+	public Integer getMiseAPrix() {
 		return this.miseAPrix;
 	}
 
@@ -108,11 +108,11 @@ public class Article {
 		this.prixVente = prixVente;
 	}
 
-	public String getEtatVente() {
+	public Integer getEtatVente() {
 		return this.etatVente;
 	}
 
-	public void setEtatVente(String etatVente) {
+	public void setEtatVente(Integer etatVente) {
 		this.etatVente = etatVente;
 	}
 

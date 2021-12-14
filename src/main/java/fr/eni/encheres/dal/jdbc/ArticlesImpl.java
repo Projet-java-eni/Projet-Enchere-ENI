@@ -15,19 +15,25 @@ public class ArticlesImpl implements ArticlesDAO {
 
 
 
-	private static final String sqlSelectById = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,"
+	private static final String sqlSelectById = "SELECT no_article, nom_article,description," +
+			"date_debut_encheres,heure_debut_encheres, date_fin_encheres,heure_fin_encheres,prix_initial,"
 			+ "prix_vente,no_categorie, no_utilisateur  FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
 
-	private static final String sqlSelectAll = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,"
+	private static final String sqlSelectAll = "SELECT no_article, nom_article,description," +
+			"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial,"
 			+ "prix_vente,etat_vente,no_categorie,no_utilisateur  FROM dbo.ARTICLES_VENDUS";
 
-	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial, " +
+	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description," +
+			"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
 			" prix_vente,etat_vente,no_categorie,no_utilisateur FROM dbo.ARTICLES_VENDUS WHERE no_categorie=?";
 
-	private static final String sqlInsert = "INSERT INTO dbo.ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial, "
-			+ "prix_vente,etat_vente,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?)";
+	private static final String sqlInsert = "INSERT INTO dbo.ARTICLES_VENDUS " +
+			"(nom_article,description,date_debut_encheres,heure_debut_encheres, date_fin_encheres,heure_fin_encheres, prix_initial, "
+			+ "prix_vente,etat_vente,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-	private static final String sqlUpdate = "UPDATE dbo.ARTICLES_VENDUS SET  nom_article=?,description=?,date_debut_encheres=?,date_fin_encheres=?,prix_initial=?, "
+	private static final String sqlUpdate = "UPDATE dbo.ARTICLES_VENDUS SET  " +
+			"nom_article=?,description=?,date_debut_encheres=?,heure_debut_encheres=?," +
+			"date_fin_encheres=?,heure_fin_encheres=?,prix_initial=?, "
 			+ "prix_vente=?,etat_vente=?,no_categorie=?,no_utilisateur=? WHERE no_article=?";
 
 	private static final String sqlDelete = "DELETE FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
@@ -58,7 +64,9 @@ public class ArticlesImpl implements ArticlesDAO {
 			article.setNomArticle(resultSet.getString("nom_article"));
 			article.setDescription(resultSet.getString("description"));
 			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
+			article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
 			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
+			article.setTimeFinEnchere(resultSet.getTime("heure_fin_encheres").toLocalTime());
 			article.setMiseAPrix(resultSet.getInt("prix_initial"));
 			article.setPrixVente(resultSet.getInt("prix_vente"));
 			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
@@ -78,7 +86,7 @@ public class ArticlesImpl implements ArticlesDAO {
 
 	@Override
 	public List<Article> getAll() throws DALException {
-		List<Article> listArticle = new ArrayList<Article>();
+		List<Article> listArticle = new ArrayList<>();
 		ResultSet resultSet = null;
 		Statement statement = null;
 		Connection con = null;
@@ -124,7 +132,9 @@ public class ArticlesImpl implements ArticlesDAO {
 			article.setNomArticle(resultSet.getString("nom_article"));
 			article.setDescription(resultSet.getString("description"));
 			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
+			article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
 			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
+			article.setTimeFinEnchere(resultSet.getTime("heure_fin_encheres").toLocalTime());
 			article.setMiseAPrix(resultSet.getInt("prix_initial"));
 			article.setPrixVente(resultSet.getInt("prix_vente"));
 			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
@@ -147,7 +157,6 @@ public class ArticlesImpl implements ArticlesDAO {
 	public void add(Article article) throws DALException {
 		Connection con = null;
 		PreparedStatement statement = null;
-		Article nouvelArticle = new Article();
 		ResultSet rs = null;
 
 		try {
@@ -155,17 +164,17 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement = con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
 			int i = 1;
 
-			statement.setString(i++, nouvelArticle.getNomArticle());
-			statement.setString(i++, nouvelArticle.getDescription());
-			statement.setDate(i++, Date.valueOf(nouvelArticle.getDateDebutEnchere()));
-			statement.setDate(i++, Date.valueOf(nouvelArticle.getDateFinEnchere()));
-			statement.setInt(i++, nouvelArticle.getMiseAPrix());
-			statement.setInt(i++, nouvelArticle.getPrixVente());
-			statement.setString(i++, nouvelArticle.getEtatVente());
-			statement.setObject(i++, nouvelArticle.getCategorie());
-			statement.setObject(i++, nouvelArticle.getRetrait());
-			statement.setObject(i++, nouvelArticle.getUtilisateur());
-			statement.setObject(i++, nouvelArticle.getEncheres());
+			statement.setString(i++, article.getNomArticle());
+			statement.setString(i++, article.getDescription());
+			statement.setDate(i++, Date.valueOf(article.getDateDebutEnchere()));
+			statement.setTime(i++, Time.valueOf(article.getTimeDebutEnchere()));
+			statement.setDate(i++, Date.valueOf(article.getDateFinEnchere()));
+			statement.setTime(i++, Time.valueOf(article.getTimeFinEnchere()));
+			statement.setInt(i++, article.getMiseAPrix());
+			statement.setInt(i++, article.getPrixVente());
+			statement.setInt(i++, article.getUtilisateur().getNoUtilisateur());
+			statement.setInt(i++, article.getCategorie().getId());
+			statement.setInt(i++, article.getEtatVente());
 
 			int nbRows = statement.executeUpdate();
 			if (nbRows == 1) {
@@ -200,15 +209,15 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement.setInt(i++, article.getNoArticle());
 			statement.setString(i++, article.getNomArticle());
 			statement.setString(i++, article.getDescription());
-			statement.setObject(i++, article.getDateDebutEnchere());
-			statement.setObject(i++, article.getDateFinEnchere());
+			statement.setDate(i++, Date.valueOf(article.getDateDebutEnchere()));
+			statement.setTime(i++, Time.valueOf(article.getTimeDebutEnchere()));
+			statement.setDate(i++, Date.valueOf(article.getDateFinEnchere()));
+			statement.setTime(i++, Time.valueOf(article.getTimeFinEnchere()));
 			statement.setInt(i++, article.getMiseAPrix());
 			statement.setInt(i++, article.getPrixVente());
-			statement.setString(i++, article.getEtatVente());
-			statement.setObject(i++, article.getCategorie());
-			statement.setObject(i++, article.getRetrait());
-			statement.setObject(i++, article.getUtilisateur());
-			statement.setObject(i++, article.getEncheres());
+			statement.setInt(i++, article.getEtatVente());
+			statement.setInt(i++, article.getCategorie().getId());
+			statement.setInt(i++, article.getUtilisateur().getNoUtilisateur());
 
 			statement.executeUpdate();
 

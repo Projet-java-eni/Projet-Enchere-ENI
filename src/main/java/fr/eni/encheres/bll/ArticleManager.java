@@ -60,16 +60,29 @@ public class ArticleManager {
 		if(dateFinEncheres == null) erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
 		if(miseAPrix == null) erreurs.addErreur("Le prix de départ doit être renseigné");
 		if(etatVente == null) erreurs.addErreur("L'état de la vente doit être renseignée");
-			
+
+		if(erreurs.hasErrors()) return;
+
 		try {
-			sauvegarderArticle(article, erreurs);
-		} catch (BLLException e) {
+			articlesDAO.update(article);
+		} catch (DALException e) {
 			erreurs.addErreur(e.getLocalizedMessage());
 		}
 	}
 
-	private void sauvegarderArticle(Article article, Erreurs erreurs) throws BLLException{
+	private void creerArticle(Article article, Erreurs erreurs) {
+		validerArticle(article, erreurs);
+
+		if(erreurs.hasErrors()) return;
+
+		try {
+			articlesDAO.add(article);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+
 	}
+
 
 	public void supprimerArticle(Article article) throws BLLException {
 		
@@ -79,6 +92,33 @@ public class ArticleManager {
 			throw new BLLException(e.getLocalizedMessage(), e);
 		}
 	}
+
+	private void validerArticle(Article article, Erreurs erreurs) {
+		if(article.getNomArticle() == null) erreurs.addErreur("Le nom doit être renseigné");
+
+		if(article.getDescription() == null) erreurs.addErreur("La description doit être renseigné");
+
+		if(article.getMiseAPrix() == null) erreurs.addErreur("La mise à prix< doit être renseigné");
+
+		if(article.getDateDebutEnchere() == null) erreurs.addErreur("La date du debut doit être renseigné");
+
+		if(article.getTimeDebutEnchere() == null) erreurs.addErreur("L'heure du debut doit être renseigné");
+
+		if(erreurs.hasErrors()) {
+			return;
+		}
+
+		if(article.getNomArticle().length() > 200 || article.getNomArticle().length() < 1) {
+			erreurs.addErreur("Le nom a une lognueur incorrecte");
+		}
+
+		if(article.getDescription().length() > 300) {
+			erreurs.addErreur("La description est trop longue");
+		}
+
+		// todo: autres verifications?
+	}
+
 	public Article getArticleByCategorie(Categorie categorie) throws BLLException {
 
 		Article article = null;
@@ -128,6 +168,13 @@ public class ArticleManager {
 		LocalDateTime dateMise = Utilitaires.fromHTMLDateTimeLocal(date);
 		article.setDateDebutEnchere(dateMise.toLocalDate());
 		article.setTimeDebutEnchere(dateMise.toLocalTime());
+
+		article.setDateFinEnchere(dateMise.toLocalDate().plusDays(2)); // par defaut enchere finit dans 2 jours
+		article.setTimeFinEnchere(dateMise.toLocalTime()); // par defaut enchere finit a la meme heure
+
+		if(erreurs.hasErrors()) return;
+
+		creerArticle(article, erreurs);
 	}
 }
 

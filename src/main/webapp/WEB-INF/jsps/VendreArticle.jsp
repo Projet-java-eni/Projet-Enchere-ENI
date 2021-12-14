@@ -13,6 +13,8 @@
 
 <jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
 <jsp:useBean id="errors" type="fr.eni.encheres.beans.Erreurs" scope="request" />
+<jsp:useBean id="article" type="fr.eni.encheres.bo.Article" scope="request" />
+<jsp:useBean id="categories" type="java.util.List" scope="request" />
 
 <%--<jsp:useBean id="utilisateur" type="fr.eni.encheres.bo.Utilisateur" scope="request" />--%>
 
@@ -30,26 +32,35 @@
 
     <div class="row mb-3">
         <label class="form-label" for="nom">Nom de votre article</label>
-        <input class="form-control" type="text" maxlength="200" id="nom" name="nom" required>
+        <input class="form-control" type="text" maxlength="200" id="nom" name="nom" required value="${article.nomArticle}">
         <div class="form-text">Obligatoire.</div>
     </div>
     <div class="row mb-3">
         <label class="form-label" for="description">Description</label>
-        <textarea class="form-control" id= "description" name="description" maxlength="300"></textarea>
+        <textarea class="form-control" id= "description" name="description" maxlength="300">${article.description}</textarea>
         <div class="form-text">300 caractères max. Facultatif.</div>
 
     </div>
+
     <div class="row mb-3">
-    <label class="form-label" for="prix">Prix initial </label>
-        <input class="form-control" id="prix" name="prix" type="number">
-    </div>
-    <div class="row mb-3">
-    <label class="form-label" for="date">Date de mise en vente</label>
-        <input class="form-control" id="date" name="date" type="datetime-local">
+        <select name="category">
+            <c:forEach items="${categories}" var="category">
+                <option value="${category.libelle}">${category.libelle}</option>
+            </c:forEach>
+        </select>
     </div>
 
     <div class="row mb-3">
-        <input type="submit" name="vendre" value="Programmer">
+    <label class="form-label" for="prix">Prix initial </label>
+        <input class="form-control" id="prix" name="prix" type="number" value="${article.miseAPrix}">
+    </div>
+    <div class="row mb-3">
+    <label class="form-label" for="date">Date de mise en vente</label>
+        <input class="form-control" id="date" name="date" type="datetime-local" value="${article.dateDebutEnchere}">
+    </div>
+
+    <div class="row mb-3">
+        <input class="btn btn-primary" type="submit" name="vendre" value="Programmer">
     </div>
 </form>
 

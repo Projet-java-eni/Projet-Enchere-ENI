@@ -9,6 +9,7 @@ import fr.eni.encheres.bo.misc.MeHasMany;
 
 public class Categorie implements Serializable, MeHasMany<ArticleVendu> {
 
+
 	@Override
 	public String toString() {
 		return String.format("Utilisateur : id %d, libelle : %s", noCategorie, libelle);

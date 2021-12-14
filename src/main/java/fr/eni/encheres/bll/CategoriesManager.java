@@ -1,37 +1,40 @@
 package fr.eni.encheres.bll;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.CategoriesDAO;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAOFactory;
 
 public class CategoriesManager {
-	private final CategoriesDAO categoriesDAO;
+	private static CategoriesDAO categoriesDAO = null;
 	
 	private static CategoriesManager instance = null;
 	
 
-	private CategoriesManager() throws BLLException {
+	private CategoriesManager() {
 
-		try {
-		
-			this.categoriesDAO = (CategoriesDAO)DAOFactory.getCategoriesDAO();
-		} catch (DALException e) {
-			
-			throw new BLLException(e.getLocalizedMessage(), e);
-		}
-		
 	}
 
-	public static CategoriesManager GetInstance() throws BLLException {
+	public static CategoriesManager GetInstance() {
 
 		if (instance == null) {
 			instance = new CategoriesManager();
 		}
-		
+
+		if(categoriesDAO == null) {
+			try {
+				categoriesDAO = (CategoriesDAO) DAOFactory.getCategoriesDAO();
+			} catch (DALException e) {
+				e.printStackTrace();
+			}
+		}
+
+
 		return instance;
 	}
 
@@ -82,12 +85,13 @@ public class CategoriesManager {
 		return categorie;
 	}
 
-	public List<Categorie> getAllCategories() throws BLLException {
+	public List<Categorie> getAllCategories(Erreurs erreurs) {
 		
 		try {
 			return categoriesDAO.getAll();
 		} catch (DALException e) {
-			throw new BLLException(e.getLocalizedMessage(), e);
+			erreurs.addErreur(e.getLocalizedMessage());
+			return new ArrayList<>();
 		}
 	}
 

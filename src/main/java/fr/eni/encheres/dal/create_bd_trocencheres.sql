@@ -97,3 +97,4 @@ ALTER TABLE ARTICLES_VENDUS
 ON DELETE NO ACTION 
     ON UPDATE no action 
 
+insert into CATEGORIES values ('decorations'), ('vetements')
