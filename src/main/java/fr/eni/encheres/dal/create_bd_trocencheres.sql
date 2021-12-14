@@ -7,7 +7,7 @@ go
 
 CREATE TABLE CATEGORIES (
     no_categorie   INTEGER IDENTITY(1,1) NOT NULL,
-    etiquette      VARCHAR(10) NOT NULL,  -- identifiant unique
+    etiquette      VARCHAR(15) NOT NULL,  -- identifiant unique
     libelle        VARCHAR(50) NOT NULL   -- description plus longue, avec accents...
 )
 

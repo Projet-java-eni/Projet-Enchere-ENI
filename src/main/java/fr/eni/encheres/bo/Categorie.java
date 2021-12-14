@@ -22,19 +22,21 @@ public class Categorie implements Serializable, MeHasMany<ArticleVendu> {
 
 	// champs de la BDD
 	private int noCategorie;
+	private String etiquette;
 	private String libelle;
 
 	// champs supplémentaires
 	private List<ArticleVendu> categorieArticle = null;
 
-	public Categorie(int id, String libelle) {
+	public Categorie(int id, String etiquette, String libelle) {
 		super();
 		this.noCategorie = id;
+		this.etiquette = etiquette;
 		this.libelle = libelle;
 	}
 
-	public Categorie(String libelle) {
-		this(-1, libelle);
+	public Categorie(String etiquette, String libelle) {
+		this(-1, etiquette, libelle);
 	}
 
 	public Categorie() {
@@ -70,5 +72,21 @@ public class Categorie implements Serializable, MeHasMany<ArticleVendu> {
 
 	public void supprimer(ArticleVendu typeArticle) {
 		categorieArticle.remove(typeArticle);
+	}
+
+	public int getNoCategorie() {
+		return noCategorie;
+	}
+
+	public void setNoCategorie(int noCategorie) {
+		this.noCategorie = noCategorie;
+	}
+
+	public String getEtiquette() {
+		return etiquette;
+	}
+
+	public void setEtiquette(String etiquette) {
+		this.etiquette = etiquette;
 	}
 }

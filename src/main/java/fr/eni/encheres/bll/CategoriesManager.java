@@ -39,9 +39,10 @@ public class CategoriesManager {
 	}
 
 	
-	public Categorie createCategorie(String libelle, List<String> erreurs) {
+	public Categorie createCategorie(String etiquette, String libelle, List<String> erreurs) {
 		
 		Categorie categorie = new Categorie(
+				etiquette,
 				libelle
 		);
 		
