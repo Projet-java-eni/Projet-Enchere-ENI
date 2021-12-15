@@ -60,7 +60,7 @@ public class AfficherEncheresServlet extends HttpServlet {
 		}
 // Transfert de l'affichage à la JSP
 		RequestDispatcher rd = null;
-		rd = request.getRequestDispatcher("/WEB-INF/jsps/accueil.jsp");
+		rd = request.getRequestDispatcher("/");
 		rd.forward(request, response);
 
 	}
@@ -87,7 +87,7 @@ public class AfficherEncheresServlet extends HttpServlet {
 		}
 		// Transfert de l'affichage à la JSP accueilConnecte
 		RequestDispatcher rd = null;
-		rd = request.getRequestDispatcher("/WEB-INF/jsps/accueilConnecte.jsp");
+		rd = request.getRequestDispatcher("/");
 		rd.forward(request, response);
 	}
 
