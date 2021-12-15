@@ -55,11 +55,10 @@ public class ArticleManager {
 		return article;
 	}
 
-//Ivo elles se ressemblent ces 2 méthodes.... y'en a pas une en trop (je dois utiliser  getAll() dans afficherEncheresServlet 
-	// et je pense que la 1ère n'est pas bonne et donc je l'ai mise en commentaire)
-//	public List<Article> getCatalogue() {
-//		return getCatalogue(new Erreurs());
-//	}
+//TODO A EFFACER
+	public List<Article> getCatalogue() {
+		return getCatalogue(new Erreurs());
+	}
 
 	public List<Article> getCatalogue(Erreurs erreurs) {
 		try {

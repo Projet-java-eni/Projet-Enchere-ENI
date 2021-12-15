@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bll.ArticleManager;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.EncheresManager;
@@ -45,12 +46,12 @@ public class AfficherEncheresServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		// On récupère la liste des articles avant de les trier par date de début
 		ArticleManager articleManager = new ArticleManager();
 		List<Article> listeArticle = new ArrayList<Article>();
 
-		listeArticle = articleManager.getCatalogue(null);// l'argument null n'est pas forcément bon
+		listeArticle = articleManager.getCatalogue(Erreurs erreurs);
 		Collections.sort(listeArticle);
 
 // Transfert de l'affichage à la JSP
