@@ -232,7 +232,8 @@ public class ArticleManager {
 
 		article.setCategorie(categorie);
 		article.setUtilisateur(utilisateur);
-		article.setEtatVente(0);
+		article.setAnnuleParVendeur(false);
+		article.setRecuParAcheteur(false);
 
 		if (erreurs.hasErrors())
 			return;

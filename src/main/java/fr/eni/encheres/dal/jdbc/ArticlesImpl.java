@@ -13,6 +13,7 @@ import java.util.List;
 
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dal.*;
 
 public class ArticlesImpl implements ArticlesDAO {
@@ -23,24 +24,25 @@ public class ArticlesImpl implements ArticlesDAO {
 
 	private static final String sqlSelectById = "SELECT no_article, nom_article,description," +
 			"date_debut_encheres,heure_debut_encheres, date_fin_encheres,heure_fin_encheres,prix_initial,"
-			+ "prix_vente,no_categorie, no_utilisateur  FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
+			+ "prix_vente,annule_par_vendeur, recu_par_acheteur, no_categorie, no_utilisateur " +
+			" FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
 
 	private static final String sqlSelectAll = "SELECT no_article, nom_article,description," +
 			"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial,"
-			+ "prix_vente,etat_vente,no_categorie,no_utilisateur  FROM dbo.ARTICLES_VENDUS";
+			+ "prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur  FROM dbo.ARTICLES_VENDUS";
 
 	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description," +
 			"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
-			" prix_vente,etat_vente,no_categorie,no_utilisateur FROM dbo.ARTICLES_VENDUS WHERE no_categorie=?";
+			" prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur FROM dbo.ARTICLES_VENDUS WHERE no_categorie=?";
 
 	private static final String sqlInsert = "INSERT INTO dbo.ARTICLES_VENDUS " +
 			"(nom_article,description,date_debut_encheres,heure_debut_encheres, date_fin_encheres,heure_fin_encheres, prix_initial, "
-			+ "prix_vente,etat_vente,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			+ "prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	private static final String sqlUpdate = "UPDATE dbo.ARTICLES_VENDUS SET  " +
 			"nom_article=?,description=?,date_debut_encheres=?,heure_debut_encheres=?," +
 			"date_fin_encheres=?,heure_fin_encheres=?,prix_initial=?, "
-			+ "prix_vente=?,etat_vente=?,no_categorie=?,no_utilisateur=? WHERE no_article=?";
+			+ "prix_vente=?,annule_par_vendeur=?,recu_par_acheteur=?,no_categorie=?,no_utilisateur=? WHERE no_article=?";
 
 	private static final String sqlDelete = "DELETE FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
 
@@ -75,8 +77,11 @@ public class ArticlesImpl implements ArticlesDAO {
 			article.setTimeFinEnchere(resultSet.getTime("heure_fin_encheres").toLocalTime());
 			article.setMiseAPrix(resultSet.getInt("prix_initial"));
 			article.setPrixVente(resultSet.getInt("prix_vente"));
+			article.setAnnuleParVendeur(resultSet.getBoolean("annule_par_vendeur"));
+			article.setRecuParAcheteur(resultSet.getBoolean("recu_par_acheteur"));
 			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
 			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
+			// todo: il faut aussi peuple le lieu Retrait() et les Encheres liées à l'article
 		} catch (SQLException ex) {
 			throw new DALException("getById failed  = " + id, ex);
 		}
@@ -113,8 +118,14 @@ public class ArticlesImpl implements ArticlesDAO {
 						resultSet.getTime("heure_fin_encheres").toLocalTime(),
 						resultSet.getInt("prix_initial"),
 						resultSet.getInt("prix_vente"),
-						resultSet.getInt("etat_vente")
-				));
+						resultSet.getBoolean("annule_par_vendeur"),
+						resultSet.getBoolean("recu_par_acheteur"),
+						categoriesDAO.getById(resultSet.getInt("no_categorie")),
+						new Retrait(),  // todo ici il faut faire les jointures?
+						utilisateursDAO.getById(resultSet.getInt("no_utilisateur")),
+						new ArrayList<>()  // ici il faut faire une jointure pour recuperer les encheres?
+					));
+
 			}
 		} catch (SQLException ex) {
 			throw new DALException("selectAll failed - " + ex.getLocalizedMessage(), ex);
@@ -182,7 +193,8 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement.setTime(i++, Time.valueOf(article.getTimeFinEnchere()));
 			statement.setInt(i++, article.getMiseAPrix());
 			statement.setInt(i++, article.getPrixVente());
-			statement.setInt(i++, article.getEtatVente());
+			statement.setBoolean(i++, article.isAnnuleParVendeur());
+			statement.setBoolean(i++, article.isRecuParAcheteur());
 			statement.setInt(i++, article.getCategorie().getId());
 			statement.setInt(i++, article.getUtilisateur().getNoUtilisateur());
 
@@ -224,7 +236,8 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement.setTime(i++, Time.valueOf(article.getTimeFinEnchere()));
 			statement.setInt(i++, article.getMiseAPrix());
 			statement.setInt(i++, article.getPrixVente());
-			statement.setInt(i++, article.getEtatVente());
+			statement.setBoolean(i++, article.isAnnuleParVendeur());
+			statement.setBoolean(i++, article.isRecuParAcheteur());
 			statement.setInt(i++, article.getCategorie().getId());
 			statement.setInt(i++, article.getUtilisateur().getNoUtilisateur());
 

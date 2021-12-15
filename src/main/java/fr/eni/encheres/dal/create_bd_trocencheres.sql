@@ -65,7 +65,8 @@ CREATE TABLE ARTICLES_VENDUS (
     prix_vente                    INTEGER,
     no_utilisateur                INTEGER NOT NULL,
     no_categorie                  INTEGER NOT NULL,
-    etat_vente                    INTEGER NOT NULL
+    annule_par_vendeur            BIT NOT NULL,
+    recu_par_acheteur             BIT NOT NULL,
 )
 
 ALTER TABLE ARTICLES_VENDUS ADD constraint articles_vendus_pk PRIMARY KEY (no_article)

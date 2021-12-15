@@ -17,7 +17,8 @@ public class Article implements Comparable<Article> {
 	private LocalTime timeFinEnchere;
 	private int miseAPrix;
 	private int prixVente;
-	private Integer etatVente;
+	private boolean annuleParVendeur;
+	private boolean recuParAcheteur;
 
 	// ajout
 	private Categorie categorie;
@@ -30,7 +31,7 @@ public class Article implements Comparable<Article> {
 
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
 			LocalTime timeDebutEnchere, LocalDate dateFinEnchere, LocalTime timeFinEnchere, int miseAPrix,
-			int prixVente, Integer etatVente) {
+			int prixVente, boolean annuleParVendeur, boolean recuParAcheteur) {
 
 		super();
 		this.noArticle = noArticle;
@@ -42,25 +43,30 @@ public class Article implements Comparable<Article> {
 		this.timeFinEnchere = timeFinEnchere;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
-		this.etatVente = etatVente;
+		this.annuleParVendeur = annuleParVendeur;
+		this.recuParAcheteur = recuParAcheteur;
 
 	}
 
 	/**
 	 * @author Sego Constructeur avec tous les paramètres
 	 */
-	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-			LocalDate dateFinEnchere, int miseAPrix, int prixVente, Integer etatVente, Categorie categorie,
+	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalTime timeDebutEnchere,
+			LocalDate dateFinEnchere, LocalTime timeFinEnchere, int miseAPrix, int prixVente,
+		    boolean annuleParVendeur, boolean recuParAcheteur, Categorie categorie,
 			Retrait retrait, Utilisateur utilisateur, List<Enchere> encheres) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEnchere = dateDebutEnchere;
+		this.timeDebutEnchere = timeDebutEnchere;
 		this.dateFinEnchere = dateFinEnchere;
+		this.timeFinEnchere = timeFinEnchere;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
-		this.etatVente = etatVente;
 		this.categorie = categorie;
+		this.annuleParVendeur = annuleParVendeur;
+		this.recuParAcheteur = recuParAcheteur;
 		this.retrait = retrait;
 		this.utilisateur = utilisateur;
 		this.encheres = encheres;
@@ -111,13 +117,6 @@ public class Article implements Comparable<Article> {
 		this.prixVente = prixVente;
 	}
 
-	public Integer getEtatVente() {
-		return this.etatVente;
-	}
-
-	public void setEtatVente(Integer etatVente) {
-		this.etatVente = etatVente;
-	}
 
 	public Categorie getCategorie() {
 		return this.categorie;
@@ -156,7 +155,7 @@ public class Article implements Comparable<Article> {
 		return "Article [noArticle=" + this.noArticle + ", nomArticle=" + this.nomArticle + ", description="
 				+ this.description + ", dateDebutEnchere=" + this.dateDebutEnchere + ", dateFinEnchere="
 				+ this.dateFinEnchere + ", miseAPrix=" + this.miseAPrix + ", prixVente=" + this.prixVente
-				+ ", etatVente=" + this.etatVente + ", categorie=" + this.categorie + ", retrait=" + this.retrait
+				+ ", etatVente=" + this.annuleParVendeur + this.recuParAcheteur + ", categorie=" + this.categorie + ", retrait=" + this.retrait
 				+ ", utilisateur=" + this.utilisateur + ", encheres=" + this.encheres + "]";
 	}
 
@@ -200,4 +199,19 @@ public class Article implements Comparable<Article> {
 		return dateDebutEnchere.compareTo(a.getDateDebutEnchere());
 	}
 
+	public boolean isAnnuleParVendeur() {
+		return annuleParVendeur;
+	}
+
+	public void setAnnuleParVendeur(boolean annuleParVendeur) {
+		this.annuleParVendeur = annuleParVendeur;
+	}
+
+	public boolean isRecuParAcheteur() {
+		return recuParAcheteur;
+	}
+
+	public void setRecuParAcheteur(boolean recuParAcheteur) {
+		this.recuParAcheteur = recuParAcheteur;
+	}
 }
