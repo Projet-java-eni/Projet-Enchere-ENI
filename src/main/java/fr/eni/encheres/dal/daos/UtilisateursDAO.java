@@ -2,7 +2,6 @@ package fr.eni.encheres.dal.daos;
 
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.daos.DAO;
 
 public interface UtilisateursDAO  extends DAO<Utilisateur> {
 	
@@ -12,4 +11,7 @@ public interface UtilisateursDAO  extends DAO<Utilisateur> {
 	void changeMDP(Utilisateur utilisateur, String motDePasse) throws DALException;
 
 	Utilisateur getByPseudoEtMotDePasse(String utilisateurPseudo, String motDePasse) throws DALException;
+	
+	//@author Lucie ajout méthode pour débiter les crédits de l'utilisateur quand il fait une offre sur un article
+	int retirerCredits(int noUtilisateur) throws DALException;
 }
