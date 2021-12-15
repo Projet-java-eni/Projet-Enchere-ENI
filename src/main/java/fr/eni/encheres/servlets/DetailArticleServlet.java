@@ -61,12 +61,12 @@ public class DetailArticleServlet extends HttpServlet {
 			erreurs.addErreur("Impossible de reconnaitre l'article id");
 		}
 		
+		
 		//utiliser le noArticle pour récupérer le contenu de l'article
 
 		if(noArticle != null) {
 			articleAAfficher = articleManager.getByIdAvecInstance(noArticle, articleAAfficher, erreurs);
 		}
-
 
 		//get attribute contenu de l'article
 		String nomArticle = articleAAfficher.getNomArticle();
@@ -113,7 +113,13 @@ public class DetailArticleServlet extends HttpServlet {
 		request.setAttribute("meilleureOffre", meilleureOffre);
 		
 		request.setAttribute("errors", erreurs);
+		
 
+		//mettre l'Article en attribute pour le récupérer dans ValiderOffreServlet
+		request.setAttribute("article", articleAAfficher);
+		
+		
+		
 		//Redirection vers la page d'affichage des détails de la vente
 				RequestDispatcher rd = null;
 				rd = request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp");
