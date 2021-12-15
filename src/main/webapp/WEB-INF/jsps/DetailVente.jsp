@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 </head>
 
-<%@ include file="../jsps/Entete.html" %>
+<%@ include file="../jsps/EnteteBootstrap.jspf" %>
 
 <body>
 
@@ -86,6 +86,7 @@
 	</section>
 </body>
 
+<%@ include file="../jsps/PiedBootstrap.jspf" %>
 
 </html>
 
