@@ -11,6 +11,15 @@
 
 <%@ include file="../EnteteBootstrap.jspf" %>
 
+<jsp:include page="../blocs/erreurs.jsp">
+    <jsp:param name="errors" value="${errors}"/>
+</jsp:include>
+
+<jsp:include page="../blocs/infos.jsp">
+    <jsp:param name="infos" value="${infos}"/>
+</jsp:include>
+
+
 <h1>Ventes en cours</h1>
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap">

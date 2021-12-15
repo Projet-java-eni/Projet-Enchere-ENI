@@ -73,6 +73,23 @@ public class ArticleManager {
 		}
 	}
 
+	public void getCatalogue(List<Article> articles, Erreurs erreurs) {
+		try {
+			articlesDAO.getAll(articles);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+	}
+
+	public void getCatalogueTotal(List<Article> articles, Erreurs erreurs) {
+		// liste meme encheres finies, peut etre utile pour les iterations suivantes
+		try {
+			articlesDAO.getAllMemeFinis(articles);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+	}
+
 	public void addArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
 			LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
 

@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,40 +93,79 @@ public class ArticlesImpl implements ArticlesDAO {
 
 	}
 
-
 	@Override
-	public List<Article> getAll() throws DALException  {
-		List<Article> listArticle = new ArrayList<>();
+	public void getAll(List<Article> articles) throws DALException {
+		LocalDate dateAjd = LocalDate.now();
+		LocalTime maintenant = LocalTime.now();
 
-		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectAll)){
-			ResultSet resultSet = statement.executeQuery();
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement("SELECT no_article, nom_article,description, " +
+				"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
+				" prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur  " +
+				"FROM dbo.ARTICLES_VENDUS " +
+				"WHERE date_debut_encheres < ? and date_fin_encheres > ? " +
+				//"and heure_debut_encheres < ? and heure_fin_encheres > ? " + // il faut faire une sous requete ?
+				"and annule_par_vendeur=0")){
 
-			while (resultSet.next()) {
-				listArticle.add(new Article(
-						resultSet.getInt("no_article"),
-						resultSet.getString("nom_article"),
-						resultSet.getString("description"),
-						resultSet.getDate("date_debut_encheres").toLocalDate(),
-						resultSet.getTime("heure_debut_encheres").toLocalTime(),
-						resultSet.getDate("date_fin_encheres").toLocalDate(),
-						resultSet.getTime("heure_fin_encheres").toLocalTime(),
-						resultSet.getInt("prix_initial"),
-						resultSet.getInt("prix_vente"),
-						resultSet.getBoolean("annule_par_vendeur"),
-						resultSet.getBoolean("recu_par_acheteur"),
-						categoriesDAO.getById(resultSet.getInt("no_categorie")),
-						new Retrait(),  // todo ici il faut faire les jointures?
-						utilisateursDAO.getById(resultSet.getInt("no_utilisateur")),
-						new ArrayList<>()  // ici il faut faire une jointure pour recuperer les encheres?
-					));
-
-			}
+			statement.setDate(1, Date.valueOf(dateAjd));
+			statement.setDate(2, Date.valueOf(dateAjd));
+//			statement.setTime(3, Time.valueOf(maintenant));
+//			statement.setTime(4, Time.valueOf(maintenant));
+			peupleSelectAll(articles, statement);
 		} catch (SQLException ex) {
 			throw new DALException("selectAll failed - " + ex.getLocalizedMessage(), ex);
 		}
 
+	}
+
+
+	@Override
+	public List<Article> getAll() throws DALException  {
+		// Renvoie seulement les encheres en cours non annulées et pas encore livrées et recues
+		List<Article> listArticle = new ArrayList<>();
+
+		getAll(listArticle);
 		return listArticle;
 	}
+
+	@Override
+	public void getAllMemeFinis(List<Article> listArticle) throws DALException {
+		// renvoie toutes les ventes sans exception
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
+				"SELECT no_article, nom_article,description, " +
+						"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
+						" prix_vente,no_utilisateur,no_categorie,annule_par_vendeur, recu_par_acheteur  FROM dbo.ARTICLES_VENDUS")){
+			peupleSelectAll(listArticle, statement);
+
+		} catch (SQLException ex) {
+			throw new DALException("selectAll failed - " + ex.getLocalizedMessage(), ex);
+		}
+	}
+
+
+	private void peupleSelectAll(List<Article> listArticle, PreparedStatement statement) throws SQLException, DALException {
+		ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			listArticle.add(new Article(
+					resultSet.getInt("no_article"),
+					resultSet.getString("nom_article"),
+					resultSet.getString("description"),
+					resultSet.getDate("date_debut_encheres").toLocalDate(),
+					resultSet.getTime("heure_debut_encheres").toLocalTime(),
+					resultSet.getDate("date_fin_encheres").toLocalDate(),
+					resultSet.getTime("heure_fin_encheres").toLocalTime(),
+					resultSet.getInt("prix_initial"),
+					resultSet.getInt("prix_vente"),
+					resultSet.getBoolean("annule_par_vendeur"),
+					resultSet.getBoolean("recu_par_acheteur"),
+					categoriesDAO.getById(resultSet.getInt("no_categorie")),
+					retraitsDAO.lieuRetrait(resultSet.getInt("no_article")),
+					utilisateursDAO.getById(resultSet.getInt("no_utilisateur")),
+					new ArrayList<>()  // ici il faut faire une jointure pour recuperer les encheres?
+			));
+
+		}
+	}
+
 
 	@Override
 	public Article getByCategorie(Categorie categorie) throws DALException {
@@ -150,6 +191,7 @@ public class ArticlesImpl implements ArticlesDAO {
 
 		return article;
 	}
+
 
 	@Override
 	public void add(Article article) throws DALException {

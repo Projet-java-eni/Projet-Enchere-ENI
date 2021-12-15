@@ -4,13 +4,16 @@ import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.DALException;
 
+import java.util.List;
+
 //@Frederic
 
 public interface ArticlesDAO extends DAO<Article> {
 
-	public Article getById(int id) throws DALException;
-	public void getByIdAvecInstance(Article article, int id) throws DALException;
+	Article getById(int id) throws DALException;
+	void getByIdAvecInstance(Article article, int id) throws DALException;
 
 	Article getByCategorie(Categorie categorie) throws DALException;
-
+	void getAllMemeFinis(List<Article> articles) throws DALException;
+	void getAll(List<Article> articles) throws DALException; // getAll qui prend une list existante
 }
