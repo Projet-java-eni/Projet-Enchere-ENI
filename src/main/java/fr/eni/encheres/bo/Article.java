@@ -11,6 +11,7 @@ public class Article implements Comparable<Article> {
 	private int noArticle;
 	private String nomArticle;
 	private String description;
+	private String urlImage;
 	private LocalDate dateDebutEnchere;
 	private LocalTime timeDebutEnchere;
 	private LocalDate dateFinEnchere;
@@ -27,16 +28,17 @@ public class Article implements Comparable<Article> {
 	private List<Enchere> encheres;
 
 	public Article() {
-		this(-1, "", "", LocalDate.now(), LocalTime.now(), LocalDate.now(), LocalTime.now(), 0, 0, false, false);
+		this(-1, "", "", "/images/fauteuil.jpg", LocalDate.now(), LocalTime.now(), LocalDate.now(), LocalTime.now(), 0, 0, false, false);
 	}
 
-	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
+	public Article(int noArticle, String nomArticle, String description, String urlImage, LocalDate dateDebutEnchere,
 			LocalTime timeDebutEnchere, LocalDate dateFinEnchere, LocalTime timeFinEnchere, int miseAPrix,
 			int prixVente, boolean annuleParVendeur, boolean recuParAcheteur) {
 
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
+		this.urlImage = urlImage;
 		this.description = description;
 		this.dateDebutEnchere = dateDebutEnchere;
 		this.timeDebutEnchere = timeDebutEnchere;
@@ -52,13 +54,15 @@ public class Article implements Comparable<Article> {
 	/**
 	 * @author Sego Constructeur avec tous les paramètres
 	 */
-	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalTime timeDebutEnchere,
+	public Article(int noArticle, String nomArticle, String description, String urlImage,
+				   LocalDate dateDebutEnchere, LocalTime timeDebutEnchere,
 			LocalDate dateFinEnchere, LocalTime timeFinEnchere, int miseAPrix, int prixVente,
 		    boolean annuleParVendeur, boolean recuParAcheteur, Categorie categorie,
 			Retrait retrait, Utilisateur utilisateur, List<Enchere> encheres) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
 		this.description = description;
+		this.urlImage = urlImage;
 		this.dateDebutEnchere = dateDebutEnchere;
 		this.timeDebutEnchere = timeDebutEnchere;
 		this.dateFinEnchere = dateFinEnchere;
@@ -154,7 +158,7 @@ public class Article implements Comparable<Article> {
 	@Override
 	public String toString() {
 		return "Article [noArticle=" + this.noArticle + ", nomArticle=" + this.nomArticle + ", description="
-				+ this.description + ", dateDebutEnchere=" + this.dateDebutEnchere + ", dateFinEnchere="
+				+ this.description + ", urlImage=" + this.urlImage + ", dateDebutEnchere=" + this.dateDebutEnchere + ", dateFinEnchere="
 				+ this.dateFinEnchere + ", miseAPrix=" + this.miseAPrix + ", prixVente=" + this.prixVente
 				+ ", etatVente=" + this.annuleParVendeur + this.recuParAcheteur + ", categorie=" + this.categorie + ", retrait=" + this.retrait
 				+ ", utilisateur=" + this.utilisateur + ", encheres=" + this.encheres + "]";
@@ -214,5 +218,13 @@ public class Article implements Comparable<Article> {
 
 	public void setRecuParAcheteur(boolean recuParAcheteur) {
 		this.recuParAcheteur = recuParAcheteur;
+	}
+
+	public String getUrlImage() {
+		return urlImage;
+	}
+
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
 	}
 }

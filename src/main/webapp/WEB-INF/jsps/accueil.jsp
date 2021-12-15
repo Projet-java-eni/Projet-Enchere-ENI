@@ -8,6 +8,7 @@
 
 <%@ page import="java.util.List"%>
 <%@ page import="fr.eni.encheres.bo.Categorie" %>
+<%@ page import="fr.eni.encheres.bo.Article" %>
 
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -100,7 +101,7 @@
 						<%
 							for(Categorie cat: (List<Categorie>)request.getAttribute("categories")) {
 						%>
-							<option value="<%= cat.getEtiquette() %>"><%= cat.getLibelle() %></option>
+							<option value="<%= cat.getId() %>"><%= cat.getLibelle() %></option>
 						<% } %>
 					</select></th>
 					<td>
@@ -162,44 +163,14 @@
 
 	<!-- Ici je vais juste afficher toutes les enchères en commençant par les plus récentes-->
 	<article class="articles" id="articles">
-		<table class="table_articles" id="table_articles">
-			<tr>
-				<td style="text-align: center"><img
-				src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite.png"
-				alt="logo Association" />
-					<h3>enchere1</h3></td>
-				<td style="text-align: center"><img
-				src="<%=request.getContextPath()%>/images/fauteuil.jpg"
-				alt="logo Association" />
-					<h3>enchere2</h3>
-				</td>
-				<td style="text-align: center"><img
-				src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite.png"
-				alt="logo Association" />
-					<h3>enchere3</h3>
-				</td>
-			</tr>
-			<tr>
-				<td style="text-align: center"><img
-				src="<%=request.getContextPath()%>/images/fauteuil.jpg"
-				alt="logo Association" />
-					<h3>enchere4</h3>
-				</td>
-				<td style="text-align: center"><img
-				src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite.png"
-				alt="logo Association" />
-					<h3>enchere5</h3>
-				</td>
-				<td style="text-align: center"><img
-				src="<%=request.getContextPath()%>/images/fauteuil.jpg"
-				alt="logo Association" />
-					<h3>enchere6</h3>
-				</td>
-			</tr>
-		</table>
-
-
-
+		<div class="table_articles" id="table_articles" style="display: flex; flex-direction: row; flex-wrap: wrap; margin: auto; max-width: 40em">
+			<% for(Article article: (List<Article>)request.getAttribute("articles")) { %>
+			<div style="text-align: center"><img
+					src="<%=request.getContextPath()%><%=article.getUrlImage()%>"
+					alt="image de l'article" />
+				<h3><%=article.getNomArticle()%></h3></div>
+			<% } %>
+		</div>
 
 	</article>
 	<hr>

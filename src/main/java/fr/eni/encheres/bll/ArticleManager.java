@@ -65,12 +65,13 @@ public class ArticleManager {
 	}
 
 	public List<Article> getCatalogue(Erreurs erreurs) {
+		List<Article> articles = new ArrayList<>();
 		try {
-			return articlesDAO.getAll();
+			articlesDAO.getAll(articles);
 		} catch (DALException e) {
 			erreurs.addErreur(e.getLocalizedMessage());
-			return new ArrayList<>();
 		}
+		return articles;
 	}
 
 	public void getCatalogue(List<Article> articles, Erreurs erreurs) {

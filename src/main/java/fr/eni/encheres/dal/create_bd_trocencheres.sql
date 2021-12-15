@@ -57,6 +57,7 @@ CREATE TABLE ARTICLES_VENDUS (
     no_article                    INTEGER IDENTITY(1,1) NOT NULL,
     nom_article                   VARCHAR(200) NOT NULL,
     description                   VARCHAR(300) NOT NULL,
+    url_image                     VARCHAR(300) NOT NULL,
 	date_debut_encheres           DATE NOT NULL,
 	heure_debut_encheres          TIME NOT NULL,
     date_fin_encheres             DATE NOT NULL,

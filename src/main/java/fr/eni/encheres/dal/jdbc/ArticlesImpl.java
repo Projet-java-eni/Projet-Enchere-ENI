@@ -22,25 +22,25 @@ public class ArticlesImpl implements ArticlesDAO {
 
 
 
-	private static final String sqlSelectById = "SELECT no_article, nom_article,description," +
+	private static final String sqlSelectById = "SELECT no_article, nom_article,description, url_image, " +
 			"date_debut_encheres,heure_debut_encheres, date_fin_encheres,heure_fin_encheres,prix_initial,"
 			+ "prix_vente,annule_par_vendeur, recu_par_acheteur, no_categorie, no_utilisateur " +
 			" FROM dbo.ARTICLES_VENDUS WHERE no_article=?";
 
-	private static final String sqlSelectAll = "SELECT no_article, nom_article,description," +
+	private static final String sqlSelectAll = "SELECT no_article, nom_article,description, url_image, " +
 			"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial,"
 			+ "prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur  FROM dbo.ARTICLES_VENDUS";
 
-	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description," +
+	private static final String sqlSelectByCategorie = "SELECT no_article, nom_article,description, url_image, " +
 			"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
 			" prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur FROM dbo.ARTICLES_VENDUS WHERE no_categorie=?";
 
 	private static final String sqlInsert = "INSERT INTO dbo.ARTICLES_VENDUS " +
-			"(nom_article,description,date_debut_encheres,heure_debut_encheres, date_fin_encheres,heure_fin_encheres, prix_initial, "
-			+ "prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+			"(nom_article,description, url_image, date_debut_encheres,heure_debut_encheres, date_fin_encheres,heure_fin_encheres, prix_initial, "
+			+ "prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	private static final String sqlUpdate = "UPDATE dbo.ARTICLES_VENDUS SET  " +
-			"nom_article=?,description=?,date_debut_encheres=?,heure_debut_encheres=?," +
+			"nom_article=?,description=?,url_image=?,date_debut_encheres=?,heure_debut_encheres=?," +
 			"date_fin_encheres=?,heure_fin_encheres=?,prix_initial=?, "
 			+ "prix_vente=?,annule_par_vendeur=?,recu_par_acheteur=?,no_categorie=?,no_utilisateur=? WHERE no_article=?";
 
@@ -74,6 +74,7 @@ public class ArticlesImpl implements ArticlesDAO {
 				resultSet.next();
 				article.setNomArticle(resultSet.getString("nom_article"));
 				article.setDescription(resultSet.getString("description"));
+				article.setUrlImage(resultSet.getString("url_image"));
 				article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
 				article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
 				article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
@@ -98,7 +99,7 @@ public class ArticlesImpl implements ArticlesDAO {
 		LocalTime maintenant = LocalTime.now();
 
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
-				"SELECT no_article, nom_article,description, " +
+				"SELECT no_article, nom_article,description, url_image, " +
 				"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
 				" prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur  " +
 				"FROM dbo.ARTICLES_VENDUS " +
@@ -130,7 +131,7 @@ public class ArticlesImpl implements ArticlesDAO {
 	public void getAllMemeFinis(List<Article> listArticle) throws DALException {
 		// renvoie toutes les ventes sans exception
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
-				"SELECT no_article, nom_article,description, " +
+				"SELECT no_article, nom_article,description,url_image, " +
 						"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
 						" prix_vente,no_utilisateur,no_categorie,annule_par_vendeur, recu_par_acheteur  FROM dbo.ARTICLES_VENDUS")){
 			peupleSelectAll(listArticle, statement);
@@ -148,6 +149,7 @@ public class ArticlesImpl implements ArticlesDAO {
 						resultSet.getInt("no_article"),
 						resultSet.getString("nom_article"),
 						resultSet.getString("description"),
+						resultSet.getString("url_image"),
 						resultSet.getDate("date_debut_encheres").toLocalDate(),
 						resultSet.getTime("heure_debut_encheres").toLocalTime(),
 						resultSet.getDate("date_fin_encheres").toLocalDate(),
@@ -174,6 +176,7 @@ public class ArticlesImpl implements ArticlesDAO {
 			try (ResultSet resultSet = statement.executeQuery()){
 				article.setNomArticle(resultSet.getString("nom_article"));
 				article.setDescription(resultSet.getString("description"));
+				article.setUrlImage(resultSet.getString("url_image"));
 				article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
 				article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
 				article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
@@ -202,6 +205,7 @@ public class ArticlesImpl implements ArticlesDAO {
 
 			statement.setString(i++, article.getNomArticle());
 			statement.setString(i++, article.getDescription());
+			statement.setString(i++, article.getUrlImage());
 			statement.setDate(i++, Date.valueOf(article.getDateDebutEnchere()));
 			statement.setTime(i++, Time.valueOf(article.getTimeDebutEnchere()));
 			statement.setDate(i++, Date.valueOf(article.getDateFinEnchere()));
@@ -240,6 +244,7 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement.setInt(i++, article.getNoArticle());
 			statement.setString(i++, article.getNomArticle());
 			statement.setString(i++, article.getDescription());
+			statement.setString(i++, article.getUrlImage());
 			statement.setDate(i++, Date.valueOf(article.getDateDebutEnchere()));
 			statement.setTime(i++, Time.valueOf(article.getTimeDebutEnchere()));
 			statement.setDate(i++, Date.valueOf(article.getDateFinEnchere()));
