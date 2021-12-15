@@ -13,5 +13,5 @@ public interface UtilisateursDAO  extends DAO<Utilisateur> {
 	Utilisateur getByPseudoEtMotDePasse(String utilisateurPseudo, String motDePasse) throws DALException;
 	
 	//@author Lucie ajout méthode pour débiter les crédits de l'utilisateur quand il fait une offre sur un article
-	int retirerCredits(int noUtilisateur) throws DALException;
+	void retirerCredits(Utilisateur utilisateur,int creditsARetirer) throws DALException;
 }

@@ -25,7 +25,10 @@ public class UtilisateursImpl implements UtilisateursDAO {
 				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"),
 		UPDATE("UPDATE dbo.utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, " +
 				"ville=?, credit=?, administrateur=?, actif=? WHERE no_utilisateur=?"),
-		DELETE("DELETE FROM dbo.utilisateurs WHERE no_utilisateur=?");
+		DELETE("DELETE FROM dbo.utilisateurs WHERE no_utilisateur=?"),
+		
+		//@author Lucie : ajout requête pour retirer des crédits
+		RETIRERCREDITS("UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?");
 
 		private final String value;
 
@@ -195,6 +198,23 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	@Override
 	public void add(Utilisateur utilisateur) throws DALException {
 		addUtilisateurSecurise(utilisateur, "");		
+	}
+
+	//@author Lucie : ajout méthode pour retirer des crédits
+	@Override
+	public void retirerCredits(Utilisateur utilisateur, int creditsARetirer) throws DALException {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(StoredStatements.RETIRERCREDITS.value)) {
+			//récupérer le nombre de crédits de l'utilisateur
+			int nombreCredits = utilisateur.getCredit();
+			//faire la soustraction
+			int nouveauTotalCredits = nombreCredits - creditsARetirer;
+			//attribuer le nouveau nombre de crédits
+			statement.setInt(1, nouveauTotalCredits);
+			//exécuter la requete
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DALException(e.getMessage(), e);
+		}
 	}
 
 }
