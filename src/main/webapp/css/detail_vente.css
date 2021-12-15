@@ -58,7 +58,7 @@ strong{
 .infos{
 	padding-left: 20px ;
 }
-.encherir{
+.encherir, .annuler_vente {
 	background-color: rgb(80, 215, 88);
 	display: flex;
 	flex-direction: row;

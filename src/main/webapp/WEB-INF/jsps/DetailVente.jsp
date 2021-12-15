@@ -67,29 +67,37 @@
 		</article>
 
 		<c:if test="${requestScope.connecte}">
-		<div class="encherir">
-			<table>
-				<tr>
-					<th>Mise à prix : </th>
-					<td><%=miseAPrix%></td>
-				</tr>
-				<tr>
-					<th>Meilleure offre : </th>
-					<td><%=meilleureOffre%></td>
-				</tr>
-				<tr>
-					<th>Date de fin de l'enchère : </th>
-					<td><%=dateFinEnchere%></td>
-				</tr>	
-			</table>
-			<div class="offre">
-				<form action="ValiderOffreServlet" method="post">	
-					<p><label for="offre">FAIRE UNE OFFRE</label></p>
-					<input type="number" id="offre" min="<%=offreMin%>" max="9999" step="1" name="nouvelleOffre"/>
-					<input class="valider"	type="submit" value="Enchérir">
-				</form>
+			<c:if test="${requestScope.peut_encherir}">
+			<div class="encherir">
+				<table>
+					<tr>
+						<th>Mise à prix : </th>
+						<td><%=miseAPrix%></td>
+					</tr>
+					<tr>
+						<th>Meilleure offre : </th>
+						<td><%=meilleureOffre%></td>
+					</tr>
+					<tr>
+						<th>Date de fin de l'enchère : </th>
+						<td><%=dateFinEnchere%></td>
+					</tr>
+				</table>
+				<div class="offre">
+					<form action="ValiderOffreServlet" method="post">
+						<p><label for="offre">FAIRE UNE OFFRE</label></p>
+						<input type="number" id="offre" min="<%=offreMin%>" max="9999" step="1" name="nouvelleOffre"/>
+						<input class="valider"	type="submit" value="Enchérir">
+					</form>
+				</div>
 			</div>
-		</div>
+			</c:if>
+			<c:if test="${requestScope.peut_annuler_vente}">
+				<div class="annuler_vente">
+					<input type="submit" name="annuler" value="Annuler la vente">
+				</div>
+
+			</c:if>
 		</c:if>
 	</section>
 </body>

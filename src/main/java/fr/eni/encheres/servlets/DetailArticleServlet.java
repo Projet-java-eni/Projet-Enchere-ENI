@@ -120,14 +120,13 @@ public class DetailArticleServlet extends HttpServlet {
 		//mettre l'Article en attribute pour le récupérer dans ValiderOffreServlet
 		request.setAttribute("article", articleAAfficher);
 
-		Utilisateur utilisateur = new Utilisateur();
 		Integer userId = (Integer) request.getSession().getAttribute("user_id");
 		if(request.getSession().getAttribute("user_id") != null) {
 			utilisateursManager.getUtilisateurById(userId, erreurs); // On peut encherir si on est connecté et si on n'est pas la personne qui a créé la vente
 		}
 		request.setAttribute("connecte", userId != null);
 		request.setAttribute("peut_encherir", userId != null && (userId != vendeur.getNoUtilisateur()));
-		request.setAttribute("proprietaire", userId != null && (userId == vendeur.getNoUtilisateur()));
+		request.setAttribute("peut_annuler_vente", userId != null && (userId == vendeur.getNoUtilisateur()));
 
 		//Redirection vers la page d'affichage des détails de la vente
 		 request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp").forward(request, response);
