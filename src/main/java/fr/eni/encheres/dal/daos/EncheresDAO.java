@@ -1,9 +1,11 @@
 // @author Lucie
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.daos;
 
 import java.util.List;
 
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.dal.DALException;
+import fr.eni.encheres.dal.daos.DAO;
 
 
 public interface EncheresDAO extends DAO<Enchere> {

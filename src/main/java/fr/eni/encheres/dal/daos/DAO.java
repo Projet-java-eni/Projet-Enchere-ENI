@@ -1,4 +1,6 @@
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.daos;
+
+import fr.eni.encheres.dal.DALException;
 
 import java.util.List;
 

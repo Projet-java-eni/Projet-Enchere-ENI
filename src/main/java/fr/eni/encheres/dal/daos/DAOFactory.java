@@ -1,11 +1,13 @@
 //MAJ Lucie (généricité)
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.daos;
 
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.DALException;
+import fr.eni.encheres.dal.daos.DAO;
 import fr.eni.encheres.dal.jdbc.ArticlesImpl;
 import fr.eni.encheres.dal.jdbc.CategoriesImpl;
 import fr.eni.encheres.dal.jdbc.EncheresImpl;

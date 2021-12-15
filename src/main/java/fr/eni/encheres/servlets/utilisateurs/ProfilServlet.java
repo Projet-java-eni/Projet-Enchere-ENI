@@ -5,9 +5,6 @@ import fr.eni.encheres.beans.Infos;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAOFactory;
-import fr.eni.encheres.dal.UtilisateursDAO;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

@@ -7,8 +7,8 @@ import java.util.Map;
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAOFactory;
-import fr.eni.encheres.dal.UtilisateursDAO;
+import fr.eni.encheres.dal.daos.DAOFactory;
+import fr.eni.encheres.dal.daos.UtilisateursDAO;
 
 public class UtilisateursManager {
 	

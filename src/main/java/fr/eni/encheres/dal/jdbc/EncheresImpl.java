@@ -9,8 +9,7 @@ import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAO;
-import fr.eni.encheres.dal.EncheresDAO;
+import fr.eni.encheres.dal.daos.EncheresDAO;
 
 
 public class EncheresImpl implements EncheresDAO {

@@ -6,8 +6,8 @@ import java.util.Map;
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAOFactory;
-import fr.eni.encheres.dal.RetraitsDAO;
+import fr.eni.encheres.dal.daos.DAOFactory;
+import fr.eni.encheres.dal.daos.RetraitsDAO;
 
 /**
  * 

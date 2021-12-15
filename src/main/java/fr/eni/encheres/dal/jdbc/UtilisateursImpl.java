@@ -8,7 +8,7 @@ import java.util.List;
 
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.UtilisateursDAO;
+import fr.eni.encheres.dal.daos.UtilisateursDAO;
 
 public class UtilisateursImpl implements UtilisateursDAO {
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.dal.CategoriesDAO;
+import fr.eni.encheres.dal.daos.CategoriesDAO;
 import fr.eni.encheres.dal.DALException;
 
 

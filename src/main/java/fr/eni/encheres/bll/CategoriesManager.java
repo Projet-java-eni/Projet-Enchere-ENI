@@ -6,9 +6,9 @@ import java.util.List;
 
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.dal.CategoriesDAO;
+import fr.eni.encheres.dal.daos.CategoriesDAO;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAOFactory;
+import fr.eni.encheres.dal.daos.DAOFactory;
 
 public class CategoriesManager {
 	private static CategoriesDAO categoriesDAO = null;

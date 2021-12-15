@@ -1,9 +1,8 @@
 package fr.eni.encheres.bll;
 
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAO;
-import fr.eni.encheres.dal.DAOFactory;
-import fr.eni.encheres.dal.EncheresDAO;
+import fr.eni.encheres.dal.daos.DAOFactory;
+import fr.eni.encheres.dal.daos.EncheresDAO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

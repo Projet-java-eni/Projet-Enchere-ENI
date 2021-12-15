@@ -1,7 +1,8 @@
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.daos;
 
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.dal.DALException;
 
 //@Frederic
 

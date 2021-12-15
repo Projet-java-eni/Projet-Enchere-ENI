@@ -1,6 +1,8 @@
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.daos;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.DALException;
+import fr.eni.encheres.dal.daos.DAO;
 
 public interface UtilisateursDAO  extends DAO<Utilisateur> {
 	

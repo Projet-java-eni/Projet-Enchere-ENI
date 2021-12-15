@@ -13,9 +13,9 @@ import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.ArticlesDAO;
+import fr.eni.encheres.dal.daos.ArticlesDAO;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.dal.DAOFactory;
+import fr.eni.encheres.dal.daos.DAOFactory;
 
 public class ArticleManager {
 
