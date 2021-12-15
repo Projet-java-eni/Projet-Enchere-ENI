@@ -1,6 +1,5 @@
 package fr.eni.encheres.dal.jdbc;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,25 +39,21 @@ public class RetraitsImpl implements RetraitsDAO {
 	@Override
 	public Retrait lieuRetrait(int noArticle) throws DALException {
 		Retrait adresseRetrait = new Retrait();
-		ResultSet rs = null;
 		try (PreparedStatement statement =
 					 GetConnection.getConnexion().prepareStatement(sqlSelectAdresseByArticle)){
 			statement.setInt(1, noArticle);
-			rs = statement.executeQuery();
+			try(ResultSet rs = statement.executeQuery()) {
 
-			rs.next();
-			adresseRetrait.setNoArticle(rs.getInt("no_article"));
-			adresseRetrait.setRue(rs.getString("rue"));
-			adresseRetrait.setCodePostal(rs.getString("code_postal"));
-			adresseRetrait.setVille(rs.getString("ville"));
+				rs.next();
+				adresseRetrait.setNoArticle(rs.getInt("no_article"));
+				adresseRetrait.setRue(rs.getString("rue"));
+				adresseRetrait.setCodePostal(rs.getString("code_postal"));
+				adresseRetrait.setVille(rs.getString("ville"));
+			}
 		}
 
 		catch (SQLException ex) {
 			throw new DALException("selectCoordonnees failed - artv = " + noArticle + ex.getLocalizedMessage(), ex);
-		}
-
-		finally {
-			GetConnection.close(rs);
 		}
 
 		return adresseRetrait;
@@ -66,44 +61,29 @@ public class RetraitsImpl implements RetraitsDAO {
 
 	@Override
 	public Retrait getById(int idRetrait) throws DALException {
-		Connection con = null;
-		PreparedStatement stmt = null;
 		Retrait adresseRetrait = new Retrait();
-		ResultSet rs = null;
-		try {
-			con = GetConnection.getConnexion();
-			stmt = con.prepareStatement(sqlSelectAdresseByIdRetrait);
+		try (PreparedStatement stmt = GetConnection.getConnexion().prepareStatement(sqlSelectAdresseByIdRetrait)){
 			stmt.setInt(1, idRetrait);
-			rs = stmt.executeQuery();
-
-			adresseRetrait.setIdRetrait(rs.getInt("id_retrait"));
-			adresseRetrait.setNoArticle(rs.getInt("no_article"));
-			adresseRetrait.setRue(rs.getString("rue"));
-			adresseRetrait.setCodePostal(rs.getString("code_postal"));
-			adresseRetrait.setVille(rs.getString("ville"));
+			try (ResultSet rs = stmt.executeQuery();){
+				adresseRetrait.setIdRetrait(rs.getInt("id_retrait"));
+				adresseRetrait.setNoArticle(rs.getInt("no_article"));
+				adresseRetrait.setRue(rs.getString("rue"));
+				adresseRetrait.setCodePostal(rs.getString("code_postal"));
+				adresseRetrait.setVille(rs.getString("ville"));
+			}
 		}
 
 		catch (SQLException ex) {
 			throw new DALException("selectCoordonnees failed - artv = " + idRetrait + " " + ex.getLocalizedMessage(), ex);
 		}
 
-		finally {
-			GetConnection.close(rs);
-			GetConnection.close(stmt);
-			GetConnection.close(con);
-		}
 
 		return adresseRetrait;
 	}
 
 	@Override
 	public void add(Retrait adresse) throws DALException {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			con = GetConnection.getConnexion();
-			stmt = con.prepareStatement(sqlInsertAdresseRetrait, Statement.RETURN_GENERATED_KEYS);
+		try (PreparedStatement stmt = GetConnection.getConnexion().prepareStatement(sqlInsertAdresseRetrait, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setInt(1, adresse.getNoArticle());
 			stmt.setString(2, adresse.getRue());
 			stmt.setString(3, adresse.getCodePostal());
@@ -111,9 +91,11 @@ public class RetraitsImpl implements RetraitsDAO {
 
 			int nbRows = stmt.executeUpdate();
 			if (nbRows == 1) {
-				rs = stmt.getGeneratedKeys();
-				if (rs.next()) {
-					adresse.setIdRetrait(rs.getInt(1));
+				try (ResultSet rs = stmt.getGeneratedKeys();){
+					if (rs.next()) {
+						adresse.setIdRetrait(rs.getInt(1));
+					}
+
 				}
 			}
 			stmt.execute();
@@ -121,45 +103,24 @@ public class RetraitsImpl implements RetraitsDAO {
 		} catch (SQLException ex) {
 			throw new DALException("Erreur dans l'insertion de l'adresse" + " " + ex.getLocalizedMessage(), ex);
 		}
-
-		finally {
-			GetConnection.close(rs);
-			GetConnection.close(stmt);
-			GetConnection.close(con);
-		}
 	}
 
 	@Override
 	public void remove(Retrait retrait) throws DALException {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			con = GetConnection.getConnexion();
-			stmt = con.prepareStatement(sqlDeleteAdresseRetrait);
-
+		try (PreparedStatement stmt = GetConnection.getConnexion().prepareStatement(sqlDeleteAdresseRetrait)){
 			stmt.setInt(1, retrait.getIdRetrait());
 			stmt.executeUpdate();
 
 		} catch (SQLException ex) {
 			throw new DALException("Erreur dans la suppression de l'article " + " " + ex.getLocalizedMessage(), ex);
 
-		} finally {
-			GetConnection.close(rs);
-			GetConnection.close(stmt);
-			GetConnection.close(con);
 		}
-
 	}
 
 	@Override
 	public void update(Retrait adresse) throws DALException {
-		Connection con = null;
-		PreparedStatement stmt = null;
 
-		try {
-			con = GetConnection.getConnexion();
-			stmt = con.prepareStatement(sqlUpdateAdresseRetrait);
+		try (PreparedStatement stmt = GetConnection.getConnexion().prepareStatement(sqlUpdateAdresseRetrait)){
 			stmt.setInt(1, adresse.getNoArticle());
 			stmt.setInt(2, adresse.getIdRetrait());
 			stmt.setString(3, adresse.getRue());
@@ -171,39 +132,26 @@ public class RetraitsImpl implements RetraitsDAO {
 		} catch (SQLException ex) {
 			throw new DALException("update article failed - " + adresse + " " + ex.getLocalizedMessage(), ex);
 		}
-
-		finally {
-			GetConnection.close(stmt);
-			GetConnection.close(con);
-		}
 	}
 
 	@Override
 	public List<Retrait> getAll() throws DALException {
-		List<Retrait> listCoordonnees = new ArrayList<Retrait>();
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+		List<Retrait> listCoordonnees = new ArrayList<>();
 
-		try {
-			con = GetConnection.getConnexion();
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(sqlSelectAllCoordonnees);
-			Retrait coordonnees = null;
-			while (rs.next()) {
-				coordonnees = new Retrait(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
-						rs.getString(5));
-				listCoordonnees.add(coordonnees);
+		try (PreparedStatement stmt = GetConnection.getConnexion().prepareStatement(sqlSelectAllCoordonnees)){
+			try (ResultSet rs = stmt.executeQuery()){
+				Retrait coordonnees = null;
+				while (rs.next()) {
+					coordonnees = new Retrait(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
+							rs.getString(5));
+					listCoordonnees.add(coordonnees);
+				}
+
 			}
 		} catch (SQLException ex) {
 			throw new DALException("selectAll failed - " + " " + ex.getLocalizedMessage(), ex);
 		}
 
-		finally {
-			GetConnection.close(rs);
-			GetConnection.close(stmt);
-			GetConnection.close(con);
-		}
 		return listCoordonnees;
 	}
 }

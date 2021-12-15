@@ -197,7 +197,6 @@ public class ArticlesImpl implements ArticlesDAO {
 
 	@Override
 	public void add(Article article) throws DALException {
-		ResultSet rs = null;
 
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
 				sqlInsert, new String[] { "no_article" })){
@@ -219,19 +218,17 @@ public class ArticlesImpl implements ArticlesDAO {
 
 			int nbRows = statement.executeUpdate();
 			if (nbRows == 1) {
-				rs = statement.getGeneratedKeys();
-				if (rs.next()) {
-					article.setNoArticle(rs.getInt(1));
+				try (ResultSet rs = statement.getGeneratedKeys()){
+					if (rs.next()) {
+						article.setNoArticle(rs.getInt(1));
+					}
+
 				}
 			}
 			statement.execute();
 
 		} catch (SQLException | NullPointerException ex) {
 			throw new DALException(ex.getLocalizedMessage(), ex);
-		}
-
-		finally {
-			GetConnection.close(rs);
 		}
 	}
 
