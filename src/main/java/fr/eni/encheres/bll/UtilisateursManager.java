@@ -347,7 +347,6 @@ public class UtilisateursManager {
 		}
 	}
 
-
 	private void validerMotDePasseRepete(String motDePasse, String motDePasseRepete, Erreurs erreurs) {
 		
 		if(motDePasse == null) erreurs.addErreur("Le mot de passe doit être renseigné");
@@ -431,4 +430,23 @@ public class UtilisateursManager {
 		}
 
 	}
+
+	public void retirerCredits(Utilisateur utilisateur, int creditsARetirer) throws BLLException {
+		
+		int ancienTotal = utilisateur.getCredit();
+		//Si utilisateur.credit > 0
+		if(ancienTotal - creditsARetirer >=0) {
+			//appeler retirerCredits
+			try {
+				utilisateursDAO.retirerCredits(utilisateur, creditsARetirer);
+			} catch (DALException ex) {
+				ex.printStackTrace();
+			}
+		}
+		else {
+			//TODO renvoyer un message d'erreur "Vous n'avez pas assez de crédits"
+		}
+
+	}
+	
 }
