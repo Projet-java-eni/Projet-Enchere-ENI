@@ -46,7 +46,11 @@ public class VendreArticleServlet extends HttpServlet {
 			Categorie categorie = categoriesManager.getByLibelle(request.getParameter("category"), erreurs);
 
 
-			articleManager.sauvegarderDepuisLeWeb(nom, description, prix, dateDebut, dateFin, rue, codePostal, ville, categorie, utilisateur, article, erreurs);
+			articleManager.sauvegarderDepuisLeWeb(
+					nom, description, prix, dateDebut, dateFin, rue,
+					codePostal, ville, categorie, utilisateur, article, erreurs
+			);
+
 			if(!erreurs.hasErrors()) {
 				infos.addInfo("Nouvel article ajouté !");
 			}

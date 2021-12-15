@@ -165,10 +165,15 @@
 	<article class="articles" id="articles">
 		<div class="table_articles" id="table_articles" style="display: flex; flex-direction: row; flex-wrap: wrap; margin: auto; max-width: 40em">
 			<% for(Article article: (List<Article>)request.getAttribute("articles")) { %>
-			<div style="text-align: center"><img
+			<div style="text-align: center">
+				<img
 					src="<%=request.getContextPath()%><%=article.getUrlImage()%>"
 					alt="image de l'article" />
-				<h3><%=article.getNomArticle()%></h3></div>
+				<h3><%=article.getNomArticle()%>
+					<small>
+						<a href="<%=request.getContextPath()%>/DetailArticle?no_article=<%=article.getNoArticle()%>">(Voir l'article)</a>
+					</small></h3>
+			</div>
 			<% } %>
 		</div>
 
