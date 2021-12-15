@@ -48,8 +48,8 @@ public class AfficherEncheresServlet extends HttpServlet {
 			throws ServletException, IOException {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		// On récupère la liste des articles avant de les trier par date de début
-		ArticleManager articleManager = new ArticleManager();
-		List<Article> listeArticle = new ArrayList<Article>();
+		ArticleManager articleManager = ArticleManager.GetInstance();
+		List<Article> listeArticle = new ArrayList<>();
 
 		listeArticle = articleManager.getCatalogue(erreurs);
 
