@@ -420,7 +420,7 @@ public class UtilisateursManager {
 
 	}
 
-	public void retirerCredits(Utilisateur utilisateur, int creditsARetirer) throws BLLException {
+	public void retirerCredits(Utilisateur utilisateur, int creditsARetirer, Erreurs erreurs) throws BLLException {
 		
 		int ancienTotal = utilisateur.getCredit();
 		//Si utilisateur.credit > 0
@@ -433,7 +433,8 @@ public class UtilisateursManager {
 			}
 		}
 		else {
-			//TODO renvoyer un message d'erreur "Vous n'avez pas assez de crédits"
+			// renvoyer un message d'erreur "Vous n'avez pas assez de crédits", resolu ivo
+			erreurs.addErreur("Vous n'avez pas assez de crédit");
 		}
 
 	}
