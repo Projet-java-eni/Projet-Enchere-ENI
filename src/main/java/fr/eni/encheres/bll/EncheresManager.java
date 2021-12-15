@@ -4,8 +4,6 @@ import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.daos.DAOFactory;
 import fr.eni.encheres.dal.daos.EncheresDAO;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import fr.eni.encheres.bo.Enchere;
@@ -17,8 +15,6 @@ public class EncheresManager {
 	private static EncheresManager instance = null;
 		
 	private EncheresManager() {
-		//instancier le EncheresDAO
-
 	}
 
 	public static EncheresManager GetInstance() {
@@ -33,7 +29,6 @@ public class EncheresManager {
 				ex.printStackTrace();
 			}
 		}
-
 		return instance;
 	}
 	
@@ -51,12 +46,12 @@ public class EncheresManager {
 			throw new BLLException("Enchère null");
 		}
 		//Les attributs des enchères sont obligatoires
-		//le numéro utilisateur ne peut pas être inférieur ou égal à 0. Il est récupéré via la connection au compte utilisateur
+		//le numéro utilisateur ne peut pas être inférieur ou égal à 0. Il est récupéré via la connection au compte utilisateur dans ValiderOffreServlet
 		if(e.getUtilisateur().getNoUtilisateur()<=0){
 			sb.append("Le numéro d'utilisateur est obligatoire.\n");
 			valide = false;
 		}
-		//le numéro article ne peut pas être inférieur ou égal à 0. Il est récupéré via la sélecrion de l'article par l'utilisateur au moment de faire l'enchère
+		//le numéro article ne peut pas être inférieur ou égal à 0. Il est récupéré via la sélection de l'article par l'utilisateur au moment de faire l'enchère
 		if(e.getArticle().getNoArticle()<=0){
 			sb.append("Le numéro de l'article est obligatoire.\n");
 			valide = false;
@@ -66,20 +61,21 @@ public class EncheresManager {
 			sb.append("Le montant de l'enchère doit être supérieur à zéro.\n");
 			valide = false;
 		}
-		//la date de l'enchère est la date du jour de création de l'enchère. A la création de l'enchère, la date est complétée automatiquement avec la date du jour.
-		//TODO comparer dateEnchere et date du jour
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); 
-		LocalDateTime aujourdhui = LocalDateTime.now();  
-		
-		if(!e.getDateEnchere().equals(dtf.format(aujourdhui))){
-			sb.append("Date invalide. La date de l'enchère doit correspondre à la date du jour de création de l'enchère.\n");
+		//la date de l'enchère ne peut pas être null. Elle est instanciée dans ValiderOffreServlet
+		if(e.getDateEnchere() == null){
+			sb.append("Date invalide.\n");
 			valide = false;
 		}
+		
+		//l'heure de l'enchère ne peut pas être null. Elle est instanciée dans ValiderOffreServlet
+			if(e.getHeureEnchere() == null){
+				sb.append("Heure invalide.\n");
+				valide = false;
+			}
 		
 		if(!valide){
 			throw new BLLException(sb.toString());
 		}
-
 	}
 	
 	/**
@@ -95,7 +91,7 @@ public class EncheresManager {
 			validerEnchere(newEnchere);
 			daoEnchere.add(newEnchere);
 		} catch (DALException e) {
-			throw new BLLException("Echec addArticle", e);
+			throw new BLLException("Echec addEnchere", e);
 		}
 	}
 	

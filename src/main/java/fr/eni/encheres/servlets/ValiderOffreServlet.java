@@ -78,11 +78,12 @@ public class ValiderOffreServlet extends HttpServlet {
 		//pour les mettre dans nouvelleEnchere
 		Enchere nouvelleEnchere = new Enchere(utilisateur, article, dateActuelle, heureActuelle, nouvelleOffre);
 		
-		try {
-			encheresManager.validerEnchere(nouvelleEnchere);
-		} catch (BLLException ex) {
-			ex.printStackTrace();
-		}
+		//Retrait appel à validerEnchere car il est déjà appelé dans addEnchere donc pas utile ici
+		//try {
+		//	encheresManager.validerEnchere(nouvelleEnchere);
+		//} catch (BLLException ex) {
+		//	ex.printStackTrace();
+		//}
 		
 		try {
 			encheresManager.addEnchere(nouvelleEnchere);
@@ -90,18 +91,17 @@ public class ValiderOffreServlet extends HttpServlet {
 			ex.printStackTrace();
 		}
 		
-	//ET debiter le compte de crédits de l'utilisateur du montant de la nouvelle offre
+		//ET debiter le compte de crédits de l'utilisateur du montant de la nouvelle offre
 		try {
-			utilisateursManager.retirerCredits(utilisateur, nouvelleOffre);
+			utilisateursManager.retirerCredits(utilisateur, nouvelleOffre, erreurs);
 		} catch (BLLException ex) {
 			ex.printStackTrace();
 		}
 		
-		
-	//Redirection vers la page d'affichage des détails de la vente avec le montant de la meilleure offre mise à jour avec la nouvelle offre
-	RequestDispatcher rd = null;
-	rd = request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp");
-	rd.forward(request, response);
+		//Redirection vers la page d'affichage des détails de la vente avec le montant de la meilleure offre mise à jour avec la nouvelle offre
+		RequestDispatcher rd = null;
+		rd = request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp");
+		rd.forward(request, response);
 		
 	}	
 
