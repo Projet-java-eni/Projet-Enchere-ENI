@@ -17,18 +17,17 @@ import fr.eni.encheres.dal.ArticlesDAO;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.DAOFactory;
 
-
 public class ArticleManager {
 
 	private static ArticlesDAO articlesDAO = null;
 	private static ArticleManager instance = null;
 
-	private ArticleManager() {
+	public ArticleManager() {
 	}
 
 	public static ArticleManager GetInstance() {
 
-		if(articlesDAO == null) {
+		if (articlesDAO == null) {
 			try {
 				articlesDAO = (ArticlesDAO) DAOFactory.getArticlesDAO();
 			} catch (DALException e) {
@@ -56,9 +55,11 @@ public class ArticleManager {
 		return article;
 	}
 
-	public List<Article> getCatalogue() {
-		return getCatalogue(new Erreurs());
-	}
+//Ivo elles se ressemblent ces 2 méthodes.... y'en a pas une en trop (je dois utiliser  getAll() dans afficherEncheresServlet 
+	// et je pense que la 1ère n'est pas bonne et donc je l'ai mise en commentaire)
+//	public List<Article> getCatalogue() {
+//		return getCatalogue(new Erreurs());
+//	}
 
 	public List<Article> getCatalogue(Erreurs erreurs) {
 		try {
@@ -70,29 +71,40 @@ public class ArticleManager {
 	}
 
 	public void addArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
-						   LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs){
-		
-		if(nomArticle == null) erreurs.addErreur("Le nom de l'article doit être renseigné");
-		if(description == null) erreurs.addErreur("Une description de votre article doit être renseigné");
-		if(dateDebutEncheres == null) erreurs.addErreur("Une date de début d'enchère doit être renseignée");
-		if(dateFinEncheres == null) erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
-		if(miseAPrix == null) erreurs.addErreur("Le prix de départ doit être renseigné");
-		if(etatVente == null) erreurs.addErreur("L'état de la vente doit être renseignée");
-	}
-	
-	
-	
-	public void modifArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres, 
 			LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
-			
-		if(nomArticle == null) erreurs.addErreur("Le nom de l'article doit être renseigné");
-		if(description == null) erreurs.addErreur("Une description de votre article doit être renseigné");
-		if(dateDebutEncheres == null) erreurs.addErreur("Une date de début d'enchère doit être renseignée");
-		if(dateFinEncheres == null) erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
-		if(miseAPrix == null) erreurs.addErreur("Le prix de départ doit être renseigné");
-		if(etatVente == null) erreurs.addErreur("L'état de la vente doit être renseignée");
 
-		if(erreurs.hasErrors()) return;
+		if (nomArticle == null)
+			erreurs.addErreur("Le nom de l'article doit être renseigné");
+		if (description == null)
+			erreurs.addErreur("Une description de votre article doit être renseigné");
+		if (dateDebutEncheres == null)
+			erreurs.addErreur("Une date de début d'enchère doit être renseignée");
+		if (dateFinEncheres == null)
+			erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
+		if (miseAPrix == null)
+			erreurs.addErreur("Le prix de départ doit être renseigné");
+		if (etatVente == null)
+			erreurs.addErreur("L'état de la vente doit être renseignée");
+	}
+
+	public void modifArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
+
+		if (nomArticle == null)
+			erreurs.addErreur("Le nom de l'article doit être renseigné");
+		if (description == null)
+			erreurs.addErreur("Une description de votre article doit être renseigné");
+		if (dateDebutEncheres == null)
+			erreurs.addErreur("Une date de début d'enchère doit être renseignée");
+		if (dateFinEncheres == null)
+			erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
+		if (miseAPrix == null)
+			erreurs.addErreur("Le prix de départ doit être renseigné");
+		if (etatVente == null)
+			erreurs.addErreur("L'état de la vente doit être renseignée");
+
+		if (erreurs.hasErrors())
+			return;
 
 		try {
 			articlesDAO.update(article);
@@ -104,7 +116,8 @@ public class ArticleManager {
 	private void creerArticle(Article article, Erreurs erreurs) {
 		validerArticle(article, erreurs);
 
-		if(erreurs.hasErrors()) return;
+		if (erreurs.hasErrors())
+			return;
 
 		try {
 			articlesDAO.add(article);
@@ -114,9 +127,8 @@ public class ArticleManager {
 
 	}
 
-
 	public void supprimerArticle(Article article) throws BLLException {
-		
+
 		try {
 			articlesDAO.remove(article);
 		} catch (DALException e) {
@@ -125,25 +137,30 @@ public class ArticleManager {
 	}
 
 	private void validerArticle(Article article, Erreurs erreurs) {
-		if(article.getNomArticle() == null) erreurs.addErreur("Le nom doit être renseigné");
+		if (article.getNomArticle() == null)
+			erreurs.addErreur("Le nom doit être renseigné");
 
-		if(article.getDescription() == null) erreurs.addErreur("La description doit être renseigné");
+		if (article.getDescription() == null)
+			erreurs.addErreur("La description doit être renseigné");
 
-		if(article.getMiseAPrix() == null) erreurs.addErreur("La mise à prix< doit être renseigné");
+		if (article.getMiseAPrix() == null)
+			erreurs.addErreur("La mise à prix< doit être renseigné");
 
-		if(article.getDateDebutEnchere() == null) erreurs.addErreur("La date du debut doit être renseigné");
+		if (article.getDateDebutEnchere() == null)
+			erreurs.addErreur("La date du debut doit être renseigné");
 
-		if(article.getTimeDebutEnchere() == null) erreurs.addErreur("L'heure du debut doit être renseigné");
+		if (article.getTimeDebutEnchere() == null)
+			erreurs.addErreur("L'heure du debut doit être renseigné");
 
-		if(erreurs.hasErrors()) {
+		if (erreurs.hasErrors()) {
 			return;
 		}
 
-		if(article.getNomArticle().length() > 200 || article.getNomArticle().length() < 1) {
+		if (article.getNomArticle().length() > 200 || article.getNomArticle().length() < 1) {
 			erreurs.addErreur("Le nom a une lognueur incorrecte");
 		}
 
-		if(article.getDescription().length() > 300) {
+		if (article.getDescription().length() > 300) {
 			erreurs.addErreur("La description est trop longue");
 		}
 
@@ -163,22 +180,36 @@ public class ArticleManager {
 		return article;
 	}
 
+	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String dateDebut, String dateFin,
+			String rue, String codePostal, String ville, Categorie categorie, Utilisateur utilisateur, Article article,
+			Erreurs erreurs) {
+		if (nom == null)
+			erreurs.addErreur("Le nom doit être renseigné");
+		else
+			article.setNomArticle(nom);
+		if (description == null)
+			erreurs.addErreur("La description doit être renseignée");
+		else
+			article.setDescription(description);
+		if (prix == null)
+			erreurs.addErreur("Le prix doit être renseigné");
+		if (dateDebut == null)
+			erreurs.addErreur("La date doit être renseignée");
+		if (dateFin == null)
+			erreurs.addErreur("La date de fin doit être renseignée");
+		if (rue == null)
+			erreurs.addErreur("La rue doit être renseignée");
+		if (codePostal == null)
+			erreurs.addErreur("Le code postal doit être renseigné");
+		if (ville == null)
+			erreurs.addErreur("La ville doit être renseignée");
+		if (categorie == null)
+			erreurs.addErreur("La catégorie doit être renseignée");
+		if (utilisateur == null)
+			erreurs.addErreur("Il faut être connecté pour vendre un article");
 
-	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String dateDebut,
-									   String dateFin, String rue, String codePostal, String ville, Categorie categorie,
-									   Utilisateur utilisateur, Article article, Erreurs erreurs) {
-		if(nom == null) erreurs.addErreur("Le nom doit être renseigné"); else article.setNomArticle(nom);
-		if(description == null) erreurs.addErreur("La description doit être renseignée"); else article.setDescription(description);
-		if(prix == null) erreurs.addErreur("Le prix doit être renseigné");
-		if(dateDebut == null) erreurs.addErreur("La date doit être renseignée");
-		if(dateFin == null) erreurs.addErreur("La date de fin doit être renseignée");
-		if(rue == null) erreurs.addErreur("La rue doit être renseignée");
-		if(codePostal == null) erreurs.addErreur("Le code postal doit être renseigné");
-		if(ville == null) erreurs.addErreur("La ville doit être renseignée");
-		if(categorie == null) erreurs.addErreur("La catégorie doit être renseignée");
-		if(utilisateur == null) erreurs.addErreur("Il faut être connecté pour vendre un article");
-
-		if (erreurs.hasErrors()) return;
+		if (erreurs.hasErrors())
+			return;
 
 		int prixInt;
 
@@ -192,7 +223,6 @@ public class ArticleManager {
 
 		article.setMiseAPrix(prixInt);
 
-
 		LocalDateTime dateMise = Utilitaires.fromHTMLDateTimeLocal(dateDebut);
 		LocalDateTime dateFinD = Utilitaires.fromHTMLDateTimeLocal(dateFin);
 
@@ -200,7 +230,7 @@ public class ArticleManager {
 		article.setTimeDebutEnchere(dateMise.toLocalTime());
 
 		boolean finDefault = dateFin.length() == 0;
-		if(!finDefault)
+		if (!finDefault)
 			article.setDateFinEnchere(dateFinD.toLocalDate().plusDays(2)); // par defaut enchere finit dans 2 jours
 		else
 			article.setDateFinEnchere(dateFinD.toLocalDate());
@@ -210,7 +240,8 @@ public class ArticleManager {
 		article.setUtilisateur(utilisateur);
 		article.setEtatVente(0);
 
-		if(erreurs.hasErrors()) return;
+		if (erreurs.hasErrors())
+			return;
 
 		creerArticle(article, erreurs);
 
@@ -224,6 +255,5 @@ public class ArticleManager {
 			erreurs.addErreur(e.getLocalizedMessage());
 		}
 	}
+
 }
-
-

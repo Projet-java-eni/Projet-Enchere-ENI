@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class Article {
+public class Article implements Comparable<Article> {
 
 	private int noArticle;
 	private String nomArticle;
@@ -29,8 +29,8 @@ public class Article {
 	}
 
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-				   LocalTime timeDebutEnchere, LocalDate dateFinEnchere, LocalTime timeFinEnchere,
-				   int miseAPrix, int prixVente, Integer etatVente) {
+			LocalTime timeDebutEnchere, LocalDate dateFinEnchere, LocalTime timeFinEnchere, int miseAPrix,
+			int prixVente, Integer etatVente) {
 
 		super();
 		this.noArticle = noArticle;
@@ -50,7 +50,7 @@ public class Article {
 	 * @author Sego Constructeur avec tous les paramètres
 	 */
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-				   LocalDate dateFinEnchere, int miseAPrix, int prixVente, Integer etatVente, Categorie categorie,
+			LocalDate dateFinEnchere, int miseAPrix, int prixVente, Integer etatVente, Categorie categorie,
 			Retrait retrait, Utilisateur utilisateur, List<Enchere> encheres) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -194,4 +194,10 @@ public class Article {
 
 	public void setHeureDebutEnchere(LocalDate toLocalDate) {
 	}
+
+	@Override
+	public int compareTo(Article a) {
+		return dateDebutEnchere.compareTo(a.getDateDebutEnchere());
+	}
+
 }

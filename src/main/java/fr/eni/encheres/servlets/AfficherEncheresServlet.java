@@ -3,10 +3,12 @@ package fr.eni.encheres.servlets;
 /**
  * 
  * @author Sego
- *
+ *ivo
  */
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -16,8 +18,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bll.ArticleManager;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.EncheresManager;
+import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Enchere;
 
 /**
@@ -42,20 +47,16 @@ public class AfficherEncheresServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Affichage de toutes les enchères sans distinction
-		try {
-			EncheresManager encheresManager = EncheresManager.GetInstance();
-			List<Enchere> listeEncheres = null; // problème avec le try catch
+		// On récupère la liste des articles avant de les trier par date de début
+		ArticleManager articleManager = new ArticleManager();
+		List<Article> listeArticle = new ArrayList<Article>();
 
-			listeEncheres = encheresManager.getAllEncheres();
+		listeArticle = articleManager.getCatalogue(Erreurs erreurs);
+		Collections.sort(listeArticle);
 
-		} catch (BLLException ex) {
-			ex.printStackTrace();
-			request.setAttribute("listeCodesErreur", ex.getListeCodesErreur());
-		}
-		// Transfert de l'affichage à la JSP accueil
+// Transfert de l'affichage à la JSP
 		RequestDispatcher rd = null;
-		rd = request.getRequestDispatcher("/WEB-INF/jsps/afficherEncheres.jsp");
+		rd = request.getRequestDispatcher("/WEB-INF/jsps/accueil.jsp");
 		rd.forward(request, response);
 
 	}
