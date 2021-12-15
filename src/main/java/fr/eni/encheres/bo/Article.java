@@ -4,6 +4,7 @@ package fr.eni.encheres.bo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Article implements Comparable<Article> {
@@ -48,20 +49,12 @@ public class Article implements Comparable<Article> {
 			LocalTime timeDebutEnchere, LocalDate dateFinEnchere, LocalTime timeFinEnchere, int miseAPrix,
 			int prixVente, boolean annuleParVendeur, boolean recuParAcheteur) {
 
-		super();
-		this.noArticle = noArticle;
-		this.nomArticle = nomArticle;
-		this.urlImage = urlImage;
-		this.description = description;
-		this.dateDebutEnchere = dateDebutEnchere;
-		this.timeDebutEnchere = timeDebutEnchere;
-		this.dateFinEnchere = dateFinEnchere;
-		this.timeFinEnchere = timeFinEnchere;
-		this.miseAPrix = miseAPrix;
-		this.prixVente = prixVente;
-		this.annuleParVendeur = annuleParVendeur;
-		this.recuParAcheteur = recuParAcheteur;
-
+		this(
+			noArticle, nomArticle, description, urlImage,
+			dateDebutEnchere, timeDebutEnchere, dateFinEnchere, timeFinEnchere,
+			miseAPrix, prixVente, annuleParVendeur, recuParAcheteur,
+			new Categorie(), new Retrait(), new Utilisateur(), new ArrayList<>()
+		);
 	}
 
 	/**
@@ -91,7 +84,7 @@ public class Article implements Comparable<Article> {
 	}
 
 	public Article(int noArticle) {
-		super();
+		this();
 		this.noArticle = noArticle;
 	}
 

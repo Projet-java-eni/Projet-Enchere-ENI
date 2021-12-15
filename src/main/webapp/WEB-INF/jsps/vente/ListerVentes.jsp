@@ -12,11 +12,11 @@
 <%@ include file="../EnteteBootstrap.jspf" %>
 
 <jsp:include page="../blocs/erreurs.jsp">
-    <jsp:param name="errors" value="${errors}"/>
+    <jsp:param name="errors" value="${requestScope.errors}"/>
 </jsp:include>
 
 <jsp:include page="../blocs/infos.jsp">
-    <jsp:param name="infos" value="${infos}"/>
+    <jsp:param name="infos" value="${requestScope.infos}"/>
 </jsp:include>
 
 
