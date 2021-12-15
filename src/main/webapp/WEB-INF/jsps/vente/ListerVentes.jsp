@@ -20,7 +20,7 @@
         <div class="card-body">
             <h5 class="card-title">${article.nomArticle}</h5>
             <p class="card-text">${article.description}</p>
-            <a href="<%=request.getContextPath()%>/DetailArticle/${article.noArticle}" class="btn btn-primary">Voir</a>
+            <a href="<%=request.getContextPath()%>/DetailArticle?no_article=${article.noArticle}" class="btn btn-primary">Voir</a>
         </div>
     </div>
 </c:forEach>

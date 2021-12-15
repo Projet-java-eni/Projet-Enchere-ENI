@@ -21,8 +21,17 @@ INSERT INTO ARTICLES_VENDUS VALUES ('Ecran ordinateur Apple', 'Ecran Apple en tr
 INSERT INTO ARTICLES_VENDUS VALUES ('Panier de basket', 'Panier de basket abimé mais avec matériel de fixation en bon état', '2021-12-06', '16:16:16', '2021-12-30','16:16:16', 50, null, 1, 4, 0, 0);
 INSERT INTO ARTICLES_VENDUS VALUES ('Pantalon', 'Pantalon comme neuf porté une seule fois', '2021-12-06', '16:16:16', '2021-12-20','16:16:16', 115, null, 1, 5, 0, 0);
 INSERT INTO ARTICLES_VENDUS VALUES ('Orchidée', 'Orchidée déjà en fleurs', '2021-12-06', '16:16:16', '2021-12-20','16:16:16', 25, null, 1, 6, 0, 0);
+INSERT INTO ARTICLES_VENDUS VALUES ('Rose', 'Orchidée déjà en fleurs', '2021-12-06', '16:16:16', '2021-12-20','16:16:16', 25, null, 1, 6, 0, 0);
+
+INSERT INTO RETRAITS VALUES (1, 'rue1', '35353', 'Laville');
+INSERT INTO RETRAITS VALUES (2, 'rue1', '35353', 'Laville');
+INSERT INTO RETRAITS VALUES (3, 'rue1', '35353', 'Laville');
+INSERT INTO RETRAITS VALUES (4, 'rue1', '35353', 'Laville');
+INSERT INTO RETRAITS VALUES (5, 'rue1', '35353', 'Laville');
+INSERT INTO RETRAITS VALUES (6, 'rue1', '35353', 'Laville');
 
 SELECT * FROM ARTICLES_VENDUS;
+SELECT * FROM RETRAITS;
 
 INSERT INTO [ENCHERES] VALUES (1, 1, '2021-12-15','10:10:10', 127);
 

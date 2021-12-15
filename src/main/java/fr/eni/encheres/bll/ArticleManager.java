@@ -42,16 +42,25 @@ public class ArticleManager {
 		return instance;
 	}
 
-	public Article getArticleById(int articleId) throws BLLException {
+	public Article getArticleById(Integer articleId, Erreurs erreurs) {
 
 		Article article = null;
 
 		try {
 			article = articlesDAO.getById(articleId);
 		} catch (DALException e) {
-			throw new BLLException(e.getLocalizedMessage(), e);
+			erreurs.addErreur(e.getLocalizedMessage());
 		}
 
+		return article;
+	}
+	
+	public Article getByIdAvecInstance(Integer articleId, Article article, Erreurs erreurs) {
+		try {
+			articlesDAO.getByIdAvecInstance(article, articleId);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
 		return article;
 	}
 

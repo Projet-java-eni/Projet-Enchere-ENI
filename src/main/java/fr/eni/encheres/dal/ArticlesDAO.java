@@ -8,6 +8,7 @@ import fr.eni.encheres.bo.Categorie;
 public interface ArticlesDAO extends DAO<Article> {
 
 	public Article getById(int id) throws DALException;
+	public void getByIdAvecInstance(Article article, int id) throws DALException;
 
 	Article getByCategorie(Categorie categorie) throws DALException;
 

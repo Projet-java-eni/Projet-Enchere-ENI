@@ -21,9 +21,12 @@ import fr.eni.encheres.dal.RetraitsDAO;
 public class RetraitsImpl implements RetraitsDAO {
 
 	// Recupération de l'adresse en fonction de l'article
-	private static final String sqlSelectAdresseByArticle = "SELECT rue, code_postal, ville FROM Retraits WHERE no_article=?";
+	private static final String sqlSelectAdresseByArticle =
+			"SELECT no_article, rue, code_postal, ville" +
+			" FROM Retraits WHERE no_article=?";
 	// Recupération de l'adresse en fonction de son identifiant
-	private static final String sqlSelectAdresseByIdRetrait = "SELECT rue, code_postal, ville FROM Retraits WHERE id_retrait=?";
+	private static final String sqlSelectAdresseByIdRetrait =
+			"SELECT no_article, rue, code_postal, ville FROM Retraits WHERE id_retrait=?";
 	// Requête SQL pour que le vendeur insert une nouvelle adresse
 	private static final String sqlInsertAdresseRetrait = "INSERT INTO Retraits (no_article, rue, code_postal, ville)  VALUES (? , ? , ? , ?)";
 	// le vendeur efface l'adresse
@@ -36,17 +39,14 @@ public class RetraitsImpl implements RetraitsDAO {
 
 	@Override
 	public Retrait lieuRetrait(int noArticle) throws DALException {
-		Connection con = null;
-		PreparedStatement stmt = null;
 		Retrait adresseRetrait = new Retrait();
 		ResultSet rs = null;
-		try {
-			con = GetConnection.getConnexion();
-			stmt = con.prepareStatement(sqlSelectAdresseByArticle);
-			stmt.setInt(1, noArticle);
-			rs = stmt.executeQuery();
+		try (PreparedStatement statement =
+					 GetConnection.getConnexion().prepareStatement(sqlSelectAdresseByArticle)){
+			statement.setInt(1, noArticle);
+			rs = statement.executeQuery();
 
-			adresseRetrait.setIdRetrait(rs.getInt("id_retrait"));
+			rs.next();
 			adresseRetrait.setNoArticle(rs.getInt("no_article"));
 			adresseRetrait.setRue(rs.getString("rue"));
 			adresseRetrait.setCodePostal(rs.getString("code_postal"));
@@ -59,8 +59,6 @@ public class RetraitsImpl implements RetraitsDAO {
 
 		finally {
 			GetConnection.close(rs);
-			GetConnection.close(stmt);
-			GetConnection.close(con);
 		}
 
 		return adresseRetrait;

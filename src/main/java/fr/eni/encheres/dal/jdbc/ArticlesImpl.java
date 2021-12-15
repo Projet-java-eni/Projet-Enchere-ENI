@@ -1,6 +1,5 @@
 package fr.eni.encheres.dal.jdbc;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +18,7 @@ import fr.eni.encheres.dal.*;
 public class ArticlesImpl implements ArticlesDAO {
 	UtilisateursDAO utilisateursDAO = null;
 	CategoriesDAO categoriesDAO = null;
+	RetraitsDAO retraitsDAO = null;
 
 
 
@@ -50,6 +50,7 @@ public class ArticlesImpl implements ArticlesDAO {
 		try {
 			this.utilisateursDAO = (UtilisateursDAO) DAOFactory.getUtilisateursDAO();
 			this.categoriesDAO = (CategoriesDAO) DAOFactory.getCategoriesDAO();
+			this.retraitsDAO = (RetraitsDAO) DAOFactory.getRetraitsDAO();
 		} catch (DALException e) {
 			e.printStackTrace();
 		}
@@ -59,16 +60,19 @@ public class ArticlesImpl implements ArticlesDAO {
 	@Override
 	public Article getById(int id) throws DALException {
 		Article article = new Article();
-		ResultSet resultSet = null;
-		PreparedStatement statement = null;
-		Connection con = null;
 
-		try {
-			con = GetConnection.getConnexion();
-			statement = con.prepareStatement(sqlSelectById);
+		getByIdAvecInstance(article, id);
+		return article;
+	}
+	
+	@Override
+	public void getByIdAvecInstance(Article article, int id) throws DALException {
+
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectById)){
 			statement.setInt(1, id);
-			resultSet = statement.executeQuery();
+			ResultSet resultSet = statement.executeQuery();
 
+			resultSet.next();
 			article.setNomArticle(resultSet.getString("nom_article"));
 			article.setDescription(resultSet.getString("description"));
 			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
@@ -81,31 +85,20 @@ public class ArticlesImpl implements ArticlesDAO {
 			article.setRecuParAcheteur(resultSet.getBoolean("recu_par_acheteur"));
 			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
 			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
-			// todo: il faut aussi peuple le lieu Retrait() et les Encheres liées à l'article
+			article.setRetrait(retraitsDAO.lieuRetrait(id));
 		} catch (SQLException ex) {
-			throw new DALException("getById failed  = " + id, ex);
+			throw new DALException("getById failed  = " + id + " " + ex.getLocalizedMessage(), ex);
 		}
 
-		finally {
-			GetConnection.close(resultSet);
-			GetConnection.close(statement);
-			GetConnection.close(con);
-		}
-
-		return article;
 	}
+
 
 	@Override
 	public List<Article> getAll() throws DALException  {
 		List<Article> listArticle = new ArrayList<>();
-		ResultSet resultSet = null;
-		Statement statement = null;
-		Connection con = null;
 
-		try {
-			con = GetConnection.getConnexion();
-			statement = con.createStatement();
-			resultSet = statement.executeQuery(sqlSelectAll);
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectAll)){
+			ResultSet resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
 				listArticle.add(new Article(
@@ -131,26 +124,15 @@ public class ArticlesImpl implements ArticlesDAO {
 			throw new DALException("selectAll failed - " + ex.getLocalizedMessage(), ex);
 		}
 
-		finally {
-			GetConnection.close(resultSet);
-			GetConnection.close(statement);
-			GetConnection.close(con);
-		}
 		return listArticle;
 	}
 
 	@Override
 	public Article getByCategorie(Categorie categorie) throws DALException {
 		Article article = new Article();
-		ResultSet resultSet = null;
-		PreparedStatement statement = null;
-		Connection con = null;
 
-		try {
-			con = GetConnection.getConnexion();
-			statement = con.prepareStatement(sqlSelectByCategorie);
-			statement.setObject(1, categorie);
-			resultSet = statement.executeQuery();
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectByCategorie)){
+			ResultSet resultSet = statement.executeQuery();
 
 			article.setNomArticle(resultSet.getString("nom_article"));
 			article.setDescription(resultSet.getString("description"));
@@ -167,18 +149,11 @@ public class ArticlesImpl implements ArticlesDAO {
 			throw new DALException("getByCategorie failed  = " + categorie + " " + ex.getLocalizedMessage(), ex);
 		}
 
-		finally {
-			GetConnection.close(resultSet);
-			GetConnection.close(statement);
-			GetConnection.close(con);
-		}
-
 		return article;
 	}
 
 	@Override
 	public void add(Article article) throws DALException {
-		Connection con = null;
 		ResultSet rs = null;
 
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
@@ -213,18 +188,13 @@ public class ArticlesImpl implements ArticlesDAO {
 
 		finally {
 			GetConnection.close(rs);
-			GetConnection.close(con);
 		}
 	}
 
 	@Override
 	public void update(Article article) throws DALException {
-		Connection con = null;
-		PreparedStatement statement = null;
 
-		try {
-			con = GetConnection.getConnexion();
-			statement = con.prepareStatement(sqlUpdate);
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlUpdate)) {
 
 			int i = 1;
 			statement.setInt(i++, article.getNoArticle());
@@ -247,20 +217,11 @@ public class ArticlesImpl implements ArticlesDAO {
 			throw new DALException("update article failed - " + article, ex);
 		}
 
-		finally {
-			GetConnection.close(statement);
-			GetConnection.close(con);
-		}
 	}
 
 	@Override
 	public void remove(Article supArticle) throws DALException {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			con = GetConnection.getConnexion();
-			stmt = con.prepareStatement(sqlDelete);
+		try (PreparedStatement stmt = GetConnection.getConnexion().prepareStatement(sqlDelete)){
 
 			stmt.setInt(1, supArticle.getNoArticle());
 			stmt.executeUpdate();
@@ -268,11 +229,8 @@ public class ArticlesImpl implements ArticlesDAO {
 		} catch (SQLException ex) {
 			throw new DALException("Erreur dans la suppression de l'article ", ex);
 
-		} finally {
-			GetConnection.close(rs);
-			GetConnection.close(stmt);
-			GetConnection.close(con);
 		}
 
 	}
+
 }

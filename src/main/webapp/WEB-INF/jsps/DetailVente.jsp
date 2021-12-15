@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.time.LocalDate"%>
 
 <!-- @author Lucie -->
 
@@ -16,6 +17,11 @@
 <%@ include file="../jsps/EnteteBootstrap.jspf" %>
 
 <body>
+
+<jsp:include page="blocs/erreurs.jsp">
+	<jsp:param name="errors" value="${requestScope.errors}"/>
+</jsp:include>
+
 
 <!-- Bouton retour accueil connecté -->
 	<section>
@@ -34,7 +40,8 @@
 	String ville = (String)request.getAttribute("ville");
 	int miseAPrix = (int)request.getAttribute("miseAPrix");
 	int meilleureOffre = (int)request.getAttribute("meilleureOffre");
-	String dateFinEnchere = (String)request.getAttribute("dateFinEnchere");
+	LocalDate dateDebutEnchere = (LocalDate)request.getAttribute("dateDebutEnchere");
+	LocalDate dateFinEnchere = (LocalDate)request.getAttribute("dateFinEnchere");
 	int offreMin = meilleureOffre -1;
 	 %>
 		<article>

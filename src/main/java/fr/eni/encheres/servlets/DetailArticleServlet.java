@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -31,10 +32,8 @@ import fr.eni.encheres.bll.EncheresManager;
 public class DetailArticleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
-	private ArticleManager articleManager;
-	private EncheresManager encheresManager;
-	private Article articleAAfficher;
-	private int meilleureOffre;
+	private static ArticleManager articleManager = ArticleManager.GetInstance();
+	private static EncheresManager encheresManager = EncheresManager.GetInstance();
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,19 +46,27 @@ public class DetailArticleServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 	//Récupérer et afficher les caractéristiques de l'article sur lequel l'utilisateur connecté a cliqué
 		
+		Article articleAAfficher = new Article();
+		int meilleureOffre = 0;
+
+		
 		//Récupérer le noArticle de l'article sur lequel l'utilisateur a cliqué
-		int noArticle = Integer.parseInt(request.getParameter("noArticle"));
+		Integer noArticle = null;
+		try {
+			noArticle = Integer.parseInt(request.getParameter("no_article"));
+		} catch (NumberFormatException e) {
+			erreurs.addErreur("Impossible de reconnaitre l'article id");
+		}
 		
 		//utiliser le noArticle pour récupérer le contenu de l'article
 
-		try {
-			articleAAfficher = articleManager.getArticleById(noArticle);
-		} catch (BLLException ex) {
-			ex.printStackTrace();
+		if(noArticle != null) {
+			articleAAfficher = articleManager.getByIdAvecInstance(noArticle, articleAAfficher, erreurs);
 		}
-		
+
 
 		//get attribute contenu de l'article
 		String nomArticle = articleAAfficher.getNomArticle();
@@ -105,7 +112,8 @@ public class DetailArticleServlet extends HttpServlet {
 		
 		request.setAttribute("meilleureOffre", meilleureOffre);
 		
-		
+		request.setAttribute("errors", erreurs);
+
 		//Redirection vers la page d'affichage des détails de la vente
 				RequestDispatcher rd = null;
 				rd = request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp");
