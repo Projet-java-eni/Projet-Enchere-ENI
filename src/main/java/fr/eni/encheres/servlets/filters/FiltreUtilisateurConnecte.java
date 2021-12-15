@@ -21,7 +21,7 @@ public class FiltreUtilisateurConnecte implements Filter {
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
 		if(httpServletRequest.getSession().getAttribute("user_id") == null) {
-			httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/Accueil");
+			httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/Login");
 		}
 
 		else chain.doFilter(request, response);
