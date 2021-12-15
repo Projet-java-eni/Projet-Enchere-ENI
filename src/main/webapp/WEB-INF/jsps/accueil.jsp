@@ -7,6 +7,7 @@
 <%--  <%@page import="fr.eni.encheres.messages.LecteurMessage"%>--%>
 
 <%@page import="java.util.List"%>
+<%@ page import="fr.eni.encheres.bo.Categorie" %>
 
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -93,14 +94,14 @@
 
 				<!-- Création liste déroulante permettant d'acceder aux enchères selon la categorie -->
 				<tr>
-					<th><label for="Catégorie de l'enchère"> Catégories :</label> <select
+					<th><label for="cat_enchere"> Catégories :</label>
+						<select id="cat_enchere"
 						name="catégorie" size="1">
-							<option value="Toutes catégories">Toutes</option>
-							<option value="ameublement">Ameublement</option>
-							<option value="informatique">Informatique</option>
-							<option value="sports_loisirs">Sports / Loisirs</option>
-							<option value="vêtements">Vêtements</option>
-							<option value="divers">Divers</option>
+						<%
+						for(Categorie cat: (List<Categorie>)request.getAttribute("categories")) {
+						%>
+						<option value="<%= cat.getEtiquette() %>"><%= cat.getLibelle() %></option>
+						<% } %>
 					</select></th>
 					<td>
 						<form method="link"
