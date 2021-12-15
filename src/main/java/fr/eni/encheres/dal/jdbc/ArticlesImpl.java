@@ -12,7 +12,6 @@ import java.util.List;
 
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dal.*;
 import fr.eni.encheres.dal.daos.*;
 
@@ -71,22 +70,22 @@ public class ArticlesImpl implements ArticlesDAO {
 
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectById)){
 			statement.setInt(1, id);
-			ResultSet resultSet = statement.executeQuery();
-
-			resultSet.next();
-			article.setNomArticle(resultSet.getString("nom_article"));
-			article.setDescription(resultSet.getString("description"));
-			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
-			article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
-			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
-			article.setTimeFinEnchere(resultSet.getTime("heure_fin_encheres").toLocalTime());
-			article.setMiseAPrix(resultSet.getInt("prix_initial"));
-			article.setPrixVente(resultSet.getInt("prix_vente"));
-			article.setAnnuleParVendeur(resultSet.getBoolean("annule_par_vendeur"));
-			article.setRecuParAcheteur(resultSet.getBoolean("recu_par_acheteur"));
-			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
-			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
-			article.setRetrait(retraitsDAO.lieuRetrait(id));
+			try (ResultSet resultSet = statement.executeQuery();){
+				resultSet.next();
+				article.setNomArticle(resultSet.getString("nom_article"));
+				article.setDescription(resultSet.getString("description"));
+				article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
+				article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
+				article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
+				article.setTimeFinEnchere(resultSet.getTime("heure_fin_encheres").toLocalTime());
+				article.setMiseAPrix(resultSet.getInt("prix_initial"));
+				article.setPrixVente(resultSet.getInt("prix_vente"));
+				article.setAnnuleParVendeur(resultSet.getBoolean("annule_par_vendeur"));
+				article.setRecuParAcheteur(resultSet.getBoolean("recu_par_acheteur"));
+				article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
+				article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
+				article.setRetrait(retraitsDAO.lieuRetrait(id));
+			}
 		} catch (SQLException ex) {
 			throw new DALException("getById failed  = " + id + " " + ex.getLocalizedMessage(), ex);
 		}
@@ -115,7 +114,6 @@ public class ArticlesImpl implements ArticlesDAO {
 		} catch (SQLException ex) {
 			throw new DALException("selectAll failed - " + ex.getLocalizedMessage(), ex);
 		}
-
 	}
 
 
@@ -144,26 +142,26 @@ public class ArticlesImpl implements ArticlesDAO {
 
 
 	private void peupleSelectAll(List<Article> listArticle, PreparedStatement statement) throws SQLException, DALException {
-		ResultSet resultSet = statement.executeQuery();
-		while (resultSet.next()) {
-			listArticle.add(new Article(
-					resultSet.getInt("no_article"),
-					resultSet.getString("nom_article"),
-					resultSet.getString("description"),
-					resultSet.getDate("date_debut_encheres").toLocalDate(),
-					resultSet.getTime("heure_debut_encheres").toLocalTime(),
-					resultSet.getDate("date_fin_encheres").toLocalDate(),
-					resultSet.getTime("heure_fin_encheres").toLocalTime(),
-					resultSet.getInt("prix_initial"),
-					resultSet.getInt("prix_vente"),
-					resultSet.getBoolean("annule_par_vendeur"),
-					resultSet.getBoolean("recu_par_acheteur"),
-					categoriesDAO.getById(resultSet.getInt("no_categorie")),
-					retraitsDAO.lieuRetrait(resultSet.getInt("no_article")),
-					utilisateursDAO.getById(resultSet.getInt("no_utilisateur")),
-					new ArrayList<>()  // ici il faut faire une jointure pour recuperer les encheres?
-			));
-
+		try(ResultSet resultSet = statement.executeQuery()) {
+			while (resultSet.next()) {
+				listArticle.add(new Article(
+						resultSet.getInt("no_article"),
+						resultSet.getString("nom_article"),
+						resultSet.getString("description"),
+						resultSet.getDate("date_debut_encheres").toLocalDate(),
+						resultSet.getTime("heure_debut_encheres").toLocalTime(),
+						resultSet.getDate("date_fin_encheres").toLocalDate(),
+						resultSet.getTime("heure_fin_encheres").toLocalTime(),
+						resultSet.getInt("prix_initial"),
+						resultSet.getInt("prix_vente"),
+						resultSet.getBoolean("annule_par_vendeur"),
+						resultSet.getBoolean("recu_par_acheteur"),
+						categoriesDAO.getById(resultSet.getInt("no_categorie")),
+						retraitsDAO.lieuRetrait(resultSet.getInt("no_article")),
+						utilisateursDAO.getById(resultSet.getInt("no_utilisateur")),
+						new ArrayList<>()  // ici il faut faire une jointure pour recuperer les encheres?
+				));
+			}
 		}
 	}
 
@@ -173,22 +171,22 @@ public class ArticlesImpl implements ArticlesDAO {
 		Article article = new Article();
 
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectByCategorie)){
-			ResultSet resultSet = statement.executeQuery();
-
-			article.setNomArticle(resultSet.getString("nom_article"));
-			article.setDescription(resultSet.getString("description"));
-			article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
-			article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
-			article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
-			article.setTimeFinEnchere(resultSet.getTime("heure_fin_encheres").toLocalTime());
-			article.setMiseAPrix(resultSet.getInt("prix_initial"));
-			article.setPrixVente(resultSet.getInt("prix_vente"));
-			article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
-			article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
-
+			try (ResultSet resultSet = statement.executeQuery()){
+				article.setNomArticle(resultSet.getString("nom_article"));
+				article.setDescription(resultSet.getString("description"));
+				article.setDateDebutEnchere(resultSet.getDate("date_debut_encheres").toLocalDate());
+				article.setTimeDebutEnchere(resultSet.getTime("heure_debut_encheres").toLocalTime());
+				article.setDateFinEnchere(resultSet.getDate("date_fin_encheres").toLocalDate());
+				article.setTimeFinEnchere(resultSet.getTime("heure_fin_encheres").toLocalTime());
+				article.setMiseAPrix(resultSet.getInt("prix_initial"));
+				article.setPrixVente(resultSet.getInt("prix_vente"));
+				article.setCategorie(categoriesDAO.getById(resultSet.getInt("no_categorie")));
+				article.setUtilisateur(utilisateursDAO.getById(resultSet.getInt("no_utilisateur")));
+			}
 		} catch (SQLException ex) {
 			throw new DALException("getByCategorie failed  = " + categorie + " " + ex.getLocalizedMessage(), ex);
 		}
+
 
 		return article;
 	}
