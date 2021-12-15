@@ -1,5 +1,6 @@
 package fr.eni.encheres.servlets;
 
+import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.bll.ArticleManager;
 
 import javax.servlet.*;
@@ -13,7 +14,8 @@ public class VentesEnCoursServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("articles", articleManager.getCatalogue());
+		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
+		request.setAttribute("articles", articleManager.getCatalogue(erreurs));
 
 		request.getRequestDispatcher("/WEB-INF/jsps/vente/ListerVentes.jsp").forward(request, response);
 	}
