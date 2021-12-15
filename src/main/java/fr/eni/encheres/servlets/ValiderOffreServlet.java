@@ -92,7 +92,7 @@ public class ValiderOffreServlet extends HttpServlet {
 		
 	//ET debiter le compte de crédits de l'utilisateur du montant de la nouvelle offre
 		try {
-			utilisateursManager.retirerCredits(utilisateur, nouvelleOffre);
+			utilisateursManager.retirerCredits(utilisateur, nouvelleOffre, erreurs);
 		} catch (BLLException ex) {
 			ex.printStackTrace();
 		}
