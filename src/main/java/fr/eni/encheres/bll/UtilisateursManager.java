@@ -14,11 +14,8 @@ public class UtilisateursManager {
 	
 	private static UtilisateursDAO utilisateursDAO;
 	private static UtilisateursManager instance = null;
-	private Map<Integer, Utilisateur> utilisateursMap = null;
 
 	private UtilisateursManager() {
-
-		this.utilisateursMap = new HashMap<>();
 	}
 
 	public static UtilisateursManager GetInstance() {
@@ -215,7 +212,6 @@ public class UtilisateursManager {
 		
 		try {
 			utilisateursDAO.remove(utilisateur);
-			utilisateursMap.remove(utilisateur.getNoUtilisateur());
 		} catch (DALException e) {
 			throw new BLLException(e.getLocalizedMessage(), e);
 		}
@@ -224,17 +220,11 @@ public class UtilisateursManager {
 	public Utilisateur getUtilisateurById(int utilisateurId) throws BLLException {
 		
 		Utilisateur utilisateur = null;
-		
-		if (utilisateursMap.containsKey(utilisateurId)) {
-			utilisateur = utilisateursMap.get(utilisateurId);
-		} else {
-			
-			try {
-				utilisateur = utilisateursDAO.getById(utilisateurId);
-				utilisateursMap.put(utilisateurId, utilisateur);
-			} catch (DALException e) {
-				throw new BLLException(e.getLocalizedMessage(), e);
-			}
+
+		try {
+			utilisateur = utilisateursDAO.getById(utilisateurId);
+		} catch (DALException e) {
+			throw new BLLException(e.getLocalizedMessage(), e);
 		}
 
 		return utilisateur;
@@ -273,7 +263,6 @@ public class UtilisateursManager {
 		
 		try {
 			this.utilisateursDAO.update(utilisateur);
-			this.utilisateursMap.put(utilisateur.getNoUtilisateur(), utilisateur);
 		} catch (DALException e) {
 			throw new BLLException(e.getLocalizedMessage(), e);
 		}
