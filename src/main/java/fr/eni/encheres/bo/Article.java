@@ -28,7 +28,20 @@ public class Article implements Comparable<Article> {
 	private List<Enchere> encheres;
 
 	public Article() {
-		this(-1, "", "", "/images/fauteuil.jpg", LocalDate.now(), LocalTime.now(), LocalDate.now(), LocalTime.now(), 0, 0, false, false);
+		this(
+				-1,
+				"",
+				"",
+				"/images/fauteuil.jpg",
+				LocalDate.now(),
+				LocalTime.now(),
+				LocalDate.now(),
+				LocalTime.now(),
+				0,
+				0,
+				false,
+				false
+		);
 	}
 
 	public Article(int noArticle, String nomArticle, String description, String urlImage, LocalDate dateDebutEnchere,

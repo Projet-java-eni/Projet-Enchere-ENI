@@ -9,9 +9,6 @@ import fr.eni.encheres.bo.misc.ArticleVendu;
 import fr.eni.encheres.bo.misc.MeHasMany;
 
 public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, MeHasMany<Encheres>, MeHasMany<ArticleAchete> */ {
-	public Utilisateur() {
-		super();
-	}
 
 	@Override
 	public String toString() {
@@ -44,7 +41,12 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	private List<Article> articlesVendus = null;
 	private List<Article> articlesAchetes = null;
 	private List<Enchere> encheres = null;
-	
+
+
+	public Utilisateur() {
+		this(-1, "", "", "", "", "", "", "", "", 0, false, true);
+	}
+
 
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, int credit, boolean administrateur, boolean actif) {

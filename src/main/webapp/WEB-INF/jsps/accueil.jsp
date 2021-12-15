@@ -160,6 +160,15 @@
 	<!-- faire soit sous forme de liste / soit avec image / pouvoir classer par dates -->
 	<hr>
 
+	<jsp:include page="blocs/erreurs.jsp">
+		<jsp:param name="errors" value="${errors}"/>
+	</jsp:include>
+
+	<jsp:include page="blocs/infos.jsp">
+		<jsp:param name="infos" value="${infos}"/>
+	</jsp:include>
+
+
 
 	<!-- Ici je vais juste afficher toutes les enchères en commençant par les plus récentes-->
 	<article class="articles" id="articles">
