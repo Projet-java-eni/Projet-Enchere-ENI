@@ -29,11 +29,7 @@ public class UtilisateurServlet extends HttpServlet {
 			erreurs.addErreur("Nombre malformé");
 		}
 
-		try {
-			utilisateur = utilisateursManager.getUtilisateurById(userId);
-		} catch (BLLException e) {
-			erreurs.addErreur(e.getLocalizedMessage());
-		}
+		utilisateur = utilisateursManager.getUtilisateurById(userId, erreurs);
 
 		request.setAttribute("utilisateur", utilisateur);
 		request.getRequestDispatcher("/WEB-INF/jsps/AutresUtilisateurs.jsp").forward(request, response);

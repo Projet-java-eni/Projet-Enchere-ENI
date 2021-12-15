@@ -6,6 +6,7 @@ import fr.eni.encheres.dal.DALException;
 public interface UtilisateursDAO  extends DAO<Utilisateur> {
 	
 	Utilisateur getById(int idUtilisateur) throws DALException;
+	void getById(Utilisateur utilisateur, int idUtilisateur) throws DALException;
 	Utilisateur getByPseudo(String pseudo) throws DALException;
 	void addUtilisateurSecurise(Utilisateur utilisateur, String motDePasse) throws DALException;
 	void changeMDP(Utilisateur utilisateur, String motDePasse) throws DALException;

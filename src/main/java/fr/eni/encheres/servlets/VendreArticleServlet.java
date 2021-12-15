@@ -28,11 +28,7 @@ public class VendreArticleServlet extends HttpServlet {
 		Infos infos = (Infos) request.getAttribute("infos");
 		Article article = new Article();
 		Utilisateur utilisateur=new Utilisateur();
-		try {
-			utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"));
-		} catch (BLLException e) {
-			erreurs.addErreur(e.getLocalizedMessage());
-		}
+		utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"), erreurs);
 
 		if(request.getParameter("vendre") != null) {
 			String nom = request.getParameter("nom");

@@ -27,12 +27,11 @@ public class LoginServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Utilisateur utilisateur_temp = new Utilisateur(-1);
-		request.setAttribute("utilisateur_temp", utilisateur_temp);
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		Infos infos = (Infos)request.getAttribute("infos");
 
-		String addresse = "WEB-INF/jsps/auth/Login.jsp";
+		request.setAttribute("utilisateur", new Utilisateur());
+		String addresse = "/WEB-INF/jsps/auth/Login.jsp";
 
 		if(request.getParameter("inscription") != null) {
 			String pseudo = request.getParameter("pseudo");
@@ -41,11 +40,11 @@ public class LoginServlet extends HttpServlet {
 			Utilisateur utilisateur = utilisateursManager.getUtilisateurAvecLoginMotDePasse(
 					pseudo, motDePasse, erreurs);
 
-			if (utilisateur != null) {
-				request.setAttribute("utilisateur_temp", utilisateur);
-			}
 
-			utilisateur_temp.setPseudo(pseudo);
+			request.setAttribute("utilisateur", utilisateur);
+
+
+			utilisateur.setPseudo(pseudo);
 
 
 			if(!erreurs.hasErrors()) {
@@ -55,21 +54,23 @@ public class LoginServlet extends HttpServlet {
 				request.getSession().setAttribute("user_id", utilisateur.getNoUtilisateur());
 				request.getSession().setAttribute("user_pseudo", utilisateur.getPseudo());
 
-				addresse = "/WEB-INF/jsps/accueil.jsp";
+//				addresse = "/WEB-INF/jsps/accueil.jsp";
+				response.sendRedirect(request.getContextPath());
+				return;
 			}
 		}
 
-		try {
+//		try {
 			request.getRequestDispatcher(addresse).forward(request, response);
-		} catch (ServletException e) {
-			try {
-				response.sendError(500, e.getLocalizedMessage());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		} catch (ServletException e) {
+//			try {
+//				response.sendError(500, e.getLocalizedMessage());
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**

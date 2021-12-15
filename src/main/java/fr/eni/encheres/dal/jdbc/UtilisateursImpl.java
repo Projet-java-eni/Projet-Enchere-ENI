@@ -57,6 +57,31 @@ public class UtilisateursImpl implements UtilisateursDAO {
 	}
 
 	@Override
+	public void getById(Utilisateur utilisateur, int idUtilisateur) throws DALException {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
+				StoredStatements.GET_BY_ID.value)) {
+			statement.setInt(1, idUtilisateur);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSet.next();
+				utilisateur.setNoUtilisateur(resultSet.getInt("no_utilisateur"));
+				utilisateur.setPseudo(resultSet.getString("pseudo"));
+				utilisateur.setNom(resultSet.getString("nom"));
+				utilisateur.setPrenom(resultSet.getString("prenom"));
+				utilisateur.setEmail(resultSet.getString("email"));
+				utilisateur.setTelephone(resultSet.getString("telephone"));
+				utilisateur.setRue(resultSet.getString("rue"));
+				utilisateur.setCodePostal(resultSet.getString("code_postal"));
+				utilisateur.setVille(resultSet.getString("ville"));
+				utilisateur.setCredit(resultSet.getInt("credit"));
+				utilisateur.setAdministrateur(resultSet.getBoolean("administrateur"));
+				utilisateur.setActif(resultSet.getBoolean("actif"));
+			}
+		} catch (SQLException e) {
+			throw new DALException(e.getMessage(), e);
+		}
+	}
+
+	@Override
 	public Utilisateur getByPseudo(String pseudo) throws DALException {
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
 				StoredStatements.GET_BY_PSEUDO.value)) {

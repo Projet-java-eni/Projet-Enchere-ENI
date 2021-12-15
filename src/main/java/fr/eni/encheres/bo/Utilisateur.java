@@ -68,7 +68,7 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	
 	//@author Lucie MAJ ajout constructeur
 	public Utilisateur(int noUtilisateur) {
-        super();
+        this();
         this.noUtilisateur = noUtilisateur;
     }
 	
@@ -212,5 +212,9 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 
 	public void setActif(boolean actif) {
 		this.actif = actif;
+	}
+
+	public boolean estConnecte() {
+		return this.noUtilisateur != -1;
 	}
 }

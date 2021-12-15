@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -34,6 +35,7 @@ public class DetailArticleServlet extends HttpServlet {
       
 	private static ArticleManager articleManager = ArticleManager.GetInstance();
 	private static EncheresManager encheresManager = EncheresManager.GetInstance();
+	private static UtilisateursManager utilisateursManager = UtilisateursManager.GetInstance();
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -117,13 +119,18 @@ public class DetailArticleServlet extends HttpServlet {
 
 		//mettre l'Article en attribute pour le récupérer dans ValiderOffreServlet
 		request.setAttribute("article", articleAAfficher);
-		
-		
-		
+
+		Utilisateur utilisateur = new Utilisateur();
+		Integer userId = (Integer) request.getSession().getAttribute("user_id");
+		if(request.getSession().getAttribute("user_id") != null) {
+			utilisateursManager.getUtilisateurById(userId, erreurs); // On peut encherir si on est connecté et si on n'est pas la personne qui a créé la vente
+		}
+		request.setAttribute("connecte", userId != null);
+		request.setAttribute("peut_encherir", userId != null && (userId != vendeur.getNoUtilisateur()));
+		request.setAttribute("proprietaire", userId != null && (userId == vendeur.getNoUtilisateur()));
+
 		//Redirection vers la page d'affichage des détails de la vente
-				RequestDispatcher rd = null;
-				rd = request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp");
-				rd.forward(request, response);
+		 request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp").forward(request, response);
 	}
 
 	/**

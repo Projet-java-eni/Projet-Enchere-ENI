@@ -66,7 +66,7 @@
 			</div>
 		</article>
 
-
+		<c:if test="${requestScope.connecte}">
 		<div class="encherir">
 			<table>
 				<tr>
@@ -90,6 +90,7 @@
 				</form>
 			</div>
 		</div>
+		</c:if>
 	</section>
 </body>
 

@@ -217,22 +217,25 @@ public class UtilisateursManager {
 		}
 	}
 
-	public Utilisateur getUtilisateurById(int utilisateurId) throws BLLException {
+	public Utilisateur getUtilisateurById(int utilisateurId, Erreurs erreurs)  {
 		
-		Utilisateur utilisateur = null;
+		Utilisateur utilisateur = new Utilisateur();
 
-		try {
-			utilisateur = utilisateursDAO.getById(utilisateurId);
-		} catch (DALException e) {
-			throw new BLLException(e.getLocalizedMessage(), e);
-		}
-
+		getUtilisateurById(utilisateur, utilisateurId, erreurs);
 		return utilisateur;
+	}
+
+	public void getUtilisateurById(Utilisateur utilisateur, int utilisateurId, Erreurs erreurs) {
+		try {
+			utilisateursDAO.getById(utilisateur, utilisateurId);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
 	}
 
 	public Utilisateur getUtilisateurAvecLoginMotDePasse(String utilisateurPseudo, String motDePasse, Erreurs erreurs) {
 
-		Utilisateur existant = null;
+		Utilisateur existant = new Utilisateur();
 		try {
 			existant = utilisateursDAO.getByPseudoEtMotDePasse(utilisateurPseudo, motDePasse);
 			if(existant == null) {

@@ -54,12 +54,8 @@ public class ValiderOffreServlet extends HttpServlet {
 		//Récupérer l'utilisateur via getSession
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		Utilisateur utilisateur=new Utilisateur();
-		try {
-			utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"));
-		} catch (BLLException e) {
-			erreurs.addErreur(e.getLocalizedMessage());
-		}
-		
+		utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"), erreurs);
+
 		//Récupérer le montant de la nouvelleOffre via le formulaire/paramètre
 		int nouvelleOffre = Integer.parseInt(request.getParameter("nouvelleOffre"));
 		

@@ -6,7 +6,7 @@
 
 
 <jsp:useBean id="errors" scope="request" type="fr.eni.encheres.beans.Erreurs" />
-<jsp:useBean id="utilisateur_temp" scope="request" type="fr.eni.encheres.bo.Utilisateur" />
+<jsp:useBean id="utilisateur" scope="request" type="fr.eni.encheres.bo.Utilisateur" />
 
 Login
 
@@ -34,7 +34,7 @@ Login
             <label for="exampleInputPseudo" class="form-label">Pseudo</label>
             <input
                     type="text" class="form-control" id="exampleInputPseudo"
-                    aria-describedby="emailHelp" required maxlength="30" name="pseudo" value="${utilisateur_temp.pseudo}">
+                    aria-describedby="emailHelp" required maxlength="30" name="pseudo" value="${utilisateur.pseudo}">
             <div id="emailHelp" class="form-text">Comment vous apparaitrez
                 sur le site.</div>
         </div>

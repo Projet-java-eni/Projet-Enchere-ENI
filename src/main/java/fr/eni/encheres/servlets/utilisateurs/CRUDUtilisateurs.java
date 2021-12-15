@@ -59,14 +59,12 @@ public class CRUDUtilisateurs extends HttpServlet {
 			try {
 				Integer intModifUtilisateur = Integer.parseInt(idUtilisateur);
 				
-				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur);
+				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur, errors);
 				
 			} catch (NumberFormatException e) {
 				errors.addErreur("Id utilisateur malformé !");
-			} catch (BLLException e) {
-				errors.addErreur(e.getLocalizedMessage());
 			}
-			
+
 		}
 		
 		
@@ -75,14 +73,12 @@ public class CRUDUtilisateurs extends HttpServlet {
 			try {
 				Integer intModifUtilisateur = Integer.parseInt(idUtilisateur);
 				
-				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur);
+				modifUtilisateur = utilisateursManager.getUtilisateurById(intModifUtilisateur, errors);
 				
 				utilisateursManager.modifUtilisateurDepuisLeWeb(modifUtilisateur, pseudo, nom, prenom, email, telephone,
 						rue, codePostal, ville, credit, administrateur, actif, errors);
 			} catch (NumberFormatException e) {
 				errors.addErreur("Id utilisateur malformé !");
-			} catch (BLLException e) {
-				errors.addErreur(e.getLocalizedMessage());
 			}
 			
 		}
@@ -102,7 +98,7 @@ public class CRUDUtilisateurs extends HttpServlet {
 				errors.addErreur("Nombre ma formaté.");
 			}
 			try {
-				modifUtilisateur = utilisateursManager.getUtilisateurById(id_utilisateur);
+				modifUtilisateur = utilisateursManager.getUtilisateurById(id_utilisateur, errors);
 				utilisateursManager.supprimerUtilisateur(modifUtilisateur);
 			} catch (BLLException e) {
 				errors.addErreur(e.getLocalizedMessage());

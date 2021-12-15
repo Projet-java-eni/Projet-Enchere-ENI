@@ -30,7 +30,7 @@ public class ProfilServlet extends HttpServlet {
 				erreurs.addErreur("Pas connecté");
 
 			} else {
-				Utilisateur utilisateurConnecte = utilisateursManager.getUtilisateurById(userId);
+				Utilisateur utilisateurConnecte = utilisateursManager.getUtilisateurById(userId, erreurs);
 
 				if(request.getParameter("mise_a_jour") != null) {
 					utilisateursManager.modifieDepuisLeWeb(
