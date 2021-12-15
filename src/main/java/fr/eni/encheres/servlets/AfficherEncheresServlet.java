@@ -51,9 +51,13 @@ public class AfficherEncheresServlet extends HttpServlet {
 		ArticleManager articleManager = new ArticleManager();
 		List<Article> listeArticle = new ArrayList<Article>();
 
-		listeArticle = articleManager.getCatalogue(Erreurs erreurs);
-		Collections.sort(listeArticle);
+		listeArticle = articleManager.getCatalogue(erreurs);
 
+		if (!erreurs.hasErrors()) {
+
+			// On trie en fonction de la date de début (cf BO article)
+			Collections.sort(listeArticle);
+		}
 // Transfert de l'affichage à la JSP
 		RequestDispatcher rd = null;
 		rd = request.getRequestDispatcher("/WEB-INF/jsps/accueil.jsp");

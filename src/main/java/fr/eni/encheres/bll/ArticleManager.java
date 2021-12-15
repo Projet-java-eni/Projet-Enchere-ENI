@@ -22,7 +22,7 @@ public class ArticleManager {
 	private static ArticlesDAO articlesDAO = null;
 	private static ArticleManager instance = null;
 
-	public ArticleManager() {
+	private ArticleManager() {
 	}
 
 	public static ArticleManager GetInstance() {
@@ -53,11 +53,6 @@ public class ArticleManager {
 		}
 
 		return article;
-	}
-
-//TODO A EFFACER
-	public List<Article> getCatalogue() {
-		return getCatalogue(new Erreurs());
 	}
 
 	public List<Article> getCatalogue(Erreurs erreurs) {
