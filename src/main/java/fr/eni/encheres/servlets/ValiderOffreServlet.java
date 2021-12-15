@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -95,6 +96,13 @@ public class ValiderOffreServlet extends HttpServlet {
 		} catch (BLLException ex) {
 			ex.printStackTrace();
 		}
-	}
+		
+		
+	//Redirection vers la page d'affichage des détails de la vente avec le montant de la meilleure offre mise à jour avec la nouvelle offre
+	RequestDispatcher rd = null;
+	rd = request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp");
+	rd.forward(request, response);
+		
+	}	
 
 }
