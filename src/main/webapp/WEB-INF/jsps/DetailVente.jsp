@@ -22,6 +22,10 @@
 	<jsp:param name="errors" value="${requestScope.errors}"/>
 </jsp:include>
 
+<jsp:include page="blocs/infos.jsp">
+	<jsp:param name="errors" value="${requestScope.infos}"/>
+</jsp:include>
+
 
 <!-- Bouton retour accueil connecté -->
 	<section>
@@ -31,7 +35,10 @@
 
 <!-- Récupérer les infos de l'article -->
 
-<% 	String nomArticle = (String)request.getAttribute("nomArticle");
+<%
+
+	Integer noArticle = (Integer)request.getAttribute("noArticle");
+	String nomArticle = (String)request.getAttribute("nomArticle");
 	String categorie = (String)request.getAttribute("libelleCategorie");
 	String pseudoVendeur = (String)request.getAttribute("pseudoVendeur");
 	String description = (String)request.getAttribute("description");
@@ -85,6 +92,7 @@
 				</table>
 				<div class="offre">
 					<form action="ValiderOffreServlet" method="post">
+						<input type="hidden" name="noArticle" value="<%=noArticle%>">
 						<p><label for="offre">FAIRE UNE OFFRE</label></p>
 						<input type="number" id="offre" min="<%=offreMin%>" max="9999" step="1" name="nouvelleOffre"/>
 						<input class="valider"	type="submit" value="Enchérir">
@@ -93,9 +101,11 @@
 			</div>
 			</c:if>
 			<c:if test="${requestScope.peut_annuler_vente}">
+				<form method="post">
 				<div class="annuler_vente">
 					<input type="submit" name="annuler" value="Annuler la vente">
 				</div>
+				</form>
 
 			</c:if>
 		</c:if>

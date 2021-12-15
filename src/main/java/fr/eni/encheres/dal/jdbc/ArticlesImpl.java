@@ -72,6 +72,7 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement.setInt(1, id);
 			try (ResultSet resultSet = statement.executeQuery();){
 				resultSet.next();
+				article.setNoArticle(resultSet.getInt("no_article"));
 				article.setNomArticle(resultSet.getString("nom_article"));
 				article.setDescription(resultSet.getString("description"));
 				article.setUrlImage(resultSet.getString("url_image"));

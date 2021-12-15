@@ -423,7 +423,7 @@ public class UtilisateursManager {
 
 	}
 
-	public void retirerCredits(Utilisateur utilisateur, int creditsARetirer, Erreurs erreurs) throws BLLException {
+	public void retirerCredits(Utilisateur utilisateur, int creditsARetirer, Erreurs erreurs) {
 		
 		int ancienTotal = utilisateur.getCredit();
 		//Si utilisateur.credit > 0
@@ -432,11 +432,10 @@ public class UtilisateursManager {
 			try {
 				utilisateursDAO.retirerCredits(utilisateur, creditsARetirer);
 			} catch (DALException ex) {
-				ex.printStackTrace();
+				erreurs.addErreur(ex.getLocalizedMessage());
 			}
 		}
 		else {
-			// renvoyer un message d'erreur "Vous n'avez pas assez de crédits", resolu ivo
 			erreurs.addErreur("Vous n'avez pas assez de crédit");
 		}
 

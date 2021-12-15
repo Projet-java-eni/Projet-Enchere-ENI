@@ -99,6 +99,7 @@ public class DetailArticleServlet extends HttpServlet {
 		}
 
 		//set attribute contenu de l'article
+		request.setAttribute("noArticle", noArticle);
 		request.setAttribute("nomArticle", nomArticle);
 		request.setAttribute("description", description);
 		request.setAttribute("miseAPrix", miseAPrix);

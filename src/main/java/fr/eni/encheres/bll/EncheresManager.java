@@ -1,9 +1,14 @@
 package fr.eni.encheres.bll;
 
+import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.daos.DAOFactory;
 import fr.eni.encheres.dal.daos.EncheresDAO;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import fr.eni.encheres.bo.Enchere;
@@ -202,11 +207,52 @@ public class EncheresManager {
 	public int getMeilleureOffre(int noArticle) throws BLLException{
 		int meilleureOffre;
 		try {
-			meilleureOffre = ((EncheresDAO) daoEnchere).selectMeilleureOffreByNoArticle(noArticle);
+			meilleureOffre = daoEnchere.selectMeilleureOffreByNoArticle(noArticle);
 		} catch (DALException e) {
 			throw new BLLException("Echec selectMeilleureOffre - ", e);
 		}
 		return meilleureOffre;
 	}
-	
+
+	public int getMeilleureOffre(int noArticle, Erreurs erreurs) {
+		int meilleureOffre = 0;
+		try {
+			meilleureOffre = daoEnchere.selectMeilleureOffreByNoArticle(noArticle);
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+		return meilleureOffre;
+	}
+
+	/**
+	 * Essaye de creer une enchère, sans en instancier une
+	 * @param article
+	 * @param utilisateur
+	 * @param montant
+	 * @param erreurs
+	 */
+	public void essayerCreerEnchere(Article article, Utilisateur utilisateur, Integer montant, Erreurs erreurs) {
+		if(article == null) {
+			erreurs.addErreur("Article n'est pas trouvé.");
+		}
+		if(utilisateur == null) {
+			erreurs.addErreur("Utilisateur pas trouvé.");
+		}
+		if(article != null && utilisateur != null){
+			if (article.getUtilisateur().getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
+				erreurs.addErreur("Le propriétaire de la vente ne peut pas enchérir dessus.");
+			}
+		}
+
+		if(erreurs.hasErrors()) {
+			return;
+		}
+
+		Enchere enchere = new Enchere(utilisateur, article, LocalDate.now(), LocalTime.now(), montant);
+		try {
+			validerEnchere(enchere);
+		} catch (BLLException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+	}
 }
