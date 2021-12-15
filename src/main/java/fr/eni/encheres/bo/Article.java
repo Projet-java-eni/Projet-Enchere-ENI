@@ -41,19 +41,8 @@ public class Article implements Comparable<Article> {
 				0,
 				0,
 				false,
-				false
-		);
-	}
-
-	public Article(int noArticle, String nomArticle, String description, String urlImage, LocalDate dateDebutEnchere,
-			LocalTime timeDebutEnchere, LocalDate dateFinEnchere, LocalTime timeFinEnchere, int miseAPrix,
-			int prixVente, boolean annuleParVendeur, boolean recuParAcheteur) {
-
-		this(
-			noArticle, nomArticle, description, urlImage,
-			dateDebutEnchere, timeDebutEnchere, dateFinEnchere, timeFinEnchere,
-			miseAPrix, prixVente, annuleParVendeur, recuParAcheteur,
-			new Categorie(), new Retrait(), new Utilisateur(), new ArrayList<>()
+				false,
+				new Categorie(), new Retrait(), new Utilisateur(), new ArrayList<>()
 		);
 	}
 
