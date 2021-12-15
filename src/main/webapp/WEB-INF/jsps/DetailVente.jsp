@@ -49,7 +49,7 @@
 	int meilleureOffre = (int)request.getAttribute("meilleureOffre");
 	LocalDate dateDebutEnchere = (LocalDate)request.getAttribute("dateDebutEnchere");
 	LocalDate dateFinEnchere = (LocalDate)request.getAttribute("dateFinEnchere");
-	int offreMin = meilleureOffre -1;
+	int offreMin =meilleureOffre +1;
 	 %>
 		<article>
 			<div><strong><%=nomArticle%></strong></div>
@@ -94,7 +94,9 @@
 					<form method="post">
 						<input type="hidden" name="noArticle" value="<%=noArticle%>">
 						<p><label for="offre">FAIRE UNE OFFRE</label></p>
-						<input type="number" id="offre" min="<%=offreMin%>" max="9999" step="1" name="nouvelleOffre"/>
+						<input type="number"
+							   id="offre" min="<%=offreMin %>" max="9999" step="1"
+							   name="nouvelleOffre" value="<%=meilleureOffre + 1%>"/>
 						<input class="valider" name="encherir" type="submit" value="Enchérir">
 					</form>
 				</div>

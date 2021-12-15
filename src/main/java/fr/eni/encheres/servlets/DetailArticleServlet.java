@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.beans.Infos;
 import fr.eni.encheres.bll.UtilisateursManager;
-import fr.eni.encheres.bo.Article;
-import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Retrait;
-import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.bo.*;
 import fr.eni.encheres.bll.ArticleManager;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.EncheresManager;
@@ -54,7 +51,9 @@ public class DetailArticleServlet extends HttpServlet {
 		//Récupérer et afficher les caractéristiques de l'article sur lequel l'utilisateur connecté a cliqué
 		
 		Article articleAAfficher = new Article();
-		int meilleureOffre = 0;
+
+		int meilleureOffre = -1;
+
 		Utilisateur utilisateur = new Utilisateur();
 		Integer userId = (Integer) request.getSession().getAttribute("user_id");
 		if(request.getSession().getAttribute("user_id") != null) {
@@ -83,11 +82,15 @@ public class DetailArticleServlet extends HttpServlet {
 		try {
 			meilleureOffre = encheresManager.getMeilleureOffre(noArticle);
 		} catch (BLLException ex) {
-			ex.printStackTrace();
+			// si le jeu d'encheres est vide, aucune enchère existe
+			// on met l'offre actuelle à sa mise à prix.
+			meilleureOffre = articleAAfficher.getMiseAPrix();
 		}
 
+		Enchere meilleureEnchere = new Enchere();
+		meilleureEnchere.setMontantEnchere(meilleureOffre);
 
-		// On fait les traitementsd en fonction des paramètres
+		// On fait les traitementsd si on demande une enchère
 		if(request.getParameter("encherir") != null) {
 			//Récupérer le montant de la nouvelleOffre via le formulaire/paramètre
 			int nouvelleOffre = -1;
@@ -103,6 +106,12 @@ public class DetailArticleServlet extends HttpServlet {
 
 			//pour les mettre dans nouvelleEnchere
 			encheresManager.essayerCreerEnchere(articleAAfficher, utilisateur, nouvelleOffre, erreurs);
+
+			meilleureOffre = nouvelleOffre;
+			if(!erreurs.hasErrors()) {
+				infos.addInfo("Enchère créé avec succès !");
+			}
+
 		}
 
 		//set attribute contenu de l'article
@@ -132,9 +141,6 @@ public class DetailArticleServlet extends HttpServlet {
 		request.setAttribute("peut_encherir", userId != null && (userId != vendeur.getNoUtilisateur()));
 		request.setAttribute("peut_annuler_vente", userId != null && (userId == vendeur.getNoUtilisateur()));
 
-		if(!erreurs.hasErrors()) {
-			infos.addInfo("Enchère créé avec succès !");
-		}
 		//Redirection vers la page d'affichage des détails de la vente
 		 request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp").forward(request, response);
 	}

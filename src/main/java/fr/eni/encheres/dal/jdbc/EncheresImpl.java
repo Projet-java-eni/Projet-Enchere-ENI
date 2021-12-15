@@ -19,16 +19,18 @@ public class EncheresImpl implements EncheresDAO {
 	String sqlSelectEncheresByNoArticle = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_article = ? ";
 	String sqlSelectEncheresByNoUtilisateurEtNoArticle = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
 	String sqlSelectAllEncheres = "SELECT no_utilisateur, no_article, date_enchere, heure_enchere, montant_enchere FROM encheres";
-	String sqlUpdateEnchere = "UPDATE encheres SET no_utilisateur = ?, no_article = ?, date_enchere = ?, heure_enchere = ?, montant_enchere = ? WHERE no_utilisateur = ? AND no_article = ?";
+	String sqlUpdateEnchere = "UPDATE encheres " +
+			"SET no_utilisateur = ?, no_article = ?, date_enchere = ?, heure_enchere = ?, montant_enchere = ? " +
+			"WHERE no_utilisateur = ? AND no_article = ?";
 	String sqlDeleteEnchereByNoUtilisateurEtNoArticle = "DELETE FROM encheres WHERE no_utilisateur = ? AND no_article = ? ";
-	String sqlSelectMeilleureOffreByNoArticle = "SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?;";
+	String sqlSelectMeilleureOffreByNoArticle = "SELECT MAX(montant_enchere) as max_enchere FROM ENCHERES WHERE no_article = ?";
 	
 	
 	@Override
 	public void add(Enchere e) throws DALException {
 			try (	
 					Connection con = GetConnection.getConnexion();
-					PreparedStatement pstmt = con.prepareStatement(sqlDeleteEnchereByNoUtilisateurEtNoArticle);		
+					PreparedStatement pstmt = con.prepareStatement(sqlInsertEnchere);
 				){
 					
 					pstmt.setInt(1, e.getUtilisateur().getNoUtilisateur());
@@ -39,7 +41,7 @@ public class EncheresImpl implements EncheresDAO {
 					
 					pstmt.execute();
 			}catch(SQLException ex){
-					throw new DALException(sqlDeleteEnchereByNoUtilisateurEtNoArticle, ex);
+					throw new DALException(ex.getLocalizedMessage(), ex);
 			}
 	}
 	
@@ -101,7 +103,7 @@ public class EncheresImpl implements EncheresDAO {
 		}
 	}
 
-	public List<Enchere> selectEncheresByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException {
+	public Enchere selectEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException {
 		try(	
 				Connection con = GetConnection.getConnexion();
 				PreparedStatement pstmt = con.prepareStatement(sqlSelectEncheresByNoUtilisateurEtNoArticle);
@@ -109,7 +111,6 @@ public class EncheresImpl implements EncheresDAO {
 				pstmt.setInt(1, noUtilisateur);
 				pstmt.setInt(2, noArticle);
 				try(ResultSet rs =  pstmt.executeQuery();){
-					List<Enchere> encheres = new ArrayList<Enchere>();			
 					Enchere e = null;
 					if(rs.next()) {
 						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
@@ -121,9 +122,8 @@ public class EncheresImpl implements EncheresDAO {
 								rs.getTime(4).toLocalTime(),
 								rs.getInt(5)
 						);
-						encheres.add(e);
 					}
-					return encheres;	
+					return e;
 				}
 		}	
 		catch (SQLException ex) {
@@ -164,14 +164,18 @@ public class EncheresImpl implements EncheresDAO {
 	public void update(Enchere e) throws DALException {
 			try (
 					Connection con = GetConnection.getConnexion();
-					PreparedStatement pstmt = con.prepareStatement(sqlUpdateEnchere);
+					PreparedStatement pstmt = con.prepareStatement("UPDATE encheres " +
+							"SET no_utilisateur = ?, no_article = ?, date_enchere = ?, heure_enchere = ?, montant_enchere = ? " +
+							"WHERE no_utilisateur = ? AND no_article = ?");
 				){
 					pstmt.setInt(1, e.getUtilisateur().getNoUtilisateur());
 					pstmt.setInt(2, e.getArticle().getNoArticle());
 					pstmt.setDate(3, Date.valueOf(e.getDateEnchere()));
-					pstmt.setTime(3, Time.valueOf(e.getHeureEnchere()));
+					pstmt.setTime(4, Time.valueOf(e.getHeureEnchere()));
 					pstmt.setInt(5, e.getMontantEnchere());
-					
+					pstmt.setInt(6, e.getUtilisateur().getNoUtilisateur());
+					pstmt.setInt(7, e.getArticle().getNoArticle());
+
 					pstmt.execute();
 			}catch (SQLException ex) {
 					throw new DALException(ex.getLocalizedMessage(), ex);
@@ -202,20 +206,20 @@ public class EncheresImpl implements EncheresDAO {
 	//Pas sure d'en avoir besoin
 		public int selectMeilleureOffreByNoArticle(int noArticle) throws DALException{
 		
-		
-		
-		
 		try(	
 				Connection con = GetConnection.getConnexion();
-				PreparedStatement pstmt = con.prepareStatement(sqlSelectMeilleureOffreByNoArticle);
+				PreparedStatement pstmt = con.prepareStatement(
+					"SELECT MAX(montant_enchere) as max_enchere FROM ENCHERES WHERE no_article = ?"
+				);
 			){
 				pstmt.setInt(1, noArticle);
-				try(ResultSet rs =  pstmt.executeQuery();){
-					int meilleureOffre = (rs.getInt(1));
+				try(ResultSet rs =  pstmt.executeQuery()){
+					rs.next();
+					int meilleureOffre = rs.getInt("max_enchere");
 					return meilleureOffre;
 				}
 		} catch (SQLException ex) {
-						throw new DALException(ex.getLocalizedMessage(), ex);
+			throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
 

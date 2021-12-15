@@ -13,7 +13,8 @@ public class Enchere {
 	private LocalDate dateEnchere;
 	private LocalTime heureEnchere;
 
-	public Enchere() {	
+	public Enchere() {
+		this(new Utilisateur(), new Article(), LocalDate.now(), LocalTime.now(), 0);
 	}
 	
 	public Enchere(Utilisateur utilisateur, Article article, LocalDate dateEnchere, LocalTime heureEnchere, int montantEnchere) {
@@ -24,23 +25,6 @@ public class Enchere {
 		this.dateEnchere = dateEnchere;
 		this.heureEnchere = heureEnchere;
 	}
-
-	/*public int getNoUtilisateur() {
-		return noUtilisateur;
-	}
-
-	public void setNoUtilisateur(int noUtilisateur) {
-		this.noUtilisateur = noUtilisateur;
-	}*/
-	
-	/*public int getNoArticle() {
-		return noArticle;
-	}
-
-
-	public void setNoArticle(int noArticle) {
-		this.noArticle = noArticle;
-	}*/
 
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
@@ -87,5 +71,9 @@ public class Enchere {
 
 	public void setHeureEnchere(LocalTime heureEnchere) {
 		this.heureEnchere = heureEnchere;
+	}
+
+	public int valeurMinimale() {
+		return this.article.getMiseAPrix();
 	}
 }
