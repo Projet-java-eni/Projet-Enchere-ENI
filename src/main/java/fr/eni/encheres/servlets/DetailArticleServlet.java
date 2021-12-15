@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.beans.Infos;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
@@ -49,11 +50,16 @@ public class DetailArticleServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
-	//Récupérer et afficher les caractéristiques de l'article sur lequel l'utilisateur connecté a cliqué
+		Infos infos = (Infos) request.getAttribute("infos");
+		//Récupérer et afficher les caractéristiques de l'article sur lequel l'utilisateur connecté a cliqué
 		
 		Article articleAAfficher = new Article();
 		int meilleureOffre = 0;
-
+		Utilisateur utilisateur = new Utilisateur();
+		Integer userId = (Integer) request.getSession().getAttribute("user_id");
+		if(request.getSession().getAttribute("user_id") != null) {
+			utilisateur = utilisateursManager.getUtilisateurById(userId, erreurs); // On peut encherir si on est connecté et si on n'est pas la personne qui a créé la vente
+		}
 		
 		//Récupérer le noArticle de l'article sur lequel l'utilisateur a cliqué
 		Integer noArticle = null;
@@ -62,34 +68,16 @@ public class DetailArticleServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			erreurs.addErreur("Impossible de reconnaitre l'article id");
 		}
-		
-		
+
 		//utiliser le noArticle pour récupérer le contenu de l'article
 
 		if(noArticle != null) {
 			articleAAfficher = articleManager.getByIdAvecInstance(noArticle, articleAAfficher, erreurs);
 		}
 
-		//get attribute contenu de l'article
-		String nomArticle = articleAAfficher.getNomArticle();
-		String description = articleAAfficher.getDescription();
-		int miseAPrix = articleAAfficher.getMiseAPrix();
-		LocalDate dateFinEnchere = articleAAfficher.getDateFinEnchere();
-		
-		//Récupérer via catégorie
-		Categorie categorie = articleAAfficher.getCategorie();
-		String libelleCategorie = categorie.getLibelle();
-		
 		//Récupérer via l'utilisateur
 		Utilisateur vendeur = articleAAfficher.getUtilisateur();	
-		String pseudoVendeur = vendeur.getPseudo();
-		
-		//Récupérer via le retrait
-		Retrait retrait = articleAAfficher.getRetrait();
-		String rue = retrait.getRue();
-		String codePostal = retrait.getCodePostal();
-		String ville = retrait.getVille();
-		
+
 		//Récupérer la plus haute offre faite sur l'article via EncheresManager
 		
 		try {
@@ -98,37 +86,55 @@ public class DetailArticleServlet extends HttpServlet {
 			ex.printStackTrace();
 		}
 
+
+		// On fait les traitementsd en fonction des paramètres
+		if(request.getParameter("encherir") != null) {
+			//Récupérer le montant de la nouvelleOffre via le formulaire/paramètre
+			int nouvelleOffre = -1;
+			try {
+				nouvelleOffre = Integer.parseInt(request.getParameter("nouvelleOffre"));
+			} catch (NumberFormatException e) {
+				erreurs.addErreur("Offre malformée");
+			}
+
+			articleManager.getByIdAvecInstance(noArticle, articleAAfficher, erreurs);
+
+			//Récupérer date et heure actuelle
+
+			//pour les mettre dans nouvelleEnchere
+			encheresManager.essayerCreerEnchere(articleAAfficher, utilisateur, nouvelleOffre, erreurs);
+		}
+
 		//set attribute contenu de l'article
-		request.setAttribute("noArticle", noArticle);
-		request.setAttribute("nomArticle", nomArticle);
-		request.setAttribute("description", description);
-		request.setAttribute("miseAPrix", miseAPrix);
-		request.setAttribute("dateFinEnchere", dateFinEnchere);
-		
-		request.setAttribute("libelleCategorie", libelleCategorie);
-		
-		request.setAttribute("pseudoVendeur", pseudoVendeur);
-		
-		request.setAttribute("rue", rue);
-		request.setAttribute("codePostal", codePostal);
-		request.setAttribute("ville", ville);
-		
+		request.setAttribute("noArticle", articleAAfficher.getNoArticle());
+		request.setAttribute("nomArticle", articleAAfficher.getNomArticle());
+		request.setAttribute("description", articleAAfficher.getDescription());
+		request.setAttribute("miseAPrix", articleAAfficher.getMiseAPrix());
+		request.setAttribute("dateFinEnchere", articleAAfficher.getDateFinEnchere());
+
+		request.setAttribute("libelleCategorie", articleAAfficher.getCategorie().getLibelle());
+
+		request.setAttribute("pseudoVendeur", articleAAfficher.getUtilisateur().getPseudo());
+
+		request.setAttribute("rue", articleAAfficher.getRetrait().getRue());
+		request.setAttribute("codePostal", articleAAfficher.getRetrait().getCodePostal());
+		request.setAttribute("ville", articleAAfficher.getRetrait().getVille());
+
 		request.setAttribute("meilleureOffre", meilleureOffre);
-		
+
 		request.setAttribute("errors", erreurs);
 		
 
 		//mettre l'Article en attribute pour le récupérer dans ValiderOffreServlet
 		request.setAttribute("article", articleAAfficher);
 
-		Integer userId = (Integer) request.getSession().getAttribute("user_id");
-		if(request.getSession().getAttribute("user_id") != null) {
-			utilisateursManager.getUtilisateurById(userId, erreurs); // On peut encherir si on est connecté et si on n'est pas la personne qui a créé la vente
-		}
 		request.setAttribute("connecte", userId != null);
 		request.setAttribute("peut_encherir", userId != null && (userId != vendeur.getNoUtilisateur()));
 		request.setAttribute("peut_annuler_vente", userId != null && (userId == vendeur.getNoUtilisateur()));
 
+		if(!erreurs.hasErrors()) {
+			infos.addInfo("Enchère créé avec succès !");
+		}
 		//Redirection vers la page d'affichage des détails de la vente
 		 request.getRequestDispatcher("/WEB-INF/jsps/DetailVente.jsp").forward(request, response);
 	}

@@ -91,11 +91,11 @@
 					</tr>
 				</table>
 				<div class="offre">
-					<form action="ValiderOffreServlet" method="post">
+					<form method="post">
 						<input type="hidden" name="noArticle" value="<%=noArticle%>">
 						<p><label for="offre">FAIRE UNE OFFRE</label></p>
 						<input type="number" id="offre" min="<%=offreMin%>" max="9999" step="1" name="nouvelleOffre"/>
-						<input class="valider"	type="submit" value="Enchérir">
+						<input class="valider" name="encherir" type="submit" value="Enchérir">
 					</form>
 				</div>
 			</div>
