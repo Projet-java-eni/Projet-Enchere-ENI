@@ -98,7 +98,8 @@ public class ArticlesImpl implements ArticlesDAO {
 		LocalDate dateAjd = LocalDate.now();
 		LocalTime maintenant = LocalTime.now();
 
-		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement("SELECT no_article, nom_article,description, " +
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(
+				"SELECT no_article, nom_article,description, " +
 				"date_debut_encheres,heure_debut_encheres,date_fin_encheres,heure_fin_encheres,prix_initial, " +
 				" prix_vente,annule_par_vendeur, recu_par_acheteur,no_categorie,no_utilisateur  " +
 				"FROM dbo.ARTICLES_VENDUS " +

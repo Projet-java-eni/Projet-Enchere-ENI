@@ -19,7 +19,9 @@ public class VentesEnCoursServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		List<Article> articles= new ArrayList<>();
+
 		articleManager.getCatalogue(articles, erreurs);
+
 		request.setAttribute("articles",articles);
 
 		request.getRequestDispatcher("/WEB-INF/jsps/vente/ListerVentes.jsp").forward(request, response);

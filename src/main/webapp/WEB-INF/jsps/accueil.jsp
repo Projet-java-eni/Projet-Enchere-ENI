@@ -6,7 +6,7 @@
 <%@page import="fr.eni.encheres.bo.Enchere"%>
 <%--  <%@page import="fr.eni.encheres.messages.LecteurMessage"%>--%>
 
-<%@page import="java.util.List"%>
+<%@ page import="java.util.List"%>
 <%@ page import="fr.eni.encheres.bo.Categorie" %>
 
 
@@ -98,9 +98,9 @@
 						<select id="cat_enchere"
 						name="catégorie" size="1">
 						<%
-						for(Categorie cat: (List<Categorie>)request.getAttribute("categories")) {
+							for(Categorie cat: (List<Categorie>)request.getAttribute("categories")) {
 						%>
-						<option value="<%= cat.getEtiquette() %>"><%= cat.getLibelle() %></option>
+							<option value="<%= cat.getEtiquette() %>"><%= cat.getLibelle() %></option>
 						<% } %>
 					</select></th>
 					<td>
