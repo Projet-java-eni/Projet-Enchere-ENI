@@ -24,9 +24,9 @@
 	<header>
 		<div id="header-logo">
 			<!-- logo -->
-			<img
+			<a href="<%=request.getContextPath()%>/"> <img
 				src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite.png"
-				alt="logo Association" />
+				alt="logo Association" /></a>
 		</div>
 
 		<div id="header-user">
