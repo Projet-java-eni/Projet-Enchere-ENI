@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+body {font-family: "acumin-pro-semi-condensed", sans-serif}
+
 header{
 	background-color: rgb(80, 215, 88);
 	clear: both;
