@@ -30,9 +30,9 @@
 	<jsp:param name="errors" value="${requestScope.infos}"/>
 </jsp:include>
 
-	<section>
+	<section class="section">
 		<div class="titre">
-			<h1>Détails de l'article</h1>
+			<p class="titrepage">Détails de l'article</p>
 		</div>
 
 <!-- Récupérer les infos de l'article -->
@@ -64,7 +64,7 @@
 	Integer credit = (Integer) request.getAttribute("credit");
  %>
 		<article>
-			<div><strong><%=nomArticle%></strong></div>
+			<div class="nom"><strong><%=nomArticle%></strong></div>
 			
 			<div class="details">
 				<img src="images/fauteuil.jpg" title="chaise" alt="chaise">
@@ -163,7 +163,7 @@
 						<td><%=dateDebutEnchere%> à <%=heureDebutEnchere%></td>
 					</tr>
 					<tr>
-						<th>Fin de l'enchère le: </th>
+						<th>Fin de l'enchère le : </th>
 						<td><%=dateFinEnchere%> à <%=heureFinEnchere%></td>
 					</tr>
 				</table>
