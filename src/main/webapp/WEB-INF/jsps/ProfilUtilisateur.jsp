@@ -36,8 +36,8 @@
 </c:if>
 
 
-<h1>Profil de ${utilisateur.pseudo} avec ${utilisateur.credit} points</h1>
-
+<h1>Profil de ${utilisateur.pseudo}</h1>
+<h2>Vous avez ${utilisateur.credit} points</h1>
 
 <form method="post">
 
