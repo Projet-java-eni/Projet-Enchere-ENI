@@ -54,9 +54,9 @@
 						<th><label for="statut de l'enchère"> Statut des
 							enchères : </label> <select name="statut" size="1">
 							<option value="non_commence">Non commencées</option>
-							<option value="en_couyrs">En cours</option>
+							<option value="en_cours">En cours</option>
 							<option value="terminees">Terminée</option>
-							<option value="annulees">Mes ventes</option>
+							<option value="miennes">Mes ventes</option>
 						</select></th>
 						<td>
 

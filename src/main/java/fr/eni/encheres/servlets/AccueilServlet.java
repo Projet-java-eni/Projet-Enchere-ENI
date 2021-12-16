@@ -46,6 +46,25 @@ public class AccueilServlet extends HttpServlet {
 					}
 				}
 			}
+			if(status.contentEquals("terminees")) {
+				articles.clear();
+				for(Article art: listeArticleTotal) {
+					if(art.estFinie()) {
+						articles.add(art);
+					}
+				}
+			}
+			if(status.contentEquals("miennes")) {
+				Integer userId = (Integer) request.getSession().getAttribute("user_id");
+				if(userId != null) {
+					articles.clear();
+					for(Article art: listeArticleTotal) {
+						if(art.getUtilisateur().getNoUtilisateur() == userId) {
+							articles.add(art);
+						}
+					}
+				}
+			}
 		}
 
 		// On trie en fonction de la date de début (cf BO article)
