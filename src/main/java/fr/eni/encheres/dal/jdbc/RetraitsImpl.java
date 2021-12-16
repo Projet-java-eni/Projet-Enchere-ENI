@@ -21,18 +21,18 @@ public class RetraitsImpl implements RetraitsDAO {
 
 	// Recupération de l'adresse en fonction de l'article
 	private static final String sqlSelectAdresseByArticle =
-			"SELECT no_article, rue, code_postal, ville" +
+			"SELECT id_retrait, no_article, rue, code_postal, ville" +
 			" FROM Retraits WHERE no_article=?";
 	// Recupération de l'adresse en fonction de son identifiant
 	private static final String sqlSelectAdresseByIdRetrait =
-			"SELECT no_article, rue, code_postal, ville FROM Retraits WHERE id_retrait=?";
+			"SELECT id_retrait, no_article, rue, code_postal, ville FROM Retraits WHERE id_retrait=?";
 	// Requête SQL pour que le vendeur insert une nouvelle adresse
 	private static final String sqlInsertAdresseRetrait = "INSERT INTO Retraits (no_article, rue, code_postal, ville)  VALUES (? , ? , ? , ?)";
 	// le vendeur efface l'adresse
 	private static final String sqlDeleteAdresseRetrait = "DELETE FROM Retraits WHERE id_retrait=?";
 	// le vendeur MAJ l'adresse
 	private static final String sqlUpdateAdresseRetrait = "UPDATE Retraits SET no_article=?,"
-			+ "id_retrait=?, rue=?, code_postal=?, ville=? WHERE id_retrait=?";
+			+ "rue=?, code_postal=?, ville=? WHERE id_retrait=?";
 	// on selectionne l'ens des infos du retrait
 	private static final String sqlSelectAllCoordonnees = "SELECT no_article, id_retrait, rue, code_postal, ville FROM Retraits";
 
@@ -45,6 +45,7 @@ public class RetraitsImpl implements RetraitsDAO {
 			try(ResultSet rs = statement.executeQuery()) {
 
 				rs.next();
+				adresseRetrait.setIdRetrait(rs.getInt("id_retrait"));
 				adresseRetrait.setNoArticle(rs.getInt("no_article"));
 				adresseRetrait.setRue(rs.getString("rue"));
 				adresseRetrait.setCodePostal(rs.getString("code_postal"));
@@ -122,10 +123,10 @@ public class RetraitsImpl implements RetraitsDAO {
 
 		try (PreparedStatement stmt = GetConnection.getConnexion().prepareStatement(sqlUpdateAdresseRetrait)){
 			stmt.setInt(1, adresse.getNoArticle());
-			stmt.setInt(2, adresse.getIdRetrait());
-			stmt.setString(3, adresse.getRue());
-			stmt.setString(4, adresse.getCodePostal());
-			stmt.setString(5, adresse.getVille());
+			stmt.setString(2, adresse.getRue());
+			stmt.setString(3, adresse.getCodePostal());
+			stmt.setString(4, adresse.getVille());
+			stmt.setInt(5, adresse.getIdRetrait());
 
 			stmt.executeUpdate();
 

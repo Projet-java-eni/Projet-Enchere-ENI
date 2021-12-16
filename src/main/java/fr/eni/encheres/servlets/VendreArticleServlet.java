@@ -3,7 +3,6 @@ package fr.eni.encheres.servlets;
 import fr.eni.encheres.beans.Erreurs;
 import fr.eni.encheres.beans.Infos;
 import fr.eni.encheres.bll.ArticleManager;
-import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.CategoriesManager;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Article;
@@ -39,7 +38,7 @@ public class VendreArticleServlet extends HttpServlet {
 			String rue = request.getParameter("rue");
 			String codePostal = request.getParameter("code_postal");
 			String ville = request.getParameter("ville");
-			Categorie categorie = categoriesManager.getByLibelle(request.getParameter("category"), erreurs);
+			Categorie categorie = categoriesManager.getByEtiquette(request.getParameter("category"), erreurs);
 
 
 			articleManager.sauvegarderDepuisLeWeb(

@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 header{
-		background-color: rgb(80, 215, 88);
-	
+	background-color: rgb(80, 215, 88);
+	clear: both;
 }
 
 #header-logo{

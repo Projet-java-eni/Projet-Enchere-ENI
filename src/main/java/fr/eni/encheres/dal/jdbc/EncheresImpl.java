@@ -5,9 +5,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bll.ArticleManager;
+import fr.eni.encheres.bll.UtilisateursManager;
+import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.daos.EncheresDAO;
 
@@ -45,7 +48,7 @@ public class EncheresImpl implements EncheresDAO {
 			}
 	}
 	
-	public List<Enchere> selectEncheresByNoUtilisateur(int noUtilisateur) throws DALException {
+	public List<Enchere> selectEncheresByNoUtilisateur(int noUtilisateur, Erreurs erreurs) throws DALException {
 		
 		try(	
 				Connection con = GetConnection.getConnexion();
@@ -53,11 +56,11 @@ public class EncheresImpl implements EncheresDAO {
 			){
 				pstmt.setInt(1, noUtilisateur);
 				try(ResultSet rs =  pstmt.executeQuery();){
-					List<Enchere> encheres = new ArrayList<Enchere>();			
+					List<Enchere> encheres = new ArrayList<>();
 					Enchere e = null;
-					if(rs.next()) {
-						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-						Article article = new Article(rs.getInt(2));
+					while (rs.next()) {
+						Utilisateur utilisateur = UtilisateursManager.GetInstance().getUtilisateurById(rs.getInt(1), erreurs);
+						Article article = ArticleManager.GetInstance().getArticleById(rs.getInt(2), erreurs);
 						e = new Enchere(
 								utilisateur,
 								article,
@@ -75,18 +78,17 @@ public class EncheresImpl implements EncheresDAO {
 			
 	}
 	
-	public List<Enchere> selectEncheresByNoArticle(int noArticle) throws DALException {
+	public Enchere selectEnchereByNoArticle(int noArticle, Erreurs erreurs) throws DALException {
 		try(	
 				Connection con = GetConnection.getConnexion();
 				PreparedStatement pstmt = con.prepareStatement(sqlSelectEncheresByNoArticle);
 			){
 				pstmt.setInt(1, noArticle);
 				try(ResultSet rs = pstmt.executeQuery();){
-					List<Enchere> encheres = new ArrayList<>();
 					Enchere e = null;
 					if(rs.next()) {
-						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-						Article article = new Article(rs.getInt(2));
+						Utilisateur utilisateur = UtilisateursManager.GetInstance().getUtilisateurById(rs.getInt(1), erreurs);
+						Article article = ArticleManager.GetInstance().getArticleById(rs.getInt(2), erreurs);
 						e = new Enchere(
 								utilisateur,
 								article,
@@ -94,16 +96,15 @@ public class EncheresImpl implements EncheresDAO {
 								rs.getTime(4).toLocalTime(),
 								rs.getInt(5)
 						);
-						encheres.add(e);
 					}
-					return encheres;	
+					return e;
 				}	
 		}catch (SQLException ex) {
-						throw new DALException(ex.getLocalizedMessage(), ex);
+			throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
 
-	public Enchere selectEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle)throws DALException {
+	public Enchere selectEnchereByNoUtilisateurEtNoArticle(int noUtilisateur, int noArticle, Erreurs erreurs )throws DALException {
 		try(	
 				Connection con = GetConnection.getConnexion();
 				PreparedStatement pstmt = con.prepareStatement(sqlSelectEncheresByNoUtilisateurEtNoArticle);
@@ -113,8 +114,8 @@ public class EncheresImpl implements EncheresDAO {
 				try(ResultSet rs =  pstmt.executeQuery();){
 					Enchere e = null;
 					if(rs.next()) {
-						Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-						Article article = new Article(rs.getInt(2));
+						Utilisateur utilisateur = UtilisateursManager.GetInstance().getUtilisateurById(rs.getInt(1), erreurs);
+						Article article = ArticleManager.GetInstance().getArticleById(rs.getInt(2), erreurs);
 						e = new Enchere(
 								utilisateur,
 								article,
@@ -130,9 +131,10 @@ public class EncheresImpl implements EncheresDAO {
 						throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
-	
+
 	@Override
 	public List<Enchere> getAll() throws DALException {
+		Erreurs erreurs = new Erreurs();
 		try (
 				Connection con = GetConnection.getConnexion();
 				Statement stmt = con.createStatement();
@@ -142,8 +144,8 @@ public class EncheresImpl implements EncheresDAO {
 				Enchere e = null;
 				
 				while(rs.next()){
-					Utilisateur utilisateur = new Utilisateur(rs.getInt(1));
-					Article article = new Article(rs.getInt(2));
+					Utilisateur utilisateur = UtilisateursManager.GetInstance().getUtilisateurById(rs.getInt(1), erreurs);
+					Article article = ArticleManager.GetInstance().getArticleById(rs.getInt(2), erreurs);
 					e = new Enchere(
 							utilisateur,
 							article,
@@ -160,21 +162,19 @@ public class EncheresImpl implements EncheresDAO {
 	}
 	
 	@Override
-
 	public void update(Enchere e) throws DALException {
 			try (
 					Connection con = GetConnection.getConnexion();
 					PreparedStatement pstmt = con.prepareStatement("UPDATE encheres " +
 							"SET no_utilisateur = ?, no_article = ?, date_enchere = ?, heure_enchere = ?, montant_enchere = ? " +
-							"WHERE no_utilisateur = ? AND no_article = ?");
+							"WHERE  no_article = ?");
 				){
 					pstmt.setInt(1, e.getUtilisateur().getNoUtilisateur());
 					pstmt.setInt(2, e.getArticle().getNoArticle());
 					pstmt.setDate(3, Date.valueOf(e.getDateEnchere()));
 					pstmt.setTime(4, Time.valueOf(e.getHeureEnchere()));
 					pstmt.setInt(5, e.getMontantEnchere());
-					pstmt.setInt(6, e.getUtilisateur().getNoUtilisateur());
-					pstmt.setInt(7, e.getArticle().getNoArticle());
+					pstmt.setInt(6, e.getArticle().getNoArticle());
 
 					pstmt.execute();
 			}catch (SQLException ex) {
@@ -204,7 +204,7 @@ public class EncheresImpl implements EncheresDAO {
 	
 	
 	//Pas sure d'en avoir besoin
-		public int selectMeilleureOffreByNoArticle(int noArticle) throws DALException{
+	public int selectMeilleureOffreByNoArticle(int noArticle) throws DALException{
 		
 		try(	
 				Connection con = GetConnection.getConnexion();
@@ -222,5 +222,4 @@ public class EncheresImpl implements EncheresDAO {
 			throw new DALException(ex.getLocalizedMessage(), ex);
 		}
 	}
-
 }

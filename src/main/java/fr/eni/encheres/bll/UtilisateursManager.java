@@ -200,11 +200,7 @@ public class UtilisateursManager {
 		utilisateur.setAdministrateur(is_admin);
 		utilisateur.setActif(is_actif);
 
-		try {
-			sauvegarderUtilisateur(utilisateur, erreurs);
-		} catch (BLLException e) {
-			erreurs.addErreur(e.getLocalizedMessage());
-		}
+		sauvegarderUtilisateur(utilisateur, erreurs);
 	}
 
 	
@@ -229,7 +225,7 @@ public class UtilisateursManager {
 		try {
 			utilisateursDAO.getById(utilisateur, utilisateurId);
 		} catch (DALException e) {
-			erreurs.addErreur(e.getLocalizedMessage());
+			erreurs.addErreur("En cherchant un utilisateur: " +e.getLocalizedMessage());
 		}
 	}
 
@@ -260,14 +256,14 @@ public class UtilisateursManager {
 		}
 	}
 
-	public void sauvegarderUtilisateur(Utilisateur utilisateur, Erreurs erreurs) throws BLLException {
+	public void sauvegarderUtilisateur(Utilisateur utilisateur, Erreurs erreurs) {
 		
 		validerUtilisateur(utilisateur, erreurs);
 		
 		try {
 			this.utilisateursDAO.update(utilisateur);
 		} catch (DALException e) {
-			throw new BLLException(e.getLocalizedMessage(), e);
+			erreurs.addErreur(e.getLocalizedMessage());
 		}
 	}
 

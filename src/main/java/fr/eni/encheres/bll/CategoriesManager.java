@@ -86,14 +86,14 @@ public class CategoriesManager {
 		return categorie;
 	}
 
-	public Categorie getByLibelle(String libelle, Erreurs erreurs) {
+	public Categorie getByEtiquette(String libelle, Erreurs erreurs) {
 
 		Categorie categorie = null;
 
 		try {
-			categorie = categoriesDAO.getByLibelle(libelle);
+			categorie = categoriesDAO.getByEtiquette(libelle);
 		} catch (DALException e) {
-			erreurs.addErreur(e.getLocalizedMessage());
+			erreurs.addErreur("En cherchant une categorie par etiquette: " +e.getLocalizedMessage());
 		}
 
 		return categorie;
@@ -127,4 +127,21 @@ public class CategoriesManager {
 		}
 	}
 
+	public Object getCategorieById(String idCat, Erreurs erreurs) {
+		if(idCat == null) {
+			return new Categorie();
+		}
+		int idCatInt = -1;
+		try {
+			idCatInt = Integer.parseInt(idCat);
+		} catch (NumberFormatException e) {
+			erreurs.addErreur("nombre malformaté");
+		}
+		try {
+			return getCategorieById(idCatInt);
+		} catch (BLLException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+			return new Categorie();
+		}
+	}
 }

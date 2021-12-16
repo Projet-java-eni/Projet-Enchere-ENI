@@ -3,6 +3,7 @@ package fr.eni.encheres.bll;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class ArticleManager {
 
 		return article;
 	}
-	
+
 	public Article getByIdAvecInstance(Integer articleId, Article article, Erreurs erreurs) {
 		try {
 			articlesDAO.getByIdAvecInstance(article, articleId);
@@ -92,7 +93,7 @@ public class ArticleManager {
 	}
 
 	public void addArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
+						   LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
 
 		if (nomArticle == null)
 			erreurs.addErreur("Le nom de l'article doit être renseigné");
@@ -108,8 +109,15 @@ public class ArticleManager {
 			erreurs.addErreur("L'état de la vente doit être renseignée");
 	}
 
+	public void modifArticle(Article article, Erreurs erreurs) {
+		modifArticle(article, article.getNomArticle(), article.getDescription(), article.getDateDebutEnchere(),
+				article.getTimeDebutEnchere(), article.getDateFinEnchere(), article.getTimeFinEnchere(),
+				article.getMiseAPrix(), erreurs);
+	}
+
 	public void modifArticle(Article article, String nomArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, Integer miseAPrix, String etatVente, Erreurs erreurs) {
+							 LocalTime heureDebutEncheres, LocalDate dateFinEncheres, LocalTime heureFinEncheres,
+							 Integer miseAPrix, Erreurs erreurs) {
 
 		if (nomArticle == null)
 			erreurs.addErreur("Le nom de l'article doit être renseigné");
@@ -121,11 +129,21 @@ public class ArticleManager {
 			erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
 		if (miseAPrix == null)
 			erreurs.addErreur("Le prix de départ doit être renseigné");
-		if (etatVente == null)
-			erreurs.addErreur("L'état de la vente doit être renseignée");
+
+		if(article.aDebute()) {
+			erreurs.addErreur("Vous ne pouvez plus modifier un article dont la vente a débuté");
+		}
 
 		if (erreurs.hasErrors())
 			return;
+
+		article.setNomArticle(nomArticle);
+		article.setDescription(description);
+		article.setDateDebutEnchere(dateDebutEncheres);
+		article.setTimeDebutEnchere(heureDebutEncheres);
+		article.setDateFinEnchere(dateFinEncheres);
+		article.setTimeFinEnchere(heureFinEncheres);
+		article.setMiseAPrix(miseAPrix);
 
 		try {
 			articlesDAO.update(article);
@@ -202,8 +220,8 @@ public class ArticleManager {
 	}
 
 	public void sauvegarderDepuisLeWeb(String nom, String description, String prix, String dateDebut, String dateFin,
-			String rue, String codePostal, String ville, Categorie categorie, Utilisateur utilisateur, Article article,
-			Erreurs erreurs) {
+									   String rue, String codePostal, String ville, Categorie categorie, Utilisateur utilisateur, Article article,
+									   Erreurs erreurs) {
 		if (nom == null)
 			erreurs.addErreur("Le nom doit être renseigné");
 		else
@@ -276,6 +294,63 @@ public class ArticleManager {
 		} catch (BusinessException e) {
 			erreurs.addErreur(e.getLocalizedMessage());
 		}
+	}
+
+	public void modifDepuisLeWeb(String nom, String description, String prix, String dateDebut, String heureDebut,
+								 String dateFin, String heureFin,
+								 String rue, String codePostal, String ville, Categorie categorie, Utilisateur utilisateur, Article article,
+								 Erreurs erreurs) {
+		if (dateDebut == null) {
+			erreurs.addErreur("date debut ne peut etre null");
+		}
+		if (dateFin == null) {
+			erreurs.addErreur("date fin ne peut etre null");
+		}
+		if(prix == null) {
+			erreurs.addErreur("prix ne peut etre null");
+		}
+		if(utilisateur == null) {
+			erreurs.addErreur("il faut etre connecté");
+		} else {
+			if(utilisateur.getNoUtilisateur() != article.getUtilisateur().getNoUtilisateur()) {
+				erreurs.addErreur("Vous devez etre le propriétaire de la vente");
+			}
+		}
+		Integer miseAPrix = -1;
+		try {
+			miseAPrix = Integer.parseInt(prix);
+		} catch (NumberFormatException | NullPointerException e) {
+			erreurs.addErreur("nombre malformé");
+		}
+		if (erreurs.hasErrors()) {
+			return;
+		}
+
+		LocalDateTime dateTimeDebut = Utilitaires.fromHTMLDateAndTime(dateDebut, heureDebut);
+		LocalDateTime dateTimeFin = Utilitaires.fromHTMLDateAndTime(dateFin, heureFin);
+
+		article.setCategorie(categorie);
+
+		modifArticle(article, nom, description, dateTimeDebut.toLocalDate(), dateTimeDebut.toLocalTime(),
+				dateTimeFin.toLocalDate(), dateTimeFin.toLocalTime(), miseAPrix, erreurs);
+
+		if(erreurs.hasErrors()) {
+			return;
+		}
+
+		try {
+			Retrait retrait = RetraitsManager.GetInstance().recuperationAdresseByIdArticle(article.getNoArticle());
+			retrait.setRue(rue);
+			retrait.setVille(ville);
+			retrait.setCodePostal(codePostal);
+			RetraitsManager.GetInstance().updateAdresse(retrait);
+			article.setRetrait(retrait);
+		} catch (BLLException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		} catch (BusinessException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+
 	}
 
 }

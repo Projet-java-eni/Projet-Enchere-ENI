@@ -4,23 +4,9 @@
 <%@include file="../Entete.html" %>
 <%@ page import="fr.eni.encheres.bo.Utilisateur"%>
 <%@ page import="java.util.List" %>
-<style>
-	form {
-		display: grid;
-		grid-gap: 1em;
-		justify-items: end;
-		justify-content: space-between;
-	}
 
-	button, input:not([type="radio"]):not([type="checkbox"]), select, textarea {
-		border: 1px solid black;
-		border-radius: 5px;	
-	}
-	
-	label {
-		margin-left: 1ex;	
-	}
-</style>
+
+<main class="crud">
 <h1>CRUD Pour les utilisateurs</h1>
 
 
@@ -75,6 +61,7 @@
 	String credit = "";
 	Boolean administrateur = false;
 	String id_utilisateur = "";
+	Boolean actif = false;
 	if(request.getAttribute("modif_utilisateur") != null) {
 
 		passwordReadOnly = true;
@@ -96,6 +83,7 @@
 		ville = utilisateur.getVille();
 		credit = utilisateur.getCredit().toString();
 		administrateur = utilisateur.isAdministrateur();
+		actif = utilisateur.isActif();
 	}
 
 %>
@@ -120,7 +108,7 @@ if(request.getAttribute("modif_utilisateur") != null) {
 	<label>Ville : <input type="text" name="ville" value="<%= ville  %>" /></label>
 	<label>Credit : <input type="text" step="1" name="credit" value="<%= credit  %>"/></label>
 	<label>Est administrateur ? <input type="checkbox" name="administrateur" <%= administrateur ? "checked" : ""  %> /></label>
-	<label>Est actif ? <input type="checkbox" name="actif" <%= administrateur ? "checked" : ""  %> /></label>
+	<label>Est actif ? <input type="checkbox" name="actif" <%= actif ? "checked" : ""  %> /></label>
 
 	<input type="submit" name="ajouter" />
 
@@ -129,7 +117,7 @@ if(request.getAttribute("modif_utilisateur") != null) {
 
 <h2>Liste des utilisateurs</h2>
 
-<table>
+<table class="listing">
 <thead>
 <tr>
 	<th>Numéro</th><th>Pseudo</th><th>Prenom</th><th>Nom</th><th>Email</th><th>Telephone</th><th>Rue</th><th>Code postal</th>
@@ -163,6 +151,6 @@ if(request.getAttribute("modif_utilisateur") != null) {
 	<% } %>
 	
 </table>
-
+</main>
 
 <%@include file="../Pied.html" %>

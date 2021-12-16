@@ -59,21 +59,17 @@ public class RetraitsManager {
 	 * 
 	 * @throws BLLException
 	 */
-	private Map<Integer, Retrait> retraitsMap = null;
 
 	public Retrait recuperationAdresseByIdRetrait(int IdRetrait) throws BLLException {
 
 		Retrait adresseRetrait = null;
-		if (retraitsMap.containsKey(IdRetrait)) {
-			adresseRetrait = retraitsMap.get(IdRetrait);
-		} else {
-			try {
-				adresseRetrait = daoRetraits.getById(IdRetrait);
-				retraitsMap.put(IdRetrait, adresseRetrait);
-			} catch (DALException ex) {
-				throw new BLLException(ex.getLocalizedMessage(), ex);
-			}
+
+		try {
+			adresseRetrait = daoRetraits.getById(IdRetrait);
+		} catch (DALException ex) {
+			throw new BLLException(ex.getLocalizedMessage(), ex);
 		}
+
 
 		return adresseRetrait;
 	}
@@ -87,15 +83,10 @@ public class RetraitsManager {
 	public Retrait recuperationAdresseByIdArticle(int IdRetrait) throws BLLException {
 
 		Retrait adresseRetrait = null;
-		if (retraitsMap.containsKey(IdRetrait)) {
-			adresseRetrait = retraitsMap.get(IdRetrait);
-		} else {
-			try {
-				adresseRetrait = daoRetraits.lieuRetrait(IdRetrait);
-				retraitsMap.put(IdRetrait, adresseRetrait);
-			} catch (DALException ex) {
-				throw new BLLException(ex.getLocalizedMessage(), ex);
-			}
+		try {
+			adresseRetrait = daoRetraits.lieuRetrait(IdRetrait);
+		} catch (DALException ex) {
+			throw new BLLException(ex.getLocalizedMessage(), ex);
 		}
 
 		return adresseRetrait;

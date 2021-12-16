@@ -27,5 +27,17 @@ public class Utilitaires {
 		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
 
+	public static LocalDateTime fromHTMLDateAndTime(String htmlDateLocal, String htmlTimeLocal) {
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+		Date date = new Date();
+		try {
+			date = formatter.parse(htmlDateLocal+'T'+htmlTimeLocal);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+	}
+
 
 }

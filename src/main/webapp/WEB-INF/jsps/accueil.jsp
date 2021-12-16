@@ -12,40 +12,10 @@
 
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<!-- Bootstrap CSS -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link href="<%=request.getContextPath()%>/css/accueil.css"
-	rel="stylesheet">
-<meta charset="UTF-8">
-<title>Liste des enchères</title>
-</head>
-<body>
-	<header>
-		<div id="header-logo">
-			<!-- logo -->
-			<a href="<%=request.getContextPath()%>/"> <img
-				src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite.png"
-				alt="logo Association" /></a>
-		</div>
 
-		<div id="header-user">
+<%@ include file="EnteteFinal.jspf" %>
 
-
-
-			<!-- Création / connexion à un compte -->
-			<a href="<%=request.getContextPath()%>/Login"><input
-				type="button" value="se connecter" /></a> | <a
-				href="<%=request.getContextPath()%>/Inscription"><input
-				type="button" value="créer un compte" /></a> | (<a
-				href="<%=request.getContextPath()%>/Profil">
-				${sessionScope.user_pseudo}</a>) <a
-				href="<%=request.getContextPath()%>/Deconnexion">Se déconnecter</a>
-		</div>
-
-		<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos"
+	<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos"
 			scope="request" />
 
 		<c:if test="${infos.hasInfos()}">
@@ -158,7 +128,6 @@
 		</div>
 
 
-	</header>
 	<!-- faire soit sous forme de liste / soit avec image / pouvoir classer par dates -->
 	<hr>
 
@@ -190,7 +159,7 @@
 
 <!-- BOOTSTRAP -->
 
-	
+
 
     <div class="container">
       <div class="row justify-content-around" class="position_container" >
@@ -202,21 +171,21 @@
            <div class="row"><p class="text-center">enchere1</p>  </div>
          <div class="row"><p class="text-center">date fin</p>  </div>
         </div>
-  
+
         <div class="col-sm-3" style="border:1px solid black">
             <div class="row"><img class="image" src="<%=request.getContextPath()%>/images/fauteuil.jpg"
 							alt="logo fauteuil" /></div>
             <div class="row"><p class="text-center">enchere2</p>  </div>
             <div class="row"><p class="text-center">date fin</p>  </div>
          </div>
-  
+
          <div class="col-sm-3" style="border:1px solid black">
             <div class="row"> <img class="image" src="<%=request.getContextPath()%>/images/fauteuil.jpg"
 							alt="logo informatique" /> </div>
             <div class="row"><p class="text-center">enchere3</p>  </div>
             <div class="row"><p class="text-center">date fin</p>  </div>
         </div>
-  
+
         <div class="col-sm-3" style="border:1px solid black">
             <div class="row"> <img src="<%=request.getContextPath()%>/images/fauteuil.jpg"
 							alt="logo informatique" /></div>
@@ -224,7 +193,7 @@
             <div class="row"><p class="text-center">date fin</p>  </div>
          </div>
       </div>
-  
+
 
       <div class="row justify-content-around">
         <div class="col-sm-3" style="border:1px solid black">
@@ -233,21 +202,21 @@
             <div class="row"><p>enchere5</p>  </div>
             <div class="row"><p>date fin</p>  </div>
         </div>
-  
+
         <div class="col-sm-3" style="border:1px solid black">
             <div class="row"> <img src="<%=request.getContextPath()%>/images/fauteuil.jpg"
                     alt="logo Association" />  </div>
             <div class="row"><p>enchere6</p>  </div>
             <div class="row"><p>date fin</p>  </div>
          </div>
-  
+
          <div class="col-sm-3" style="border:1px solid black">
             <div class="row">  <img src="<%=request.getContextPath()%>/images/fauteuil.jpg"
                     alt="logo Association" /></div>
             <div class="row"><p>enchere7</p>  </div>
             <div class="row"><p>date fin</p>  </div>
          </div>
-  
+
          <div class="col-sm-3" style="border:1px solid black">
             <div class="row"> <img src="<%=request.getContextPath()%>/images/fauteuil.jpg"
                     alt="logo Association" />     </div>
@@ -255,9 +224,9 @@
             <div class="row"><p>date fin</p>  </div>
          </div>
       </div>
-  
-  
-  
+
+
+
     </div>
   </article>
 

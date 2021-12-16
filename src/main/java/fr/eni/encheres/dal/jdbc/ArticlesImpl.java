@@ -236,10 +236,13 @@ public class ArticlesImpl implements ArticlesDAO {
 	@Override
 	public void update(Article article) throws DALException {
 
-		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlUpdate)) {
+		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement("UPDATE dbo.ARTICLES_VENDUS SET  " +
+				"nom_article=?,description=?,url_image=?,date_debut_encheres=?,heure_debut_encheres=?," +
+				"date_fin_encheres=?,heure_fin_encheres=?,prix_initial=?, "
+				+ "prix_vente=?,annule_par_vendeur=?,recu_par_acheteur=?,no_categorie=?,no_utilisateur=? WHERE no_article=?")) {
 
 			int i = 1;
-			statement.setInt(i++, article.getNoArticle());
+
 			statement.setString(i++, article.getNomArticle());
 			statement.setString(i++, article.getDescription());
 			statement.setString(i++, article.getUrlImage());
@@ -253,11 +256,12 @@ public class ArticlesImpl implements ArticlesDAO {
 			statement.setBoolean(i++, article.isRecuParAcheteur());
 			statement.setInt(i++, article.getCategorie().getId());
 			statement.setInt(i++, article.getUtilisateur().getNoUtilisateur());
+			statement.setInt(i++, article.getNoArticle());
 
 			statement.executeUpdate();
 
 		} catch (SQLException ex) {
-			throw new DALException("update article failed - " + article, ex);
+			throw new DALException("update article failed - " + article + " " + ex.getLocalizedMessage(), ex);
 		}
 
 	}

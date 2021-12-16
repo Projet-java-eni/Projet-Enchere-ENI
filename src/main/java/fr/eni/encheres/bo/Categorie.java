@@ -40,7 +40,7 @@ public class Categorie implements Serializable, MeHasMany<ArticleVendu> {
 	}
 
 	public Categorie() {
-
+		this(-1, "", "");
 	}
 
 	public int getId() {

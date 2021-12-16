@@ -17,6 +17,8 @@ public class AddErreursEtInfosFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 		request.setAttribute("infos", new Infos());
 		request.setAttribute("errors", new Erreurs());
+
+		request.setCharacterEncoding("UTF-8");
 		chain.doFilter(request, response);
 	}
 }

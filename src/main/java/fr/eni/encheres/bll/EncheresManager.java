@@ -9,6 +9,7 @@ import fr.eni.encheres.dal.daos.EncheresDAO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.Enchere;
@@ -39,16 +40,14 @@ public class EncheresManager {
 	
 	/**
 	 * Valider les données d'une enchère
-	 * @param e
-	 * @throws BLLException
 	 */
-	public void validerEnchere(Enchere e) throws BLLException
+	public void validerEnchere(Enchere e, Erreurs erreurs)
 	{
 		boolean valide = true;
 		StringBuffer sb = new StringBuffer();
 		
 		if(e==null){
-			throw new BLLException("Enchère null");
+			erreurs.addErreur("Enchère null");
 		}
 		//Les attributs des enchères sont obligatoires
 		//le numéro utilisateur ne peut pas être inférieur ou égal à 0. Il est récupéré via la connection au compte utilisateur dans ValiderOffreServlet
@@ -70,6 +69,15 @@ public class EncheresManager {
 		if(e.getDateEnchere() == null){
 			sb.append("Date invalide.\n");
 			valide = false;
+		} else {
+			if(!e.aDebute()) {
+				sb.append("L'enchère n'a pas débuté");
+				valide = false;
+			}
+			if(e.estFinie()) {
+				sb.append("L'enchère est finie");
+				valide = false;
+			}
 		}
 		
 		//l'heure de l'enchère ne peut pas être null. Elle est instanciée dans ValiderOffreServlet
@@ -80,20 +88,30 @@ public class EncheresManager {
 
 		Integer meilleureOffre = -1;
 		try {
-			meilleureOffre = getMeilleureOffre(e.getArticle().getNoArticle());
+			meilleureOffre = getMeilleureOffre(e.getArticle().getNoArticle()) + 1;
 		} catch (BLLException ex) {
 			// si le jeu d'encheres est vide, aucune enchère existe
 			// on met l'offre actuelle à sa mise à prix.
-			meilleureOffre = e.getArticle().getMiseAPrix();
+			meilleureOffre = e.getArticle().getMiseAPrix() + 1;
+		}
+		if(meilleureOffre < e.getArticle().getMiseAPrix()) {
+			meilleureOffre = e.getArticle().getMiseAPrix() + 1;
 		}
 
-		if(e.getMontantEnchere() <= meilleureOffre) {
+		if(e.getMontantEnchere() < meilleureOffre) {
 			sb.append("L'offre est plus petite ou égale à la meilleur enchère actuelle");
 			valide = false;
 		}
 
+		if(e.getMontantEnchere() > e.getUtilisateur().getCredit()) {
+			sb.append("Vous n'avez pas assez de credits");
+			valide = false;
+		}
+
+
+
 		if(!valide){
-			throw new BLLException(sb.toString());
+			erreurs.addErreur(sb.toString());
 		}
 
 
@@ -101,25 +119,72 @@ public class EncheresManager {
 	
 	/**
 	 * Ajout d'une enchère
-	 * @param newEnchere
-	 * @return index du nouvel article dans le catalogue
-	 * @throws BLLException 
 	 */
-	public void addEnchere(Enchere newEnchere) throws BLLException {
-		//TODO vérifier que montantEnchere de newEnchere != meilleure offre sur cet article -> contrainte check sur l'insert sur la table Encheres en bdd?
-		//TODO vérifier que ce n'est pas une enchère déjà existante -> contrainte check?
+	public void addEnchere(Enchere newEnchere, Erreurs erreurs) {
 		try {
-			validerEnchere(newEnchere);
+			validerEnchere(newEnchere, erreurs);
+			if(erreurs.hasErrors()) {
+				return;
+			}
+
 			daoEnchere.add(newEnchere);
+
+			newEnchere.getUtilisateur().enleverCredit(newEnchere.getMontantEnchere());
+			UtilisateursManager.GetInstance().sauvegarderUtilisateur(newEnchere.getUtilisateur(), erreurs);
+
 		} catch (DALException e) {
-			throw new BLLException("Echec addEnchere", e);
+			erreurs.addErreur("Echec addEnchere " + e.getLocalizedMessage());
 		}
 	}
-	
+
+	/**
+	 * updateEnchere : Modifier une enchère
+	 */
+	public void updateEnchere(Enchere enchere, Erreurs erreurs) {
+		try {
+			validerEnchere(enchere, erreurs);
+
+			if(erreurs.hasErrors()) {
+				return;
+			}
+			Enchere ancienneEnchere = daoEnchere.selectEnchereByNoArticle(enchere.getArticle().getNoArticle(), erreurs);
+			Utilisateur ancienUtilisateur = UtilisateursManager.GetInstance().getUtilisateurById(
+					ancienneEnchere.getUtilisateur().getNoUtilisateur(), erreurs
+			);
+			ancienUtilisateur.ajouterCredit(ancienneEnchere.getMontantEnchere());
+			UtilisateursManager.GetInstance().sauvegarderUtilisateur(ancienUtilisateur, erreurs);
+
+			daoEnchere.update(enchere);
+
+			Utilisateur nouvelUtilisateur = UtilisateursManager.GetInstance().getUtilisateurById(
+					enchere.getUtilisateur().getNoUtilisateur(), erreurs);
+			nouvelUtilisateur.enleverCredit(enchere.getMontantEnchere());
+			UtilisateursManager.GetInstance().sauvegarderUtilisateur(nouvelUtilisateur, erreurs);
+
+		} catch (DALException e) {
+			erreurs.addErreur("Echec updateEnchere-enchère: "+ enchere + " " + e.getLocalizedMessage());
+		}
+	}
+
+	/**
+	 * removeEnchere : Supprimer une enchère
+	 */
+	public void removeEnchere(int noUtilisateur, int noArticle, Erreurs erreurs) throws BLLException{
+		try {
+			Enchere ancienneEnchere = daoEnchere.selectEnchereByNoArticle(noArticle, erreurs);
+			Utilisateur ancienUtilisateur = ancienneEnchere.getUtilisateur();
+			ancienUtilisateur.ajouterCredit(ancienneEnchere.getMontantEnchere());
+
+			daoEnchere.deleteEnchereByNoUtilisateurEtNoArticle(noUtilisateur, noArticle);
+
+		} catch (DALException e) {
+			erreurs.addErreur("Echec removeEnchere - " + e.getLocalizedMessage());
+		}
+
+	}
+
 	/**
 	 * getAllEncheres : Afficher toutes les enchères existantes
-	 * @param 
-	 * @throws BLLException
 	 */
 		public List<Enchere> getAllEncheres() throws BLLException{
 			List<Enchere> encheres=null;
@@ -136,43 +201,39 @@ public class EncheresManager {
 	
 	/**
 	 * getEncheresByNoUtilisateur : Afficher toutes les enchères faites par un utilisateur
-	 * @param noUtilisateur
-	 * @throws BLLException
 	 */
-		public List<Enchere> getEncheresByNoUtilisateur(int noUtilisateur) throws BLLException{
-			List<Enchere> encheres=null;
+		public List<Enchere> getEncheresByUtilisateur(Utilisateur utilisateur, Erreurs erreurs) {
+			List<Enchere> encheres=new ArrayList<>();
 			try {
-				encheres = ((EncheresDAO) daoEnchere).selectEncheresByNoUtilisateur(noUtilisateur);
+				encheres = daoEnchere.selectEncheresByNoUtilisateur(utilisateur.getNoUtilisateur(), erreurs);
 			} catch (DALException e) {
-				e.printStackTrace();
-				throw new BLLException("Erreur récupération liste enchères de l'utilisateur", e);
+				erreurs.addErreur("Erreur récupération liste enchères de l'utilisateur " + e.getLocalizedMessage());
 			}
 			
 			return encheres;
 		}
 	
 	/**
-	 * getEncheresByNoArticle : Afficher toutes les enchères faites sur un article
+	 * getEncheresByNoArticle : Afficher la plus haute enchere faites sur un article
 	 */
-		public List<Enchere> getEncheresByNoArticle(int noArticle) throws BLLException{
-			List<Enchere> encheres=null;
+		public Enchere getEnchereByNoArticle(int noArticle, Erreurs erreurs) {
+			Enchere enchere=null;
 			try {
-				encheres = ((EncheresDAO) daoEnchere).selectEncheresByNoArticle(noArticle);
+				enchere = daoEnchere.selectEnchereByNoArticle(noArticle, erreurs);
 			} catch (DALException e) {
-				e.printStackTrace();
-				throw new BLLException("Erreur récupération liste enchères de l'article", e);
+				erreurs.addErreur("Erreur récupération liste enchères de l'article " + e.getLocalizedMessage());
 			}
 			
-			return encheres;
+			return enchere;
 		}
-	
+
 	/**
 	 * getEncheresByNoUtlisateurEtNoArticle : Afficher toutes les enchères faites par un utilisateur sur un article
 	 */
-	public Enchere getEncheresByNoUtlisateurEtNoArticle(int noUtilisateur, int noArticle) throws BLLException{
+	public Enchere getEncheresByNoUtlisateurEtNoArticle(int noUtilisateur, int noArticle, Erreurs erreurs) throws BLLException{
 		Enchere encheres=null;
 		try {
-			encheres =  daoEnchere.selectEnchereByNoUtilisateurEtNoArticle(noUtilisateur, noArticle);
+			encheres =  daoEnchere.selectEnchereByNoUtilisateurEtNoArticle(noUtilisateur, noArticle, erreurs);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur récupération liste enchères de l'utilisateur sur l'article", e);
@@ -182,42 +243,12 @@ public class EncheresManager {
 	}
 	
 	
-	/**
-	 * updateEnchere : Modifier une enchère
-	 * @param enchere
-	 * @throws BLLException
-	 */
-	public void updateEnchere(Enchere enchere) throws BLLException{
-		try {
-			validerEnchere(enchere);
-			daoEnchere.update(enchere);
-			
-		} catch (DALException e) {
-			throw new BLLException("Echec updateEnchere-enchère: "+ enchere + " " + e.getLocalizedMessage(), e);
-		}
-	}
-	
-	/**
-	 * removeEnchere : Supprimer une enchère
-	 * @param noUtilisateur, noArticle
-	 * @throws BLLException
-	 */
-	public void removeEnchere(int noUtilisateur, int noArticle) throws BLLException{
-		try {
-			((EncheresDAO) daoEnchere).deleteEnchereByNoUtilisateurEtNoArticle(noUtilisateur, noArticle);
-		} catch (DALException e) {
-			throw new BLLException("Echec removeEnchere - ", e);
-		}
-		
-	}
-	
+
 	/**
 	 * selectMeilleureOffre : récupérer le montant de la plus haute offre faite sur un article
-	 * @param noArticle
-	 * @throws BLLException
 	 */
 	public int getMeilleureOffre(int noArticle) throws BLLException{
-		int meilleureOffre;
+		int meilleureOffre = -1;
 		try {
 			meilleureOffre = daoEnchere.selectMeilleureOffreByNoArticle(noArticle);
 		} catch (DALException e) {
@@ -238,10 +269,6 @@ public class EncheresManager {
 
 	/**
 	 * Essaye de creer une enchère, sans en instancier une
-	 * @param article
-	 * @param utilisateur
-	 * @param montant
-	 * @param erreurs
 	 */
 	public void essayerCreerEnchere(Article article, Utilisateur utilisateur, Integer montant, Erreurs erreurs) {
 		if(article == null) {
@@ -263,17 +290,29 @@ public class EncheresManager {
 			return;
 		}
 
-		Enchere enchere;
+		mettreEnchere(article, utilisateur, montant, erreurs);
+	}
+
+	private void mettreEnchere(Article article, Utilisateur utilisateur, int montant, Erreurs erreurs) {
+		Enchere ancienneEnchere = null;
 		try {
-			enchere = getEncheresByNoUtlisateurEtNoArticle(utilisateur.getNoUtilisateur(), article.getNoArticle());
-			enchere.setMontantEnchere(montant);
-			updateEnchere(enchere);
-		} catch (BLLException | NullPointerException e) {
-			try {
-				addEnchere(new Enchere(utilisateur, article, LocalDate.now(), LocalTime.now(), montant));
-			} catch (BLLException ex) {
-				erreurs.addErreur(e.getLocalizedMessage());
+			ancienneEnchere = daoEnchere.selectEnchereByNoArticle(article.getNoArticle(), erreurs);
+			if(ancienneEnchere != null) {
+				ancienneEnchere.setMontantEnchere(montant);
+				ancienneEnchere.setUtilisateur(utilisateur);
 			}
+		} catch (DALException e) {
+			erreurs.addErreur(e.getLocalizedMessage());
+		}
+
+		if(erreurs.hasErrors()) {
+			return;
+		}
+
+		if(ancienneEnchere == null) {
+			addEnchere(new Enchere(utilisateur, article, LocalDate.now(), LocalTime.now(), montant), erreurs);
+		} else {
+			updateEnchere(ancienneEnchere, erreurs);
 		}
 	}
 }

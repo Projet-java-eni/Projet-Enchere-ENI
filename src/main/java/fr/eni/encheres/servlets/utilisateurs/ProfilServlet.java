@@ -24,49 +24,45 @@ public class ProfilServlet extends HttpServlet {
 
 		String addresse = "WEB-INF/jsps/ProfilUtilisateur.jsp";
 
-		try {
-			Integer userId = ((Integer) request.getSession().getAttribute("user_id"));
-			if(userId == null) {
-				erreurs.addErreur("Pas connecté");
+		Integer userId = ((Integer) request.getSession().getAttribute("user_id"));
+		if(userId == null) {
+			erreurs.addErreur("Pas connecté");
 
-			} else {
-				Utilisateur utilisateurConnecte = utilisateursManager.getUtilisateurById(userId, erreurs);
+		} else {
+			Utilisateur utilisateurConnecte = utilisateursManager.getUtilisateurById(userId, erreurs);
 
-				if(request.getParameter("mise_a_jour") != null) {
-					utilisateursManager.modifieDepuisLeWeb(
-							utilisateurConnecte, request.getParameter("pseudo"),
-							request.getParameter("nom"),
-							request.getParameter("prenom"),
-							request.getParameter("email"),
-							request.getParameter("telephone"),
-							request.getParameter("rue"),
-							request.getParameter("codePostal"),
-							request.getParameter("ville"),
-							request.getParameter("mot_de_passe_original"),
-							request.getParameter("mot_de_passe_nouveau"),
-							request.getParameter("mot_de_passe_repete"),
-							erreurs
-					);
+			if(request.getParameter("mise_a_jour") != null) {
+				utilisateursManager.modifieDepuisLeWeb(
+						utilisateurConnecte, request.getParameter("pseudo"),
+						request.getParameter("nom"),
+						request.getParameter("prenom"),
+						request.getParameter("email"),
+						request.getParameter("telephone"),
+						request.getParameter("rue"),
+						request.getParameter("codePostal"),
+						request.getParameter("ville"),
+						request.getParameter("mot_de_passe_original"),
+						request.getParameter("mot_de_passe_nouveau"),
+						request.getParameter("mot_de_passe_repete"),
+						erreurs
+				);
 
-					if(!erreurs.hasErrors()) {
-						infos.addInfo("Profil modifié !");
-					}
-
+				if(!erreurs.hasErrors()) {
+					infos.addInfo("Profil modifié !");
 				}
-
-				if(request.getParameter("supprimer") != null) {
-
-					utilisateurConnecte.setActif(false);
-					utilisateursManager.sauvegarderUtilisateur(utilisateurConnecte, erreurs);
-					infos.addInfo("Au revoir " + utilisateurConnecte.getPseudo());
-					addresse = "WEB-INF/jsps/accueil.jsp";
-				}
-
-				request.setAttribute("utilisateur", utilisateurConnecte);
 
 			}
-		} catch (BLLException e) {
-			erreurs.addErreur(e.getLocalizedMessage());
+
+			if(request.getParameter("supprimer") != null) {
+
+				utilisateurConnecte.setActif(false);
+				utilisateursManager.sauvegarderUtilisateur(utilisateurConnecte, erreurs);
+				infos.addInfo("Au revoir " + utilisateurConnecte.getPseudo());
+				addresse = "WEB-INF/jsps/accueil.jsp";
+			}
+
+			request.setAttribute("utilisateur", utilisateurConnecte);
+
 		}
 
 		request.getRequestDispatcher(addresse).forward(request, response);

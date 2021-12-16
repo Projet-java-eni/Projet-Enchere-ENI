@@ -217,4 +217,12 @@ public class Utilisateur implements Serializable, MeHasMany<ArticleVendu> /*, Me
 	public boolean estConnecte() {
 		return this.noUtilisateur != -1;
 	}
+
+	public void ajouterCredit(int montant) {
+		this.credit += montant;
+	}
+
+	public void enleverCredit(int montant) {
+		this.credit -= montant;
+	}
 }

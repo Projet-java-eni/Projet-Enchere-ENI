@@ -191,9 +191,6 @@ public class Article implements Comparable<Article> {
 		return dateFinEnchere;
 	}
 
-	public void setHeureDebutEnchere(LocalDate toLocalDate) {
-	}
-
 	@Override
 	public int compareTo(Article a) {
 		return dateDebutEnchere.compareTo(a.getDateDebutEnchere());
@@ -221,5 +218,20 @@ public class Article implements Comparable<Article> {
 
 	public void setUrlImage(String urlImage) {
 		this.urlImage = urlImage;
+	}
+
+	public boolean aDebute() { // soit date hier, soit date aujourd'hui mais heure inferieure
+		return this.dateDebutEnchere.isBefore(LocalDate.now()) || 
+				this.dateDebutEnchere.equals(LocalDate.now()) && this.timeDebutEnchere.isBefore(LocalTime.now());
+	}
+
+	public boolean estFinie() {
+		return this.dateFinEnchere.isBefore(LocalDate.now()) || 
+				this.dateFinEnchere.equals(LocalDate.now()) && this.timeFinEnchere.isBefore(LocalTime.now());
+	}
+
+	public boolean peutEncherir() {
+		// TODO Auto-generated method stub
+		return aDebute() && !estFinie();
 	}
 }

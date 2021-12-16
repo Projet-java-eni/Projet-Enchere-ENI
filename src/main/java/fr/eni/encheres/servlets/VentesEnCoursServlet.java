@@ -20,7 +20,7 @@ public class VentesEnCoursServlet extends HttpServlet {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		List<Article> articles= new ArrayList<>();
 
-		articleManager.getCatalogue(articles, erreurs);
+		articleManager.getCatalogueTotal(articles, erreurs);
 
 		request.setAttribute("articles",articles);
 

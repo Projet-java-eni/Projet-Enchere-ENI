@@ -76,4 +76,14 @@ public class Enchere {
 	public int valeurMinimale() {
 		return this.article.getMiseAPrix();
 	}
+
+	/**
+	 * Si l'enchere a debute et le propriétaire ne peut plus la modifier
+	 */
+	public boolean aDebute() {
+		return this.article.aDebute();
+	}
+	public boolean estFinie() {
+		return this.article.estFinie();
+	}
 }

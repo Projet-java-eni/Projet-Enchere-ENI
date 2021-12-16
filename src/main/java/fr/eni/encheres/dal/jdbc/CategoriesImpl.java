@@ -14,7 +14,7 @@ import fr.eni.encheres.dal.DALException;
 public class CategoriesImpl implements CategoriesDAO {
 
 	static String sqlSelectById = "select no_categorie, etiquette, libelle from dbo.categories where no_categorie=?";
-	static String sqlSelectByEtiq = "select no_categorie, etiquette, libelle from dbo.categories where libelle=?";
+	static String sqlSelectByEtiq = "select no_categorie, etiquette, libelle from dbo.categories where etiquette=?";
 	static String sqlSelectAll = "select no_categorie, etiquette, libelle from dbo.categories";
 	static String sqlInsert = "INSERT INTO dbo.categories (etiquette, libelle) VALUES (? , ?)";
 	static String sqlUpdate = "UPDATE dbo.categories SET etiquette=?, libelle=? WHERE no_categorie=?";
@@ -44,10 +44,10 @@ public class CategoriesImpl implements CategoriesDAO {
 	}
 
 	@Override
-	public Categorie getByLibelle(String libelle) throws DALException {
+	public Categorie getByEtiquette(String etiquette) throws DALException {
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectByEtiq)) {
 
-			statement.setString(1, libelle);
+			statement.setString(1, etiquette);
 
 			try (ResultSet resultSet = statement.executeQuery()) {
 
