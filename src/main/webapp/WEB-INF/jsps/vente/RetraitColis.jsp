@@ -41,16 +41,15 @@
 
 	
 	<% request.getAttribute("adresse");
-	for(Retrait retrait: getInitParameterNames().request.getAttribute("adresse");  ) { %> 
+	 %> 
 	
 	
 	<label>Rue : <input type="text" name="rue" value="${adresse.rue}" /></label>
 	<label>Code postal : <input type="text" name="codePostal" value="${adresse.codePostal}" /></label>
 	<label>Ville : <input type="text" name="ville" value="${adresse.ville}" /></label>
 
-<% } %>
 
-<!--  
+  
 <table>
 	<tr>
 		<td>${adresse.noArticle}</td>
@@ -65,7 +64,7 @@
 		<input type="submit" name="supprimer" value="Supprimer" />
 		</form></td>	
 	</tr>
-</table>-->
+</table>
 
 </body>
 <%@ include file="../PiedBootstrap.jspf" %>
