@@ -103,10 +103,24 @@ public class ArticleManager {
 			erreurs.addErreur("Une date de début d'enchère doit être renseignée");
 		if (dateFinEncheres == null)
 			erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
-		if (miseAPrix == null)
+		if (miseAPrix == null)// |miseAPRix<=0
 			erreurs.addErreur("Le prix de départ doit être renseigné");
 		if (etatVente == null)
 			erreurs.addErreur("L'état de la vente doit être renseignée");
+		
+		// if (dateFinEncheres.before(dateDebutEnchere))
+			//erreurs.addErreur("La date de fin d'enchère ne peut être avant la date de début")
+		// if (dateFinEncheres.after(LocalDate.now.plusDays(30))
+		//erreurs.addErreur("Une enchère ne peut durer plus de 30 jours!")
+		// if (dateDebutEncheres.before(LocalDate.now))
+		//erreurs.addErreur("La date de début d'enchère ne peut précéder la date d'auourd'hui")
+		//if (article.getNomArticle().length() > 200 || article.getNomArticle().length() < 1) {
+		//erreurs.addErreur("Le nom a une longueur incorrecte");
+		//}
+
+		//if (article.getDescription().length() > 300) {
+		//erreurs.addErreur("La description est trop longue");
+		//}
 	}
 
 	public void modifArticle(Article article, Erreurs erreurs) {
@@ -127,8 +141,21 @@ public class ArticleManager {
 			erreurs.addErreur("Une date de début d'enchère doit être renseignée");
 		if (dateFinEncheres == null)
 			erreurs.addErreur("Une date de fin d'enchère doit être renseignée");
-		if (miseAPrix == null)
+		if (miseAPrix == null)// <=0
 			erreurs.addErreur("Le prix de départ doit être renseigné");
+		// if (dateFinEncheres.before(dateDebutEnchere))
+					//erreurs.addErreur("La date de fin d'enchère ne peut être avant la date de début")
+				// if (dateFinEncheres.after(LocalDate.now.plusDays(30))
+				//erreurs.addErreur("Une enchère ne peut durer plus de 30 jours!")
+				// if (dateDebutEncheres.before(LocalDate.now))
+				//erreurs.addErreur("La date de début d'enchère ne peut précéder la date d'auourd'hui")
+				//if (article.getNomArticle().length() > 200 || article.getNomArticle().length() < 1) {
+				//erreurs.addErreur("Le nom a une longueur incorrecte");
+				//}
+
+				//if (article.getDescription().length() > 300) {
+				//erreurs.addErreur("La description est trop longue");
+				//}
 
 		if(article.aDebute()) {
 			erreurs.addErreur("Vous ne pouvez plus modifier un article dont la vente a débuté");
@@ -182,7 +209,7 @@ public class ArticleManager {
 		if (article.getDescription() == null)
 			erreurs.addErreur("La description doit être renseigné");
 
-		if (article.getMiseAPrix() == null)
+		if (article.getMiseAPrix() == null)// <=0
 			erreurs.addErreur("La mise à prix< doit être renseigné");
 
 		if (article.getDateDebutEnchere() == null)
@@ -202,7 +229,13 @@ public class ArticleManager {
 		if (article.getDescription().length() > 300) {
 			erreurs.addErreur("La description est trop longue");
 		}
-
+		// if (dateFinEncheres.before(dateDebutEnchere))
+					//erreurs.addErreur("La date de fin d'enchère ne peut être avant la date de début")
+				// if (dateFinEncheres.after(LocalDate.now.plusDays(30))
+				//erreurs.addErreur("Une enchère ne peut durer plus de 30 jours")
+				// if (dateDebutEncheres.before(LocalDate.now))
+				//erreurs.addErreur("La date de début d'enchère ne peut précéder la date d'auourd'hui")
+			//}
 		// todo: autres verifications?
 	}
 
@@ -230,7 +263,7 @@ public class ArticleManager {
 			erreurs.addErreur("La description doit être renseignée");
 		else
 			article.setDescription(description);
-		if (prix == null)
+		if (prix == null)//<=0
 			erreurs.addErreur("Le prix doit être renseigné");
 		if (dateDebut == null)
 			erreurs.addErreur("La date doit être renseignée");
@@ -246,6 +279,19 @@ public class ArticleManager {
 			erreurs.addErreur("La catégorie doit être renseignée");
 		if (utilisateur == null)
 			erreurs.addErreur("Il faut être connecté pour vendre un article");
+		// if (dateFinEncheres.before(dateDebutEnchere))
+					//erreurs.addErreur("La date de fin d'enchère ne peut être avant la date de début")
+				// if (dateFinEncheres.after(LocalDate.now.plusDays(30))
+				//erreurs.addErreur("Une enchère ne peut durer plus de 30 jours!")
+				// if (dateDebutEncheres.before(LocalDate.now))
+				//erreurs.addErreur("La date de début d'enchère ne peut précéder la date d'auourd'hui")
+				//if (article.getNomArticle().length() > 200 || article.getNomArticle().length() < 1) {
+				//erreurs.addErreur("Le nom a une longueur incorrecte");
+				//}
+
+				//if (article.getDescription().length() > 300) {
+				//erreurs.addErreur("La description est trop longue");
+				//}
 
 		if (erreurs.hasErrors())
 			return;
@@ -306,8 +352,8 @@ public class ArticleManager {
 		if (dateFin == null) {
 			erreurs.addErreur("date fin ne peut etre null");
 		}
-		if(prix == null) {
-			erreurs.addErreur("prix ne peut etre null");
+		if(prix == null {// | prix<0)
+			erreurs.addErreur("prix ne peut etre null");//ou négatif
 		}
 		if(utilisateur == null) {
 			erreurs.addErreur("il faut etre connecté");
