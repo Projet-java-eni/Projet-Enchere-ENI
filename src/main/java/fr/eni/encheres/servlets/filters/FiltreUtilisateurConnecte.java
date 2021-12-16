@@ -11,7 +11,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(filterName = "FiltreUtilisateurConnecté",urlPatterns={"/Vendre", "/MesEncheres", "/MonProfil"})
+@WebFilter(filterName = "FiltreUtilisateurConnecté",urlPatterns={
+		"/Vendre", "/MesEncheres","/ValiderOffreServlet", "/MonProfil"
+})
 
 public class FiltreUtilisateurConnecte implements Filter {
 
