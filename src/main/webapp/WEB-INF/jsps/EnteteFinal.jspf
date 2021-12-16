@@ -27,7 +27,7 @@
                 src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite.png"
                 alt="logo Association" /></a>
     </div>
-
+<div style="flex:1"></div>
     <div id="header-user">
 
         <a href="<%=request.getContextPath()%>/Vendre">Vendre</a> |
@@ -46,3 +46,4 @@
         <a
                 href="<%=request.getContextPath()%>/Deconnexion">Se déconnecter</a>
     </div>
+</header>

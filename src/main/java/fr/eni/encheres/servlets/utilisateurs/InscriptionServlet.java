@@ -72,9 +72,10 @@ public class InscriptionServlet extends HttpServlet {
 
 				request.getSession().setAttribute("user_id", utilisateur.getNoUtilisateur());
 				request.getSession().setAttribute("user_pseudo", utilisateur.getPseudo());
+				request.getSession().setAttribute("is_admin", false);
 
 
-				request.getRequestDispatcher("/Index").forward(request, response);
+				request.getRequestDispatcher("/").forward(request, response);
 			}
 		}
 		else {

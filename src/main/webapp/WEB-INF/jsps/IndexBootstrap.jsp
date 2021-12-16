@@ -26,5 +26,4 @@
     </div>
 </c:if>
 
-Salut de Bootstrap
 <%@ include file="PiedBootstrap.jspf" %>
