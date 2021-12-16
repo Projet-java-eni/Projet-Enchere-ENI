@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.EncheresManager;
 import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bll.ArticleManager;
@@ -63,6 +64,24 @@ public class AccueilServlet extends HttpServlet {
 							articles.add(art);
 						}
 					}
+				}
+			}
+		}
+
+		List<Categorie> allCats = CategoriesManager.GetInstance().getAllCategories(erreurs);
+		String categorie = request.getParameter("categorie");
+		if(categorie != null) {
+			for(Categorie cat: allCats) {
+				if (cat.getEtiquette().contentEquals("toutes")) continue;
+				if (cat.getEtiquette().contentEquals(categorie)) {
+					List<Article> newArticles = new ArrayList<>();
+					for (Article art: articles) {
+						if(art.getCategorie().getEtiquette().contentEquals(cat.getEtiquette())) {
+							newArticles.add(art);
+						}
+					}
+					articles = newArticles;
+					break;
 				}
 			}
 		}
