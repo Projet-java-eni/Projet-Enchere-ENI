@@ -27,7 +27,8 @@ public class VendreArticleServlet extends HttpServlet {
 		Infos infos = (Infos) request.getAttribute("infos");
 		Article article = new Article();
 		Utilisateur utilisateur=new Utilisateur();
-		utilisateur = utilisateursManager.getUtilisateurById((Integer) request.getSession().getAttribute("user_id"), erreurs);
+		utilisateur = utilisateursManager.getUtilisateurById(
+				(Integer) request.getSession().getAttribute("user_id"), erreurs);
 
 		if(request.getParameter("vendre") != null) {
 			String nom = request.getParameter("nom");

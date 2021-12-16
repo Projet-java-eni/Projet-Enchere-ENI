@@ -226,7 +226,6 @@ public class ArticlesImpl implements ArticlesDAO {
 
 				}
 			}
-			statement.execute();
 
 		} catch (SQLException | NullPointerException ex) {
 			throw new DALException(ex.getLocalizedMessage(), ex);
