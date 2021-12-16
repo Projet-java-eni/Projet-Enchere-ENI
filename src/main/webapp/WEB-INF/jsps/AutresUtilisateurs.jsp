@@ -28,7 +28,7 @@
         <p class="card-text">${utilisateur.email}, ${utilisateur.telephone} </p>
         <p class="card-text">${utilisateur.rue} ${utilisateur.codePostal}  ${utilisateur.ville}</p>
         <p class="card-text">${utilisateur.credit} points</p>
-        <a href="#" class="btn btn-primary">Revenir</a>
+        <a href="javascript:window.history.back()" class="btn btn-primary">Revenir</a>
     </div>
 </div>
 
