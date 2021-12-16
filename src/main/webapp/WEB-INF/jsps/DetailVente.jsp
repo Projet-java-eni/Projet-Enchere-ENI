@@ -30,17 +30,13 @@
 	<jsp:param name="errors" value="${requestScope.infos}"/>
 </jsp:include>
 
-
-<!-- Bouton retour accueil connecté -->
 	<section>
 		<div class="titre">
 			<h1>Détails de l'article</h1>
 		</div>
 
 <!-- Récupérer les infos de l'article -->
-
 <%
-
 	Integer noArticle = (Integer)request.getAttribute("noArticle");
 	String nomArticle = (String)request.getAttribute("nomArticle");
 	Article article = (Article) request.getAttribute("article");
@@ -66,7 +62,7 @@
 	Boolean estProprietaire = (Boolean) request.getAttribute("est_proprietaire");
 	Boolean peutEncherir = (Boolean) request.getAttribute("peut_encherir");
 	Integer credit = (Integer) request.getAttribute("credit");
-	 %>
+ %>
 		<article>
 			<div><strong><%=nomArticle%></strong></div>
 			
@@ -78,13 +74,13 @@
 							<th>Catégorie : <%=categorie%></th>
 						</tr>
 						<tr>
-							<th> Vendu par <a href="<%=request.getContextPath()%>/Utilisateur/<%=idVendeur%>"><%=pseudoVendeur%></a></th>
+							<th class="italique"> Vendu par <a href="<%=request.getContextPath()%>/Utilisateur/<%=idVendeur%>"><%=pseudoVendeur%></a></th>
 						</tr>
 						<tr>
 							<th><%=description%></th>
 						</tr>
 						<tr>
-							<th>Adresse de retrait : <%=rue%>, <%=codePostal%> <%=ville%></th>
+							<th class="italique">Adresse de retrait : <%=rue%>, <%=codePostal%> <%=ville%></th>
 						</tr>
 					</table>
 				<% } %>
@@ -155,24 +151,26 @@
 					</tr>
 					<tr>
 						<th>Meilleure offre : </th>
-						<td><%=meilleureOffre%> par ${requestScope.enchere.utilisateur.pseudo}</td>
-					</tr>
-					<tr>
-						<th>Date de début de l'enchère : </th>
-						<td><%=dateDebutEnchere%> à <%=heureDebutEnchere%>
-						A débuté ? <%=aDebute ? "oui" : "non"%>
+						<td>
+						<% if (meilleureOffre>0 ) { %>
+							<%=meilleureOffre%> par ${requestScope.enchere.utilisateur.pseudo}
+							<% } else { %>
+							Pas encore d'offre sur cet article<%}%>
 						</td>
 					</tr>
 					<tr>
-						<th>Date de fin de l'enchère : </th>
-						<td><%=dateFinEnchere%> à <%=heureFinEnchere%>
-						Est finie ? <%=estFinie? "oui" : "non"%></td>
+						<th>Début de l'enchère le : </th>
+						<td><%=dateDebutEnchere%> à <%=heureDebutEnchere%></td>
+					</tr>
+					<tr>
+						<th>Fin de l'enchère le: </th>
+						<td><%=dateFinEnchere%> à <%=heureFinEnchere%></td>
 					</tr>
 				</table>
 				<div class="offre">
 					<form method="post">
 						<input type="hidden" name="noArticle" value="<%=noArticle%>">
-						<p><label for="offre">FAIRE UNE OFFRE (solde: <%=credit%>)</label></p>
+						<p><label for="offre">FAIRE UNE OFFRE<br/>(solde : vous avez <%=credit%> crédits)</label></p>
 						<input type="number"
 							   id="offre"  max="9999" step="1"
 							   name="nouvelleOffre" value="<%=offreMin %>"/>
@@ -203,7 +201,7 @@
 	</section>
 </body>
 
-<%@ include file="../jsps/PiedBootstrap.jspf" %>
+<%@ include file="../jsps/Pied.html" %>
 
 </html>
          	
