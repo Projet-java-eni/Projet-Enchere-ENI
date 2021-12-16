@@ -10,6 +10,9 @@
 
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap-4.4.1/css/bootstrap.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/perso_bootstrap.css">
+	<link rel="stylesheet" href="https://use.typekit.net/zeh3ulj.css">
+
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
