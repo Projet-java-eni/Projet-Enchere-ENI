@@ -143,6 +143,7 @@
 		<jsp:param name="infos" value="${infos}"/>
 	</jsp:include>
 
+</header>
 
 
 	<!-- Ici je vais juste afficher toutes les enchères en commençant par les plus récentes-->

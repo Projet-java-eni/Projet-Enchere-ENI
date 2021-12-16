@@ -46,7 +46,6 @@
         <a
                 href="<%=request.getContextPath()%>/Deconnexion">Se déconnecter</a>
     </div>
-</header>
 
 </body>
 </html>
