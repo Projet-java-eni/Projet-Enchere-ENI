@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,14 @@ public class InscriptionServlet extends HttpServlet {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		Infos infos = (Infos)request.getAttribute("infos");
 
+
+		Cookie[] cookies = request.getCookies();
+		for(Cookie cook : cookies) {
+			if(cook.getName().contentEquals("username")) {
+				utilisateurTemp.setPseudo(cook.getValue());
+			}
+		}
+
 		if(request.getParameter("inscription") != null) {
 			String pseudo = request.getParameter("pseudo");
 			String nom = request.getParameter("nom");
@@ -49,7 +58,12 @@ public class InscriptionServlet extends HttpServlet {
 			} else {
 				utilisateurTemp.setPseudo(pseudo);
 			}
-			
+
+			if(request.getParameter("souvenir") != null) {
+				response.addCookie(new Cookie("username", utilisateurTemp.getPseudo()));
+			}
+
+
 			if(erreurs.hasErrors()) {
 				request.getRequestDispatcher("WEB-INF/jsps/auth/Register.jsp").forward(request, response);
 			} else {
@@ -58,6 +72,7 @@ public class InscriptionServlet extends HttpServlet {
 
 				request.getSession().setAttribute("user_id", utilisateur.getNoUtilisateur());
 				request.getSession().setAttribute("user_pseudo", utilisateur.getPseudo());
+
 
 				request.getRequestDispatcher("/Index").forward(request, response);
 			}

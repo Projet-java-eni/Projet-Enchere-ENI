@@ -1,5 +1,6 @@
 package fr.eni.encheres.servlets.utilisateurs;
 
+import fr.eni.encheres.Utilitaires;
 import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bo.beans.Infos;
 import fr.eni.encheres.bll.UtilisateursManager;
@@ -8,6 +9,7 @@ import fr.eni.encheres.bo.Utilisateur;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,48 +31,61 @@ public class LoginServlet extends HttpServlet {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
 		Infos infos = (Infos)request.getAttribute("infos");
 
-		request.setAttribute("utilisateur", new Utilisateur());
+		Utilisateur utilisateur =  new Utilisateur();
+		request.setAttribute("utilisateur", utilisateur);
+
+		Cookie[] cookies = request.getCookies();
+		for(Cookie cook : cookies) {
+			if(cook.getName().contentEquals("username")) {
+				utilisateur.setPseudo(cook.getValue());
+			}
+		}
 		String addresse = "/WEB-INF/jsps/auth/Login.jsp";
 
 		if(request.getParameter("inscription") != null) {
 			String pseudo = request.getParameter("pseudo");
 			String motDePasse = request.getParameter("password");
 
-			Utilisateur utilisateur = utilisateursManager.getUtilisateurAvecLoginMotDePasse(
+			Utilisateur utilisateurExiste = utilisateursManager.getUtilisateurAvecLoginMotDePasse(
 					pseudo, motDePasse, erreurs);
 
 
-			request.setAttribute("utilisateur", utilisateur);
+			request.setAttribute("utilisateur", utilisateurExiste);
 
 
-			utilisateur.setPseudo(pseudo);
+			utilisateurExiste.setPseudo(pseudo);
+
+			if(request.getParameter("souvenir") != null) {
+				response.addCookie(new Cookie("username", utilisateurExiste.getPseudo()));
+			}
 
 
 			if(!erreurs.hasErrors()) {
 
-				infos.addInfo("Bon retour sur TrocEncheres " + utilisateur.getPseudo() + " !");
+				infos.addInfo("Bon retour sur TrocEncheres " + utilisateurExiste.getPseudo() + " !");
 
-				request.getSession().setAttribute("user_id", utilisateur.getNoUtilisateur());
-				request.getSession().setAttribute("user_pseudo", utilisateur.getPseudo());
-				request.getSession().setAttribute("is_admin", utilisateur.isAdministrateur());
+				request.getSession().setAttribute("user_id", utilisateurExiste.getNoUtilisateur());
+				request.getSession().setAttribute("user_pseudo", utilisateurExiste.getPseudo());
+				request.getSession().setAttribute("is_admin", utilisateurExiste.isAdministrateur());
 
-//				addresse = "/WEB-INF/jsps/accueil.jsp";
-				response.sendRedirect(request.getContextPath());
-				return;
+
+////				addresse = "/WEB-INF/jsps/accueil.jsp";
+//				response.sendRedirect(request.getContextPath());
+//				return;
 			}
 		}
 
-//		try {
+		try {
 			request.getRequestDispatcher(addresse).forward(request, response);
-//		} catch (ServletException e) {
-//			try {
-//				response.sendError(500, e.getLocalizedMessage());
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		} catch (ServletException e) {
+			try {
+				response.sendError(500, e.getLocalizedMessage());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

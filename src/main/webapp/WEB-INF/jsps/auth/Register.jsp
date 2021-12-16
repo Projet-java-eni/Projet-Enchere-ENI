@@ -114,7 +114,7 @@
 
 
 	<div class="mb-3 form-check">
-		<input type="checkbox" class="form-check-input" id="exampleCheck1" disabled>
+		<input type="checkbox" class="form-check-input" id="exampleCheck1" name="souvenir">
 		<label class="form-check-label" for="exampleCheck1">Se
 			souvenir de moi ?</label>
 	</div>
