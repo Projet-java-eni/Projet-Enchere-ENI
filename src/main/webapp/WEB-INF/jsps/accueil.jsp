@@ -53,10 +53,10 @@
 						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
 						<th><label for="statut de l'enchère"> Statut des
 							enchères : </label> <select name="statut" size="1">
-							<option value="en cours">Non commencées</option>
-							<option value="en cours">En cours</option>
-							<option value="terminée">Terminée</option>
-							<option value="annulée">Mes ventes</option>
+							<option value="non_commence">Non commencées</option>
+							<option value="en_couyrs">En cours</option>
+							<option value="terminees">Terminée</option>
+							<option value="annulees">Mes ventes</option>
 						</select></th>
 						<td>
 
@@ -72,11 +72,11 @@
 						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
 						<th><label for="cat_enchere"> Catégories :</label>
 							<select id="cat_enchere"
-									name="catégorie" size="1">
+									name="categorie" size="1">
 								<%
 									for(Categorie cat: (List<Categorie>)request.getAttribute("categories")) {
 								%>
-								<option value="<%= cat.getId() %>"><%= cat.getLibelle() %></option>
+								<option value="<%= cat.getEtiquette() %>"><%= cat.getLibelle() %></option>
 								<% } %>
 							</select></th>
 						<td>
@@ -93,9 +93,9 @@
 						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
 						<th><label for="Trier par date"> Trier par date :</label>
 							<select
-									name="statut" size="1">
-								<option value="Nouvelles">Nouvelles enchères</option>
-								<option value="Bientôt_terminées">Enchères bientôt terminées</option>
+									name="trier" size="1">
+								<option value="nouvelles">Nouvelles enchères</option>
+								<option value="bientot_terminées">Enchères bientôt terminées</option>
 
 
 							</select>
@@ -121,11 +121,11 @@
 				
 					<form
 						action="<%=request.getContextPath()%>/AfficherEncheresServlet"
-						method="post">
+						method="get">
 					<input type="date" name="dateFiltre"
 						value="<%=dateFiltre%>" /> <input type="submit" value="Filtrer" />
 						<a href="<%=request.getContextPath()%>/AfficherEncheresServlet"><input
-							type="button" value="Réinitialiser" /></a>
+							type="reset" value="Réinitialiser" /></a>
 						</form></td>
 				<tr>
 			</table>
