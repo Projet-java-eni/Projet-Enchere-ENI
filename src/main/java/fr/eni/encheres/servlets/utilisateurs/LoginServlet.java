@@ -40,7 +40,6 @@ public class LoginServlet extends HttpServlet {
 				utilisateur.setPseudo(cook.getValue());
 			}
 		}
-		String addresse = "/WEB-INF/jsps/auth/Login.jsp";
 
 		if(request.getParameter("inscription") != null) {
 			String pseudo = request.getParameter("pseudo");
@@ -68,24 +67,15 @@ public class LoginServlet extends HttpServlet {
 				request.getSession().setAttribute("user_pseudo", utilisateurExiste.getPseudo());
 				request.getSession().setAttribute("is_admin", utilisateurExiste.isAdministrateur());
 
-
-////				addresse = "/WEB-INF/jsps/accueil.jsp";
-//				response.sendRedirect(request.getContextPath());
-//				return;
+				request.getRequestDispatcher("/accueil").forward(request, response);
+				return;
+			} else {
+				request.getRequestDispatcher("/WEB-INF/jsps/auth/Login.jsp").forward(request, response);
+				return;
 			}
-		}
 
-		try {
-			request.getRequestDispatcher(addresse).forward(request, response);
-		} catch (ServletException e) {
-			try {
-				response.sendError(500, e.getLocalizedMessage());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
+		request.getRequestDispatcher("/WEB-INF/jsps/auth/Login.jsp").forward(request, response);
 	}
 
 	/**
