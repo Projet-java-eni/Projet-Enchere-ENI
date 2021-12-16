@@ -1,10 +1,8 @@
 package fr.eni.encheres.bll;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.daos.DAOFactory;

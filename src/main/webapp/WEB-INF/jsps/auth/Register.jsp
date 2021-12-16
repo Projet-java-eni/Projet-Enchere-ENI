@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:useBean id="utilisateur_temp" scope="request" type="fr.eni.encheres.bo.Utilisateur"/>
-<jsp:useBean id="errors" scope="request" type="fr.eni.encheres.beans.Erreurs"/>
+<jsp:useBean id="errors" scope="request" type="fr.eni.encheres.bo.beans.Erreurs"/>
 
 
 <%@ include file="../EnteteBootstrap.jspf"%>

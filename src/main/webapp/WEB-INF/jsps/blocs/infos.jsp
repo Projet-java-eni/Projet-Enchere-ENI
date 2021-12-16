@@ -6,7 +6,7 @@
   Time: 13:28
   To change this template use File | Settings | File Templates.
 --%>
-<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
+<jsp:useBean id="infos" type="fr.eni.encheres.bo.beans.Infos" scope="request" />
 
 <c:if test="${infos.hasInfos()}">
 

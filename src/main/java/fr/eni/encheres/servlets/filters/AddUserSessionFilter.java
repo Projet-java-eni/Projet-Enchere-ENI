@@ -1,6 +1,6 @@
 package fr.eni.encheres.servlets.filters;
 
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Utilisateur;
 
@@ -18,6 +18,8 @@ public class AddUserSessionFilter implements Filter {
 		HttpServletRequest httpServletRequest = (HttpServletRequest)request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
+		// ce filtre met a jour le status pseudo et admin en ours de session pour pas avoir
+		// à se reconnecter si ce statut change en cours de session
 		Integer userId = (Integer) httpServletRequest.getSession().getAttribute("user_id");
 		if(userId != null) {
 			Utilisateur utilisateur = UtilisateursManager.GetInstance().getUtilisateurById(userId, new Erreurs());

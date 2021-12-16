@@ -1,7 +1,7 @@
 package fr.eni.encheres.servlets;
 
-import fr.eni.encheres.beans.Erreurs;
-import fr.eni.encheres.beans.Infos;
+import fr.eni.encheres.bo.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Infos;
 import fr.eni.encheres.bll.ArticleManager;
 import fr.eni.encheres.bll.CategoriesManager;
 import fr.eni.encheres.bll.UtilisateursManager;

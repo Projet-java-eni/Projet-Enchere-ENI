@@ -15,7 +15,7 @@
 
 <%@ include file="EnteteFinal.jspf" %>
 
-	<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos"
+	<jsp:useBean id="infos" type="fr.eni.encheres.bo.beans.Infos"
 			scope="request" />
 
 		<c:if test="${infos.hasInfos()}">

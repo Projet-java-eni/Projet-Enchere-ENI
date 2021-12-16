@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import fr.eni.encheres.beans.Erreurs;
-import fr.eni.encheres.beans.Infos;
+import fr.eni.encheres.bo.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Infos;
 import fr.eni.encheres.bll.*;
 import fr.eni.encheres.bo.*;
 

@@ -1,6 +1,6 @@
 package fr.eni.encheres.bll;
 
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;

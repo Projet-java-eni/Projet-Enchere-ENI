@@ -4,7 +4,7 @@ package fr.eni.encheres.bll;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.daos.CategoriesDAO;
 import fr.eni.encheres.dal.DALException;

@@ -9,7 +9,7 @@ import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.Utilitaires;
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -352,7 +352,7 @@ public class ArticleManager {
 		if (dateFin == null) {
 			erreurs.addErreur("date fin ne peut etre null");
 		}
-		if(prix == null {// | prix<0)
+		if(prix == null) {// | prix<0)
 			erreurs.addErreur("prix ne peut etre null");//ou négatif
 		}
 		if(utilisateur == null) {

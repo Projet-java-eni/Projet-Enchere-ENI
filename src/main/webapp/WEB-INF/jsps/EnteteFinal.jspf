@@ -30,6 +30,7 @@
 
     <div id="header-user">
 
+        <a href="<%=request.getContextPath()%>/Vendre">Vendre</a> |
         <a href="<%=request.getContextPath()%>/MesEncheres">Mes enchères</a>
 
         <!-- Création / connexion à un compte -->

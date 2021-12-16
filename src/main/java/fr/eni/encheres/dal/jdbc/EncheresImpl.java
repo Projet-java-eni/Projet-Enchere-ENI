@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bll.ArticleManager;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Article;

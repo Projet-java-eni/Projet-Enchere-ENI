@@ -3,7 +3,7 @@ package fr.eni.encheres.dal.daos;
 
 import java.util.List;
 
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.dal.DALException;
 

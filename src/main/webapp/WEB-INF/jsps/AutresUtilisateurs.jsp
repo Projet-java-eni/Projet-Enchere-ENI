@@ -9,7 +9,7 @@
 
 <%@ include file="EnteteBootstrap.jspf" %>
 
-<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
+<jsp:useBean id="infos" type="fr.eni.encheres.bo.beans.Infos" scope="request" />
 <jsp:useBean id="utilisateur" type="fr.eni.encheres.bo.Utilisateur" scope="request" />
 
 <jsp:include page="blocs/erreurs.jsp" >

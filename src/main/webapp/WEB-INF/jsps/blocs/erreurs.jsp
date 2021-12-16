@@ -2,14 +2,14 @@
          pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="fr.eni.encheres.beans.Erreurs" %><%--
+<%@ page import="fr.eni.encheres.bo.beans.Erreurs" %><%--
   Created by IntelliJ IDEA.
   User: hurin
   Date: 14/12/2021
   Time: 13:17
   To change this template use File | Settings | File Templates.
 --%>
-<jsp:useBean id="errors" type="fr.eni.encheres.beans.Erreurs" scope="request" />
+<jsp:useBean id="errors" type="fr.eni.encheres.bo.beans.Erreurs" scope="request" />
 
 <c:if test="${errors.hasErrors()}">
     <div class="alert alert-danger">

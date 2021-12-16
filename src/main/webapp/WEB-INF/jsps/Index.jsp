@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<jsp:useBean id="infos" type="fr.eni.encheres.beans.Infos" scope="request" />
+<jsp:useBean id="infos" type="fr.eni.encheres.bo.beans.Infos" scope="request" />
 
 <c:if test="${infos.hasInfos()}">
 

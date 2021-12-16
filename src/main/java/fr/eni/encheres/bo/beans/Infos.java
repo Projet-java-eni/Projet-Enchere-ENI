@@ -1,4 +1,4 @@
-package fr.eni.encheres.beans;
+package fr.eni.encheres.bo.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;

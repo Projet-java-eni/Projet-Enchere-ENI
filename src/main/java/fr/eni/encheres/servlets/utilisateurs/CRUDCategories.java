@@ -1,6 +1,6 @@
 package fr.eni.encheres.servlets.utilisateurs;
 
-import fr.eni.encheres.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bll.CategoriesManager;
 
 import javax.servlet.*;

@@ -58,7 +58,8 @@ public class ServletRetraits extends HttpServlet {
 			else
 
 			if (ville == null) {
-				Retrait adresseRetrait = retraitsManager.ajouterAdresse();
+				Retrait adresseRetrait = new Retrait();
+				retraitsManager.ajouterAdresse(adresseRetrait);
 				request.setAttribute("adresse", adresseRetrait);
 			}
 
@@ -90,7 +91,8 @@ public class ServletRetraits extends HttpServlet {
 			rue = request.getParameter("rue");
 			codePostal = request.getParameter("codePostal");
 			ville = request.getParameter("ville");
-			Retrait adresseRetrait = retraitsManager.ajouterAdresse();
+			Retrait adresseRetrait = new Retrait(rue, codePostal, ville);
+			retraitsManager.ajouterAdresse(adresseRetrait);
 			request.setAttribute("adresse", adresseRetrait);
 		} catch (BLLException ex) {
 			ex.printStackTrace();

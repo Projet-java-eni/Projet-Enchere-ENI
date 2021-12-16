@@ -1,8 +1,7 @@
 package fr.eni.encheres.servlets.utilisateurs;
 
-import fr.eni.encheres.beans.Erreurs;
-import fr.eni.encheres.beans.Infos;
-import fr.eni.encheres.bll.BLLException;
+import fr.eni.encheres.bo.beans.Erreurs;
+import fr.eni.encheres.bo.beans.Infos;
 import fr.eni.encheres.bll.UtilisateursManager;
 import fr.eni.encheres.bo.Utilisateur;
 

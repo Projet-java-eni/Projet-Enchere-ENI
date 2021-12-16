@@ -5,7 +5,7 @@
 <%@ include file="../EnteteBootstrap.jspf" %>
 
 
-<jsp:useBean id="errors" scope="request" type="fr.eni.encheres.beans.Erreurs" />
+<jsp:useBean id="errors" scope="request" type="fr.eni.encheres.bo.beans.Erreurs" />
 <jsp:useBean id="utilisateur" scope="request" type="fr.eni.encheres.bo.Utilisateur" />
 
 Login
