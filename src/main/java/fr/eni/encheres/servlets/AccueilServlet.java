@@ -31,11 +31,18 @@ public class AccueilServlet extends HttpServlet {
 
 		// On récupère la liste des articles avant de les trier par date de début
 		List<Article> listeArticleTotal = new ArrayList<>();
-
 		articleManager.getCatalogueTotal(listeArticleTotal, erreurs);
 
+		List<Article> articles = articleManager.getCatalogue(erreurs);
+
 		// On trie en fonction de la date de début (cf BO article)
-		Collections.sort(listeArticleTotal);
+		Collections.sort(articles);
+
+		// on inverse si on a demandé
+		String tri =request.getParameter("trier");
+		if(tri != null && tri.contentEquals("bientot_terminees")) {
+			Collections.reverse(articles);
+		}
 
 		try {
 			EncheresManager encheresManager = EncheresManager.GetInstance();
@@ -49,7 +56,7 @@ public class AccueilServlet extends HttpServlet {
 		}
 
 		request.setAttribute("categories", categoriesManager.getAllCategories(erreurs));
-		request.setAttribute("articles", articleManager.getCatalogue(erreurs));
+		request.setAttribute("articles", articles);
 
 		request.getRequestDispatcher("/WEB-INF/jsps/accueil.jsp").forward(request, response);
 	}

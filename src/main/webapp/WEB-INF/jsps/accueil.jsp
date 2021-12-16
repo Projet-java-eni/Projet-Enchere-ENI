@@ -95,7 +95,7 @@
 							<select
 									name="trier" size="1">
 								<option value="nouvelles">Nouvelles enchères</option>
-								<option value="bientot_terminées">Enchères bientôt terminées</option>
+								<option value="bientot_terminees">Enchères bientôt terminées</option>
 
 
 							</select>

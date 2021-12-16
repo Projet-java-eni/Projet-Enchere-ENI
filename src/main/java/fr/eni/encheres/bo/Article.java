@@ -46,6 +46,7 @@ public class Article implements Comparable<Article> {
 		);
 	}
 
+
 	/**
 	 * @author Sego Constructeur avec tous les paramètres
 	 */
