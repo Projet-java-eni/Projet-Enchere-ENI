@@ -84,7 +84,7 @@
 							<th><%=description%></th>
 						</tr>
 						<tr>
-							<th>Adresse de retrait : <%=rue%><%=codePostal%><%=ville%></th>
+							<th>Adresse de retrait : <%=rue%>, <%=codePostal%> <%=ville%></th>
 						</tr>
 					</table>
 				<% } %>
@@ -188,7 +188,7 @@
 					<input type="submit" name="annuler" value="Annuler la vente">
 				</div>
 				</form>
-					La vente commence à <%=dateDebutEnchere%> à <%=heureDebutEnchere%>
+					La vente commence le <%=dateDebutEnchere%> à <%=heureDebutEnchere%>
 				<% } else if(!aDebute && article.isAnnuleParVendeur()) { %>
 					<form method="post">
 						<div class="remettre_vente">
@@ -196,7 +196,7 @@
 						</div>
 					</form>
 
-					La vente débute à <%=dateDebutEnchere%> à <%=heureDebutEnchere%>
+					La vente débute le <%=dateDebutEnchere%> à <%=heureDebutEnchere%>
 				<% } %>
 			<% } %>
 		<% } %>
@@ -206,21 +206,4 @@
 <%@ include file="../jsps/PiedBootstrap.jspf" %>
 
 </html>
-
-
-<!-- If utilisateur acheteur -->
-	<!-- Input montant nouvelle enchère -->
-	<!-- Bouton valider -->
-		
-
-<!-- If utilisateur vendeur -->
-	<!-- FACULTATIF 2ème Itération : Bouton modifier -->
-
-<!-- If enchère terminée : afficher "vous avez remporté la vente" ou "Untel a remporté la vente" -->
-
-<!-- Else (si enchère encore en cours) -->
-
-			<!-- Récupérer le contenu de l'article -->
-			
-         	<!--choixJoueur = (int)request.getAttribute("choixJoueur"); --> 
          	
