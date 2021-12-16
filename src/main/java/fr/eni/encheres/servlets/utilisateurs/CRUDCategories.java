@@ -28,7 +28,7 @@ public class CRUDCategories extends HttpServlet {
 
 		String reqCat = request.getParameter("id");
 		if(reqCat != null) {
-			Integer catReqNum = -1;
+			int catReqNum = -1;
 			try {
 				catReqNum = Integer.parseInt(reqCat);
 			} catch (NumberFormatException e) {
@@ -38,6 +38,8 @@ public class CRUDCategories extends HttpServlet {
 			String etiquette = request.getParameter("etiq");
 			String libelle = request.getParameter("lib");
 			if(num != null && etiquette != null && libelle != null) {
+				categorie.setId(catReqNum);
+
 				try {
 					categorie.setNoCategorie(Integer.parseInt(num));
 				} catch (NumberFormatException e) {

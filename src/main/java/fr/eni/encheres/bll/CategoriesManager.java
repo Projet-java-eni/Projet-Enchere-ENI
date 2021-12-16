@@ -102,7 +102,7 @@ public class CategoriesManager {
 		validerCategorie(categorie, erreurs);
 		
 		try {
-			this.categoriesDAO.update(categorie);
+			categoriesDAO.update(categorie);
 		} catch (DALException e) {
 			erreurs.addErreur(e.getLocalizedMessage());
 		}
