@@ -51,13 +51,25 @@ public class AfficherEncheresServlet extends HttpServlet {
 		ArticleManager articleManager = ArticleManager.GetInstance();
 		List<Article> listeArticle = new ArrayList<>();
 
-		listeArticle = articleManager.getCatalogue(erreurs);
+		articleManager.getCatalogueTotal(listeArticle, erreurs);
 
 		if (!erreurs.hasErrors()) {
 
 			// On trie en fonction de la date de début (cf BO article)
 			Collections.sort(listeArticle);
 		}
+
+		try {
+			EncheresManager encheresManager = EncheresManager.GetInstance();
+			List<Enchere> listeEncheres = null; // problème avec le try catch
+
+			listeEncheres = encheresManager.getAllEncheres();
+
+		} catch (BLLException ex) {
+			ex.printStackTrace();
+			request.setAttribute("listeCodesErreur", ex.getListeCodesErreur());
+		}
+
 // Transfert de l'affichage à la JSP
 		RequestDispatcher rd = null;
 		rd = request.getRequestDispatcher("/");
@@ -75,20 +87,8 @@ public class AfficherEncheresServlet extends HttpServlet {
 //puis on revient ici pour l'affichage sur la page d'accueil des éléments de connexion
 
 		// Affichage de toutes les enchères sans distinction
-		try {
-			EncheresManager encheresManager = EncheresManager.GetInstance();
-			List<Enchere> listeEncheres = null; // problème avec le try catch
-
-			listeEncheres = encheresManager.getAllEncheres();
-
-		} catch (BLLException ex) {
-			ex.printStackTrace();
-			request.setAttribute("listeCodesErreur", ex.getListeCodesErreur());
-		}
 		// Transfert de l'affichage à la JSP accueilConnecte
-		RequestDispatcher rd = null;
-		rd = request.getRequestDispatcher("/");
-		rd.forward(request, response);
+		doGet(request, response);
 	}
 
 }
