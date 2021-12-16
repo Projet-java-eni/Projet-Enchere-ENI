@@ -26,7 +26,13 @@ header{
     margin: 10px;
 }
 
-
+#Titre_Choix{
+	background-color: rgb(80, 215, 88);
+	border: 1px solid black;
+	border-radius: 40px/100px;
+	margin-left:200px;
+	margin-right:200px;
+}
 
 h1, h2
 {

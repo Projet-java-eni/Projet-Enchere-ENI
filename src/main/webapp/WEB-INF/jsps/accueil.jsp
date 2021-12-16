@@ -36,8 +36,10 @@
 			</div>
 		</c:if>
 
-
-
+<br>
+<section> 
+	<article class="Titre_Choix" id="Titre_Choix">
+		
 		<br>
 		<h1>ENCHERES</h1>
 
@@ -145,8 +147,9 @@
 
 			</table>
 		</div>
-
-
+</article>
+<br>
+</section>
 	<!-- faire soit sous forme de liste / soit avec image / pouvoir classer par dates -->
 	<hr>
 

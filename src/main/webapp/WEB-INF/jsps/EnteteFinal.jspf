@@ -25,7 +25,7 @@
     <div id="header-logo">
         <!-- logo -->
         <a href="<%=request.getContextPath()%>/"> <img
-                src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite.png"
+                src="<%=request.getContextPath()%>/images/logoProjet_Taille_reduite2.png"
                 alt="logo Association" /></a>
     </div>
 <div style="flex:1"></div>
