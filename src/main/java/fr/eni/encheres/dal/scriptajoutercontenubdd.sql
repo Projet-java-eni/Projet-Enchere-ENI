@@ -7,7 +7,7 @@ insert into CATEGORIES values
 ('toutes', 'Toutes'),
 ('meuble', 'Ameublement'), 
 ('infor', 'Informatique'),
-('sport_loisir', 'Sports/Loisir'),
+('sport_loisir', 'Sports/Loisirs'),
 ('vetements', 'Vêtements'),
 ('divers', 'Divers')
 
