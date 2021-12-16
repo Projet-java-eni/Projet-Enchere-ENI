@@ -100,7 +100,7 @@ public class ServletRetraits extends HttpServlet {
 			ex.printStackTrace();
 		}
 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/RetraitColis.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsps/vente/RetraitColis.jsp");
 		rd.forward(request, response);
 	}
 
