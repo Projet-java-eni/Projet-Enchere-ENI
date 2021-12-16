@@ -88,7 +88,6 @@
 				
 				<!-- Création liste déroulante permettant d'acceder aux enchères selon date -->
 				<tr>
-					</td>
 					<form method="get"
 						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
 						<th><label for="Trier par date"> Trier par date :</label>
@@ -105,7 +104,7 @@
 							<input type="submit" value="Ok" />
 					</form>
 				</tr>
-				
+
 				
 				
 				<!-- Là je crée un bouton permettant d'acceder aux enchères selon leur date -->
@@ -128,6 +127,22 @@
 							type="reset" value="Réinitialiser" /></a>
 						</form></td>
 				<tr>
+
+				<tr>
+					<form method="get"
+						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
+						<th><label for="Trier par date"> Qui contient :</label>
+							<input type="search"
+								   name="contient" >
+						</th>
+						<td>
+
+							<input type="submit" value="Ok" />
+					</form>
+
+					</td>
+				</tr>
+
 			</table>
 		</div>
 

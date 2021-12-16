@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -97,6 +98,21 @@ public class AccueilServlet extends HttpServlet {
 					articles.add(art);
 				}
 			}
+		}
+
+		String contient = request.getParameter("contient");
+		if(contient != null) {
+			contient = contient.toLowerCase(Locale.ROOT).trim();
+			List<Article> newArticles = new ArrayList<>();
+			for (Article art : articles) {
+				if (
+						art.getNomArticle().toLowerCase(Locale.ROOT).contains(contient)
+								|| art.getDescription().toLowerCase(Locale.ROOT).contains(contient)) {
+					newArticles.add(art);
+				}
+			}
+			articles = newArticles;
+
 		}
 
 		// On trie en fonction de la date de début (cf BO article)
