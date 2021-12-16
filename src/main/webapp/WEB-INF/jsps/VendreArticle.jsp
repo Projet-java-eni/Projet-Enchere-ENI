@@ -71,7 +71,7 @@
     </div>
 
     <fieldset>
-        <legend>Addresse de retrait</legend>
+        <legend>Adresse de retrait</legend>
     <div class="row mb-3">
         <div class="col">
             <label class="form-label" for="rue">Rue</label>
