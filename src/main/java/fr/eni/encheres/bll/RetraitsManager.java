@@ -1,7 +1,6 @@
 package fr.eni.encheres.bll;
 
 import java.util.List;
-import java.util.Map;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Retrait;
@@ -21,16 +20,16 @@ public class RetraitsManager {
 
 	private static RetraitsManager instance = null;
 
-	private RetraitsManager()  {
+	private RetraitsManager() {
 		// on instancie le DAO
 	}
 
 	public static RetraitsManager GetInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new RetraitsManager();
 		}
 
-		if(daoRetraits == null) {
+		if (daoRetraits == null) {
 			try {
 				daoRetraits = (RetraitsDAO) DAOFactory.getRetraitsDAO();
 			} catch (DALException e) {
@@ -40,7 +39,6 @@ public class RetraitsManager {
 
 		return instance;
 	}
-
 
 	public static List<Retrait> getRetraits() throws BLLException {
 		List<Retrait> listCoordonnees = null;
@@ -69,7 +67,6 @@ public class RetraitsManager {
 		} catch (DALException ex) {
 			throw new BLLException(ex.getLocalizedMessage(), ex);
 		}
-
 
 		return adresseRetrait;
 	}
@@ -106,17 +103,20 @@ public class RetraitsManager {
 	/**
 	 * Ajout d'une adresse de retrait complementaire
 	 * 
+	 * @return
+	 * 
 	 * @throws BusinessException
 	 */
-	public void ajouterAdresse(Retrait newAdresse) throws BLLException, BusinessException {
+	public Retrait ajouterAdresse() throws BLLException, BusinessException {
 		BusinessException exception = new BusinessException();
-//		System.out.println("Une adresse est existante");
+		Retrait newAdresse = null;
 		try {
 			validerAdresse(newAdresse, exception);
 			daoRetraits.add(newAdresse);
 		} catch (DALException ex) {
 			throw new BLLException("Echec dans l'insertion de l'adresse " + ex.getLocalizedMessage(), ex);
 		}
+		return newAdresse;
 
 	}
 
