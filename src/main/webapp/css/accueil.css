@@ -4,20 +4,18 @@ body {font-family: "acumin-pro-semi-condensed", sans-serif}
 
 header{
 	background-color: rgb(80, 215, 88);
-	clear: both;
+	display: flex;
+	flex-direction: row;
 }
 
 #header-logo{
-   float: left;
+
     margin: 10px;
-    position: absolute;
-   
- 
+
 }
 
 
 #header-user{
-    float : right;
     min-width:250px;
 }
 

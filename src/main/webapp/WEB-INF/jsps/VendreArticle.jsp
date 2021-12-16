@@ -27,7 +27,7 @@
 </jsp:include>
 
 </header>
-<main>
+<main class="container">
 <h1>Vendre un article</h1>
 
 <form method="post">
