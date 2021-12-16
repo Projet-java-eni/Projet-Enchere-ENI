@@ -9,7 +9,7 @@
          pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="EnteteBootstrap.jspf" %>
+<%@ include file="EnteteFinal.jspf" %>
 
 <jsp:useBean id="infos" type="fr.eni.encheres.bo.beans.Infos" scope="request" />
 <jsp:useBean id="errors" type="fr.eni.encheres.bo.beans.Erreurs" scope="request" />
@@ -26,6 +26,8 @@
     <jsp:param name="infos" value="${infos}"/>
 </jsp:include>
 
+</header>
+<main>
 <h1>Vendre un article</h1>
 
 <form method="post">
@@ -98,5 +100,6 @@
         <input class="btn btn-primary" type="submit" name="vendre" value="Programmer">
     </div>
 </form>
+</main>
 
 <%@ include file="PiedBootstrap.jspf" %>
