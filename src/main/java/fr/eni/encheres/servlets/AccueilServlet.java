@@ -1,6 +1,8 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.Utilitaires;
 import fr.eni.encheres.bll.BLLException;
 import fr.eni.encheres.bll.EncheresManager;
 import fr.eni.encheres.bo.Article;
@@ -82,6 +85,17 @@ public class AccueilServlet extends HttpServlet {
 					}
 					articles = newArticles;
 					break;
+				}
+			}
+		}
+
+		String dateFiltre = request.getParameter("dateFiltre");
+		if(dateFiltre != null) {
+			LocalDate dateFiltreLocal = Utilitaires.fromHTMLDateAndTime(dateFiltre, "00:00:00").toLocalDate();
+			articles.clear();
+			for(Article art: listeArticleTotal) {
+				if(dateFiltreLocal.isEqual(art.getDateDebutEnchere())) {
+					articles.add(art);
 				}
 			}
 		}
