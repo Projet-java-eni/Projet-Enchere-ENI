@@ -14,7 +14,7 @@
 <jsp:useBean id="infos" type="fr.eni.encheres.bo.beans.Infos" scope="request" />
 <jsp:useBean id="errors" type="fr.eni.encheres.bo.beans.Erreurs" scope="request" />
 <jsp:useBean id="article" type="fr.eni.encheres.bo.Article" scope="request" />
-<jsp:useBean id="categories" type="java.util.List" scope="request" />
+<jsp:useBean id="categories" type="java.util.List<fr.eni.encheres.bo.Categorie>" scope="request" />
 
 <jsp:useBean id="utilisateur" type="fr.eni.encheres.bo.Utilisateur" scope="request" />
 
@@ -46,7 +46,7 @@
         <label class="form-label" for="category">Catégorie</label>
         <select name="category" id="category" class="form-control">
             <c:forEach items="${categories}" var="category">
-                <option value="${category.libelle}">${category.libelle}</option>
+                <option value="${category.etiquette}">${category.libelle}</option>
             </c:forEach>
         </select>
     </div>
