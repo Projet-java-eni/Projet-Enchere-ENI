@@ -45,6 +45,7 @@ pageEncoding="UTF-8"%>
 					snow[i].posY=0);setTimeout("moveSnow()",snowRefresh)
 	}
 	for(i=0;i<=snowMax;i++)document.write("<span id='flake"+i+"' style='"+snowStyles+"position:absolute;top:-"+snowMaxSize+"'>"+snowEntity+"</span>");
-	window.addEventListener("resize",resize),window.addEventListener("load",initSnow);
+	window.addEventListener("resize",resize);
+	//window.addEventListener("load",initSnow);   3 fps sur teams
 </script>
 </html>
