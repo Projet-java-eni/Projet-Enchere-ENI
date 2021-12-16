@@ -26,7 +26,9 @@ pageEncoding="UTF-8"%>
 		var o=snowMaxSize-snowMinSize;
 		for(marginBottom=document.body.scrollHeight-5,marginRight=document.body.clientWidth-15,i=0;i<=snowMax;i++) {
 			coords[i] = 0,
-					lefr[i] = 15 * Math.random(), pos[i] = .03 + Math.random() / 10, snow[i] = document.getElementById("flake" + i), snow[i].style.fontFamily = "inherit",
+					lefr[i] = 15 * Math.random(), pos[i] = .03 + Math.random() / 10;
+			snow[i] = document.getElementById("flake" + i);
+			snow[i].style.fontFamily = "inherit",
 					snow[i].size = randomise(o) + snowMinSize, snow[i].style.fontSize = snow[i].size + "px", snow[i].style.color = snowColor[randomise(snowColor.length)],
 					snow[i].style.zIndex = 1e3, snow[i].sink = snowSpeed * snow[i].size / 5, snow[i].posX = randomise(marginRight - snow[i].size),
 					snow[i].posY = randomise(2 * marginBottom - marginBottom - 2 * snow[i].size), snow[i].style.left = snow[i].posX + "px",
