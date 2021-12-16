@@ -46,29 +46,6 @@ public class AfficherEncheresServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
-		// On récupère la liste des articles avant de les trier par date de début
-		ArticleManager articleManager = ArticleManager.GetInstance();
-		List<Article> listeArticle = new ArrayList<>();
-
-		articleManager.getCatalogueTotal(listeArticle, erreurs);
-
-		if (!erreurs.hasErrors()) {
-
-			// On trie en fonction de la date de début (cf BO article)
-			Collections.sort(listeArticle);
-		}
-
-		try {
-			EncheresManager encheresManager = EncheresManager.GetInstance();
-			List<Enchere> listeEncheres = null; // problème avec le try catch
-
-			listeEncheres = encheresManager.getAllEncheres();
-
-		} catch (BLLException ex) {
-			ex.printStackTrace();
-			request.setAttribute("listeCodesErreur", ex.getListeCodesErreur());
-		}
 
 // Transfert de l'affichage à la JSP
 		RequestDispatcher rd = null;

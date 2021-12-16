@@ -1,6 +1,9 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.BLLException;
+import fr.eni.encheres.bll.EncheresManager;
+import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.beans.Erreurs;
 import fr.eni.encheres.bll.ArticleManager;
 import fr.eni.encheres.bll.CategoriesManager;
@@ -21,6 +28,25 @@ public class AccueilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Erreurs erreurs = (Erreurs) request.getAttribute("errors");
+
+		// On récupère la liste des articles avant de les trier par date de début
+		List<Article> listeArticleTotal = new ArrayList<>();
+
+		articleManager.getCatalogueTotal(listeArticleTotal, erreurs);
+
+		// On trie en fonction de la date de début (cf BO article)
+		Collections.sort(listeArticleTotal);
+
+		try {
+			EncheresManager encheresManager = EncheresManager.GetInstance();
+			List<Enchere> listeEncheres = null; // problème avec le try catch
+
+			listeEncheres = encheresManager.getAllEncheres();
+
+		} catch (BLLException ex) {
+			ex.printStackTrace();
+			request.setAttribute("listeCodesErreur", ex.getListeCodesErreur());
+		}
 
 		request.setAttribute("categories", categoriesManager.getAllCategories(erreurs));
 		request.setAttribute("articles", articleManager.getCatalogue(erreurs));
