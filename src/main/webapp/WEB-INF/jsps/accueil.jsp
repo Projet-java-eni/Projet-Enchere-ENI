@@ -260,19 +260,4 @@
 
 
 
-
-	<footer>
-
-
-		<a href="<%=request.getContextPath()%>"><input type="button"
-			value="Retour à l'accueil" /></a>
-
-		<div id="footer-author">
-			<!-- auteur -->
-			<a href="mailto:troc.encheres@gmail.com"
-				title="Si vous désirez nous écrire">Les objets sont nos amis</a>
-		</div>
-	</footer>
-
-</body>
-</html>
+<%@ include file="Pied.html" %>
