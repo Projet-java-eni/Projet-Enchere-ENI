@@ -114,7 +114,7 @@ public class CategoriesManager {
 		validerCategorie(categorie, erreurs);
 		
 		try {
-			this.categoriesDAO.update(categorie);
+			categoriesDAO.update(categorie);
 		} catch (DALException e) {
 			throw new BLLException(e.getLocalizedMessage(), e);
 		}

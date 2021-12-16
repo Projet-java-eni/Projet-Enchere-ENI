@@ -110,8 +110,6 @@ public class ArticlesImpl implements ArticlesDAO {
 
 			statement.setDate(1, Date.valueOf(dateAjd));
 			statement.setDate(2, Date.valueOf(dateAjd));
-//			statement.setTime(3, Time.valueOf(maintenant));
-//			statement.setTime(4, Time.valueOf(maintenant));
 			peupleSelectAll(articles, statement);
 		} catch (SQLException ex) {
 			throw new DALException("selectAll failed - " + ex.getLocalizedMessage(), ex);
@@ -159,7 +157,7 @@ public class ArticlesImpl implements ArticlesDAO {
 						resultSet.getInt("prix_vente"),
 						resultSet.getBoolean("annule_par_vendeur"),
 						resultSet.getBoolean("recu_par_acheteur"),
-						categoriesDAO.getById(resultSet.getInt("no_categorie")),
+						categoriesDAO.getById(resultSet.getInt("no_categorie")), // todo faire pointer toutes ces nouvelles instances vers nous
 						retraitsDAO.lieuRetrait(resultSet.getInt("no_article")),
 						utilisateursDAO.getById(resultSet.getInt("no_utilisateur")),
 						new ArrayList<>()  // ici il faut faire une jointure pour recuperer les encheres?
