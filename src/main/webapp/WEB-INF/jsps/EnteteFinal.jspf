@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="<%=request.getContextPath()%>/css/accueil.css"
           rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/zeh3ulj.css">
+
+
     <meta charset="UTF-8">
     <title>Liste des enchères</title>
 </head>

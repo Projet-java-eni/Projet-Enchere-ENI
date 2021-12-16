@@ -107,9 +107,8 @@ public class RetraitsManager {
 	 * 
 	 * @throws BusinessException
 	 */
-	public Retrait ajouterAdresse() throws BLLException, BusinessException {
+	public Retrait ajouterAdresse(Retrait newAdresse) throws BLLException, BusinessException {
 		BusinessException exception = new BusinessException();
-		Retrait newAdresse = null;
 		try {
 			validerAdresse(newAdresse, exception);
 			daoRetraits.add(newAdresse);
