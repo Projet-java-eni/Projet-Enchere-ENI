@@ -23,21 +23,26 @@ public class CategoriesImpl implements CategoriesDAO {
 
 	@Override
 	public Categorie getById(int id) throws DALException {
-		
+		return getById(new Categorie(), id);
+	}
+
+	@Override
+	public Categorie getById(Categorie categorie, int id) throws DALException {
+
 		try (PreparedStatement statement = GetConnection.getConnexion().prepareStatement(sqlSelectById)) {
-			
+
 			statement.setInt(1, id);
-			
+
 			try (ResultSet resultSet = statement.executeQuery()) {
-				
+
 				resultSet.next();
-				
-				return new Categorie(
-						resultSet.getInt("no_categorie"),
-						resultSet.getString("etiquette"),
-						resultSet.getString("libelle"));
+
+				categorie.setNoCategorie(resultSet.getInt("no_categorie"));
+				categorie.setEtiquette(resultSet.getString("etiquette"));
+				categorie.setLibelle(resultSet.getString("libelle"));
+				return categorie;
 			}
-			
+
 		} catch (SQLException e) {
 			throw new DALException(e.getMessage(), e);
 		}

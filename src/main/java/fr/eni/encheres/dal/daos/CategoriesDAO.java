@@ -9,6 +9,7 @@ import fr.eni.encheres.dal.DALException;
 public interface CategoriesDAO extends DAO<Categorie> {
 
 	Categorie getById(int categorieId) throws DALException;
+	Categorie getById(Categorie categorie, int categorieId) throws DALException;
 	Categorie getByEtiquette(String libelle) throws DALException;
 
 	

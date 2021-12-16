@@ -39,7 +39,7 @@ public class CategoriesManager {
 	}
 
 	
-	public Categorie createCategorie(String etiquette, String libelle, List<String> erreurs) {
+	public Categorie createCategorie(String etiquette, String libelle, Erreurs erreurs) {
 		
 		Categorie categorie = new Categorie(
 				etiquette,
@@ -48,7 +48,7 @@ public class CategoriesManager {
 		
 		validerCategorie(categorie, erreurs);
 
-		if(erreurs.size() > 0) {
+		if(erreurs.hasErrors()) {
 			return null;
 		}
 
@@ -57,7 +57,7 @@ public class CategoriesManager {
 			categoriesDAO.add(categorie);
 		} catch (DALException e) {
 			
-			erreurs.add(e.getLocalizedMessage());
+			erreurs.addErreur(e.getLocalizedMessage());
 			categorie = null;
 		}
 	
@@ -73,18 +73,6 @@ public class CategoriesManager {
 		}
 	}
 
-	public Categorie getCategorieById(int categorieId) throws BLLException {
-		
-		Categorie categorie = null;
-		
-		try {
-			categorie = categoriesDAO.getById(categorieId);
-		} catch (DALException e) {
-			throw new BLLException(e.getLocalizedMessage(), e);
-		}
-
-		return categorie;
-	}
 
 	public Categorie getByEtiquette(String libelle, Erreurs erreurs) {
 
@@ -109,27 +97,27 @@ public class CategoriesManager {
 		}
 	}
 
-	public void sauvegarderCategorie(Categorie categorie, List<String> erreurs) throws BLLException {
+	public void sauvegarderCategorie(Categorie categorie, Erreurs erreurs) {
 		
 		validerCategorie(categorie, erreurs);
 		
 		try {
 			this.categoriesDAO.update(categorie);
 		} catch (DALException e) {
-			throw new BLLException(e.getLocalizedMessage(), e);
+			erreurs.addErreur(e.getLocalizedMessage());
 		}
 	}
 
-	private void validerCategorie(Categorie categorie, List<String> erreurs) {
+	private void validerCategorie(Categorie categorie, Erreurs erreurs) {
 		
 		if (categorie.getLibelle() == null) {
-			erreurs.add("Le libellé de categorie ne peut pas être vide");
+			erreurs.addErreur("Le libellé de categorie ne peut pas être vide");
 		}
 	}
 
-	public Object getCategorieById(String idCat, Erreurs erreurs) {
+	public void getCategorieById(Categorie cat, String idCat, Erreurs erreurs) {
 		if(idCat == null) {
-			return new Categorie();
+			return;
 		}
 		int idCatInt = -1;
 		try {
@@ -138,10 +126,18 @@ public class CategoriesManager {
 			erreurs.addErreur("nombre malformaté");
 		}
 		try {
-			return getCategorieById(idCatInt);
+			getCategorieById(cat, idCatInt);
 		} catch (BLLException e) {
 			erreurs.addErreur(e.getLocalizedMessage());
-			return new Categorie();
+		}
+	}
+
+	public void getCategorieById(Categorie cat, int categorieId) throws BLLException {
+
+		try {
+			categoriesDAO.getById(cat, categorieId);
+		} catch (DALException e) {
+			throw new BLLException(e.getLocalizedMessage(), e);
 		}
 	}
 }
