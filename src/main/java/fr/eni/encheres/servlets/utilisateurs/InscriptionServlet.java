@@ -74,7 +74,7 @@ public class InscriptionServlet extends HttpServlet {
 				request.getSession().setAttribute("user_pseudo", utilisateur.getPseudo());
 
 
-				request.getRequestDispatcher("/Index").forward(request, response);
+				request.getRequestDispatcher("/").forward(request, response);
 			}
 		}
 		else {
