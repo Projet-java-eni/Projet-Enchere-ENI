@@ -46,60 +46,64 @@
 		<div class="listes_deroulantes" id="listes_deroulantes">
 
 			<!-- Création liste déroulante permettant d'acceder aux enchères selon leur statut -->
-
 			<table>
 				<tr>
-					<th><label for="statut de l'enchère"> Statut des
+					</td>
+					<form method="get"
+						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
+						<th><label for="statut de l'enchère"> Statut des
 							enchères : </label> <select name="statut" size="1">
 							<option value="en cours">Non commencées</option>
 							<option value="en cours">En cours</option>
 							<option value="terminée">Terminée</option>
 							<option value="annulée">Mes ventes</option>
-					</select></th>
-					<td>
-						<form method="link"
-							action="<%=request.getContextPath()%>/AfficherEncheresServlet">
+						</select></th>
+						<td>
+
 							<input type="submit" value="Ok" />
-						</form>
-					</td>
+					</form>
 				</tr>
 
 
 				<!-- Création liste déroulante permettant d'acceder aux enchères selon la categorie -->
 				<tr>
-					<th><label for="cat_enchere"> Catégories :</label>
-						<select id="cat_enchere"
-						name="catégorie" size="1">
-						<%
-							for(Categorie cat: (List<Categorie>)request.getAttribute("categories")) {
-						%>
-							<option value="<%= cat.getId() %>"><%= cat.getLibelle() %></option>
-						<% } %>
-					</select></th>
-					<td>
-						<form method="link"
-							action="<%=request.getContextPath()%>/PageEnConstructionServlet">
-							<input type="submit" value="Ok" />
-						</form>
 					</td>
+					<form method="get"
+						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
+						<th><label for="cat_enchere"> Catégories :</label>
+							<select id="cat_enchere"
+									name="catégorie" size="1">
+								<%
+									for(Categorie cat: (List<Categorie>)request.getAttribute("categories")) {
+								%>
+								<option value="<%= cat.getId() %>"><%= cat.getLibelle() %></option>
+								<% } %>
+							</select></th>
+						<td>
+
+							<input type="submit" value="Ok" />
+					</form>
 				</tr>
 				
 				
 				<!-- Création liste déroulante permettant d'acceder aux enchères selon date -->
 				<tr>
-					<th><label for="Trier par date"> Trier par date :</label> <select
-						name="statut" size="1">
-							<option value="Nouvelles">Nouvelles enchères</option>
-							<option value="Bientôt_terminées">Enchères bientôt terminées</option>
-							
-							
-					</select></th>
-					<td>
-						<form method="link"
-							action="<%=request.getContextPath()%>/PageEnConstructionServlet">
-							<input type="submit" value="Ok" />
-						</form>
 					</td>
+					<form method="get"
+						  action="<%=request.getContextPath()%>/AfficherEncheresServlet">
+						<th><label for="Trier par date"> Trier par date :</label>
+							<select
+									name="statut" size="1">
+								<option value="Nouvelles">Nouvelles enchères</option>
+								<option value="Bientôt_terminées">Enchères bientôt terminées</option>
+
+
+							</select>
+						</th>
+						<td>
+
+							<input type="submit" value="Ok" />
+					</form>
 				</tr>
 				
 				
@@ -142,8 +146,8 @@
 
 
 	<!-- Ici je vais juste afficher toutes les enchères en commençant par les plus récentes-->
-	<article class="articles" id="articles">
-		<div class="table_articles" id="table_articles" style="display: flex; flex-direction: row; flex-wrap: wrap; margin: auto; max-width: 40em">
+	<article class="articles container" id="articles">
+		<div class="table_articles" id="table_articles" style="display: flex; flex-direction: row; flex-wrap: wrap; margin: auto;">
 			<% for(Article article: (List<Article>)request.getAttribute("articles")) { %>
 			<div style="text-align: center">
 				<img
@@ -161,7 +165,7 @@
 
 
 
-    <div class="container">
+    <!--div class="container"> Je met en commentaire en attendant
       <div class="row justify-content-around" class="position_container" >
 
 
@@ -223,7 +227,7 @@
             <div class="row"><p>enchere8</p>  </div>
             <div class="row"><p>date fin</p>  </div>
          </div>
-      </div>
+      </div-->
 
 
 
