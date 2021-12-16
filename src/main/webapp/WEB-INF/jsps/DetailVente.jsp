@@ -20,8 +20,6 @@
 
 <%@ include file="../jsps/EnteteBootstrap.jspf" %>
 
-<body>
-
 <jsp:include page="blocs/erreurs.jsp">
 	<jsp:param name="errors" value="${requestScope.errors}"/>
 </jsp:include>
@@ -199,7 +197,6 @@
 			<% } %>
 		<% } %>
 	</section>
-</body>
 
 <%@ include file="../jsps/Pied.html" %>
 
