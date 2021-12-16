@@ -35,6 +35,19 @@ public class AccueilServlet extends HttpServlet {
 
 		List<Article> articles = articleManager.getCatalogue(erreurs);
 
+
+		String status = request.getParameter("statut");
+		if(status != null) {
+			if(status.contentEquals("non_commence")) {
+				articles.clear();
+				for(Article art: listeArticleTotal) {
+					if(!art.aDebute()) {
+						articles.add(art);
+					}
+				}
+			}
+		}
+
 		// On trie en fonction de la date de début (cf BO article)
 		Collections.sort(articles);
 
